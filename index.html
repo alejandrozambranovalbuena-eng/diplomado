@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2X8XGRG25E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2X8XGRG25E');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diplomado Tránsito IA · Policía Nacional Colombia</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #FFFFFF;
+  --bg2:      #F7F8FA;
+  --bg3:      #EEF0F4;
+  --card:     #FFFFFF;
+  --border:   #E2E6ED;
+  --border2:  #C8CDD8;
+  --text:     #111827;
+  --text2:    #374151;
+  --muted:    #6B7280;
+  --police:   #004C2E;
+  --police2:  #006B40;
+  --gold:     #D4940A;
+  --gold2:    #F5A800;
+  --gold-lt:  #FFF8E6;
+  --green:    #16A34A;
+  --green-lt: #F0FDF4;
+  --red:      #DC2626;
+  --red-lt:   #FEF2F2;
+  --orange:   #EA580C;
+  --blue:     #2563EB;
+  --blue-lt:  #EFF6FF;
+  --purple:   #7C3AED;
+  --shadow:   0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.06);
+  --shadow-lg:0 4px 24px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06);
+  --radius:   14px;
+  --radius-sm:8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ── TOP STRIPE ── */
+.top-stripe {
+  height: 4px;
+  background: linear-gradient(90deg, var(--police) 0%, var(--police) 45%, var(--gold2) 45%, var(--gold2) 55%, var(--police) 55%, var(--police) 100%);
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 60px;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem; font-weight: 800;
+  color: var(--police); letter-spacing: 0.5px;
+}
+.nav-brand .shield {
+  width: 32px; height: 32px;
+  background: var(--police);
+  border-radius: 8px 8px 14px 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: var(--gold2);
+}
+.nav-links { display: flex; gap: 4px; }
+.nav-links a {
+  color: var(--muted); text-decoration: none;
+  font-size: 0.8rem; font-weight: 600;
+  padding: 6px 12px; border-radius: 20px;
+  transition: all .2s; white-space: nowrap;
+}
+.nav-links a:hover { color: var(--police); background: var(--bg2); }
+.nav-cta {
+  background: var(--police); color: #fff;
+  padding: 7px 16px; border-radius: 20px;
+  font-size: 0.78rem; font-weight: 700;
+  text-decoration: none; transition: all .2s;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: var(--police2); transform: translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+  background: var(--bg);
+  padding: 5rem 2rem 4rem;
+  position: relative; overflow: hidden;
+}
+.hero-bg-shape {
+  position: absolute; top: -60px; right: -80px;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,76,46,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-bg-shape2 {
+  position: absolute; bottom: -40px; left: -60px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,168,0,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center;
+}
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--green-lt); color: var(--green);
+  border: 1px solid #bbf7d0;
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 0.73rem; font-weight: 700;
+  letter-spacing: 0.5px; margin-bottom: 1.2rem;
+}
+.hero-kicker::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--green); flex-shrink:0; }
+h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 700; line-height: 1.15;
+  color: var(--text); margin-bottom: 1rem;
+}
+h1 em { font-style: normal; color: var(--police); }
+h1 .gold { color: var(--gold); }
+.hero-desc { color: var(--muted); font-size: 1rem; max-width: 500px; margin-bottom: 2rem; }
+.hero-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.btn-main {
+  background: var(--police); color: #fff;
+  padding: 0.75rem 1.6rem; border-radius: 24px;
+  font-weight: 700; font-size: 0.88rem;
+  text-decoration: none; display: inline-flex;
+  align-items: center; gap: 8px; transition: all .2s;
+  border: none; cursor: pointer;
+}
+.btn-main:hover { background: var(--police2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,76,46,0.25); }
+.btn-sec {
+  background: transparent; color: var(--police);
+  border: 1.5px solid var(--police);
+  padding: 0.75rem 1.4rem; border-radius: 24px;
+  font-weight: 700; font-size: 0.88rem;
+  text-decoration: none; display: inline-flex;
+  align-items: center; gap: 8px; transition: all .2s;
+}
+.btn-sec:hover { background: var(--police); color: #fff; }
+
+/* Hero badges */
+.hero-badges {
+  display: flex; flex-direction: column; gap: 0.7rem;
+  min-width: 200px;
+}
+.hero-badge {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0.9rem 1.1rem;
+  display: flex; align-items: center; gap: 10px;
+  transition: all .2s;
+}
+.hero-badge:hover { border-color: var(--police); box-shadow: var(--shadow); }
+.badge-num { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--police); line-height: 1; }
+.badge-lbl { font-size: 0.72rem; color: var(--muted); font-weight: 500; }
+
+/* ── SECTION BASE ── */
+section { padding: 4.5rem 2rem; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-kicker {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--police);
+  margin-bottom: 0.5rem;
+}
+.section-kicker::before { content:''; width:20px; height:2px; background:var(--gold2); }
+h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 800; color: var(--text); margin-bottom: 0.5rem;
+}
+.section-sub { color: var(--muted); font-size: 0.93rem; margin-bottom: 2.5rem; max-width: 580px; }
+.alt-bg { background: var(--bg2); }
+
+/* ── PROMPTS ── */
+.prompt-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  transition: all .2s; margin-bottom: 0.8rem;
+  box-shadow: var(--shadow);
+}
+.prompt-card:hover { border-color: var(--police); box-shadow: var(--shadow-lg); }
+.prompt-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.3rem; cursor: pointer;
+}
+.prompt-left { display: flex; align-items: center; gap: 12px; }
+.prompt-pill {
+  background: var(--police); color: var(--gold2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; font-weight: 500;
+  padding: 3px 9px; border-radius: 20px;
+  letter-spacing: 0.5px; flex-shrink: 0;
+}
+.prompt-name { font-weight: 700; font-size: 0.93rem; color: var(--text); }
+.prompt-use { font-size: 0.73rem; color: var(--muted); margin-top: 1px; }
+.prompt-btns { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+.btn-copy-sm {
+  background: var(--bg2); border: 1px solid var(--border);
+  color: var(--muted); padding: 5px 12px; border-radius: 20px;
+  font-size: 0.73rem; font-weight: 600; cursor: pointer;
+  transition: all .2s; font-family: inherit;
+}
+.btn-copy-sm:hover { border-color: var(--green); color: var(--green); background: var(--green-lt); }
+.btn-copy-sm.copied { border-color: var(--green); color: var(--green); background: var(--green-lt); }
+.btn-claude-sm {
+  background: var(--police); color: var(--gold2);
+  padding: 5px 12px; border-radius: 20px;
+  font-size: 0.73rem; font-weight: 700; cursor: pointer;
+  transition: all .2s; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.btn-claude-sm:hover { background: var(--police2); transform: translateY(-1px); }
+.chevron { color: var(--border2); font-size: 0.75rem; margin-left: 4px; transition: transform .3s; }
+.prompt-card.open .chevron { transform: rotate(180deg); }
+.prompt-body { display: none; padding: 0 1.3rem 1.3rem; }
+.prompt-card.open .prompt-body { display: block; }
+.prompt-code {
+  background: #F8F9FB; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 1rem 1.1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem; line-height: 1.75; color: var(--text2);
+  white-space: pre-wrap; border-left: 3px solid var(--police);
+}
+
+/* ── DOCS ── */
+.docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 1rem; }
+.doc-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 1.3rem;
+  text-decoration: none; transition: all .2s;
+  display: flex; flex-direction: column; gap: 0.6rem;
+  box-shadow: var(--shadow);
+}
+.doc-card:hover { border-color: var(--police); transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.doc-icon { font-size: 2rem; }
+.doc-name { font-weight: 700; font-size: 0.88rem; color: var(--text); }
+.doc-desc { font-size: 0.75rem; color: var(--muted); }
+.doc-tag {
+  margin-top: auto; display: inline-block;
+  font-size: 0.63rem; font-weight: 700;
+  background: var(--bg2); color: var(--muted);
+  border: 1px solid var(--border); padding: 2px 8px;
+  border-radius: 10px; font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── FORO ── */
+.foro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.foro-box {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.foro-box h3 { font-weight: 700; font-size: 0.95rem; margin-bottom: 1.2rem; color: var(--text); }
+.field { margin-bottom: 0.9rem; }
+.field label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+.field input, .field textarea, .field select {
+  width: 100%; background: var(--bg2);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text); padding: 0.6rem 0.9rem;
+  font-family: 'Inter', sans-serif; font-size: 0.88rem;
+  transition: border-color .2s; resize: vertical;
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+  outline: none; border-color: var(--police); background: #fff;
+}
+.field textarea { min-height: 90px; }
+.btn-submit {
+  width: 100%; background: var(--police); color: #fff;
+  border: none; border-radius: var(--radius-sm);
+  padding: 0.75rem; font-weight: 700; font-size: 0.88rem;
+  cursor: pointer; transition: all .2s; font-family: inherit;
+}
+.btn-submit:hover { background: var(--police2); }
+.pregunta-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0.9rem 1rem;
+  margin-bottom: 0.7rem;
+}
+.pregunta-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 4px; }
+.pq-autor { font-weight: 700; font-size: 0.8rem; color: var(--text); }
+.pq-tema {
+  background: var(--gold-lt); color: var(--gold);
+  font-size: 0.63rem; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+}
+.pq-fecha { font-size: 0.68rem; color: var(--muted); margin-left: auto; }
+.pq-text { font-size: 0.82rem; color: var(--text2); }
+.no-pq { color: var(--muted); font-size: 0.82rem; text-align: center; padding: 2rem 0; }
+
+/* ── IA GRID ── */
+.ia-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px,1fr)); gap: 1rem; }
+.ia-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 1.4rem 1rem 1.1rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0.7rem;
+  text-decoration: none; transition: all .25s; position: relative;
+  box-shadow: var(--shadow); cursor: pointer;
+}
+.ia-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.ia-logo { width: 60px; height: 60px; border-radius: 14px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.ia-name { font-weight: 800; font-size: 0.85rem; color: var(--text); text-align: center; }
+.ia-tag { font-size: 0.65rem; color: var(--muted); text-align: center; line-height: 1.3; }
+.ia-main-badge {
+  position: absolute; top: -6px; right: -6px;
+  background: var(--gold2); color: var(--police);
+  font-size: 0.55rem; font-weight: 800; padding: 2px 7px;
+  border-radius: 10px; letter-spacing: 0.3px;
+}
+
+/* ── OWNERS ── */
+.owners-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px,1fr)); gap: 0.8rem; }
+.owner-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 1rem 1.1rem;
+  display: flex; align-items: flex-start; gap: 10px;
+  box-shadow: var(--shadow);
+}
+.owner-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+.owner-ia { font-weight: 700; font-size: 0.85rem; color: var(--text); }
+.owner-co { font-size: 0.75rem; color: var(--blue); font-weight: 600; margin-top: 1px; }
+.owner-pais { font-size: 0.68rem; color: var(--muted); }
+.owner-desc { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+
+/* ── RESULTADOS ── */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 1rem; margin-bottom: 2rem; }
+.stat-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 1.2rem;
+  text-align: center; box-shadow: var(--shadow); transition: all .2s;
+}
+.stat-card:hover { border-color: var(--police); box-shadow: var(--shadow-lg); }
+.stat-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+.stat-num { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--police); line-height: 1; }
+.stat-lbl { font-size: 0.7rem; color: var(--muted); margin-top: 3px; }
+.prob-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+.prob-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.2rem;
+  box-shadow: var(--shadow);
+}
+.prob-q { font-weight: 700; font-size: 0.82rem; color: var(--text); margin-bottom: 0.7rem; display: flex; align-items: flex-start; gap: 7px; }
+.prob-r { font-size: 0.77rem; color: var(--text2); padding: 4px 0; border-bottom: 1px solid var(--bg3); display: flex; gap: 6px; }
+.prob-r::before { content:'→'; color: var(--muted); flex-shrink: 0; }
+.prob-tag { margin-top: 0.7rem; font-size: 0.68rem; font-weight: 700; padding: 3px 9px; border-radius: 10px; display: inline-block; }
+.hallazgos-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+.hallazgos-card h3 { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+.hall-item { display: flex; gap: 10px; padding: 0.65rem 0; border-bottom: 1px solid var(--bg3); font-size: 0.83rem; color: var(--text2); }
+.hall-item:last-child { border: none; }
+.sol-card {
+  background: linear-gradient(135deg, #f0fdf4, #fffbeb);
+  border: 1px solid #bbf7d0; border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.sol-card h3 { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+.sol-item { display: flex; gap: 12px; align-items: flex-start; padding: 0.7rem 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.sol-item:last-child { border: none; }
+.sol-pill { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 700; padding: 3px 8px; border-radius: 10px; flex-shrink: 0; margin-top: 2px; }
+.sol-prob { font-size: 0.7rem; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+.sol-text { font-size: 0.82rem; color: var(--text2); }
+
+/* ── CALCULADORAS ── */
+.calc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px,1fr)); gap: 1.2rem; }
+.calc-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow); transition: all .2s;
+}
+.calc-card:hover { border-color: var(--police); box-shadow: var(--shadow-lg); }
+.calc-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 1rem 1.2rem;
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+}
+.calc-icon-box {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--police); color: var(--gold2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; flex-shrink: 0;
+}
+.calc-title { font-weight: 700; font-size: 0.88rem; color: var(--text); }
+.calc-formula { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 1px; }
+.calc-body { padding: 1.2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.calc-field { display: flex; flex-direction: column; gap: 3px; }
+.calc-field label { font-size: 0.73rem; font-weight: 600; color: var(--muted); }
+.calc-field input, .calc-field select {
+  background: var(--bg2); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text);
+  padding: 0.55rem 0.8rem; font-family: inherit; font-size: 0.88rem;
+  transition: border-color .2s;
+}
+.calc-field input:focus, .calc-field select:focus { outline: none; border-color: var(--police); background: #fff; }
+.calc-result {
+  background: var(--bg2); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0.8rem 1rem;
+}
+.res-label { font-size: 0.65rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; font-family: 'JetBrains Mono', monospace; }
+.res-value { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--police); line-height: 1; }
+.res-note { font-size: 0.71rem; color: var(--muted); margin-top: 5px; line-height: 1.4; }
+.check-item {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 5px 6px; border-radius: 6px; cursor: pointer;
+  transition: background .15s; font-size: 0.8rem; color: var(--text2);
+}
+.check-item:hover { background: var(--bg2); }
+.check-item input { accent-color: var(--police); width: 14px; height: 14px; flex-shrink: 0; cursor: pointer; margin-top: 2px; }
+.check-item.done { color: var(--muted); text-decoration: line-through; }
+.check-progress-bar { height: 6px; background: var(--bg3); border-radius: 3px; margin-top: 8px; }
+.check-progress-fill { height: 6px; border-radius: 3px; background: var(--police); transition: width .3s; }
+
+/* ── PROMPT CONTEXT SECTION ── */
+.context-box {
+  background: var(--gold-lt); border: 1.5px solid #fde68a;
+  border-radius: var(--radius); padding: 1.3rem 1.5rem;
+  max-width: 700px; margin: 2rem auto 0;
+}
+.context-label { font-size: 0.68rem; font-weight: 700; color: var(--gold); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.6rem; font-family: 'JetBrains Mono', monospace; }
+.context-text { font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; color: var(--text2); white-space: pre-wrap; line-height: 1.75; }
+
+/* ── ADMIN MODAL ── */
+.admin-fab {
+  position: fixed; bottom: 24px; right: 24px; z-index: 200;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--police); color: var(--gold2);
+  border: none; font-size: 1.1rem; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,76,46,0.35);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.admin-fab:hover { background: var(--police2); transform: scale(1.1); }
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center;
+}
+.modal-box {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 18px; padding: 2rem; width: 360px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+  position: relative; max-height: 90vh; overflow-y: auto;
+}
+.modal-close {
+  position: absolute; top: 14px; right: 16px;
+  background: var(--bg2); border: none; color: var(--muted);
+  width: 28px; height: 28px; border-radius: 50%;
+  cursor: pointer; font-size: 0.85rem; display: flex;
+  align-items: center; justify-content: center;
+}
+.modal-title { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--police); margin-bottom: 0.3rem; }
+.modal-sub { font-size: 0.75rem; color: var(--muted); margin-bottom: 1.3rem; }
+.admin-section-label { font-size: 0.65rem; font-weight: 700; color: var(--police); letter-spacing: 1.5px; text-transform: uppercase; margin: 1rem 0 0.5rem; font-family: 'JetBrains Mono', monospace; }
+.stat-bar-row { margin-bottom: 6px; }
+.stat-bar-meta { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 2px; }
+.stat-bar-bg { background: var(--bg3); border-radius: 3px; height: 6px; }
+.stat-bar-fill { height: 6px; border-radius: 3px; transition: width .4s; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--police); color: rgba(255,255,255,0.7);
+  padding: 2rem; text-align: center; font-size: 0.8rem;
+}
+footer strong { color: var(--gold2); }
+footer .top-stripe { opacity: 0.4; margin-bottom: 1.5rem; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-badges { flex-direction: row; flex-wrap: wrap; }
+  .foro-grid { grid-template-columns: 1fr; }
+  .prob-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+}
+@media (max-width: 480px) {
+  .ia-grid { grid-template-columns: repeat(3,1fr); }
+  .calc-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-stripe"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="shield">🛡️</div>
+    DIPLOMADO · TRÁNSITO & IA
+  </div>
+  <div class="nav-links">
+    <a href="#prompts">Prompts IA</a>
+    <a href="#documentos">Documentos</a>
+    <a href="#foro">Foro</a>
+    <a href="#ias">IAs</a>
+    <a href="#resultados">Resultados</a>
+    <a href="#calculadoras">Calculadoras</a>
+  </div>
+  <a href="#calculadoras" class="nav-cta">🧮 Calculadoras</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-shape"></div>
+  <div class="hero-bg-shape2"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-kicker">Policía Nacional de Colombia · Diplomado Activo 2026</div>
+      <h1>Agentes de <em>Tránsito</em><br>en la Era <span class="gold">IA</span></h1>
+      <p class="hero-desc">Plataforma de recursos técnicos: prompts especializados, calculadoras de física vial, normativa colombiana y herramientas de análisis para el agente moderno.</p>
+      <div class="hero-actions">
+        <a href="#prompts" class="btn-main">⚡ Ver Prompts IA</a>
+        <a href="#calculadoras" class="btn-sec">🧮 Calculadoras</a>
+      </div>
+    </div>
+    <div class="hero-badges">
+      <div class="hero-badge"><div><div class="badge-num">5</div><div class="badge-lbl">Prompts especializados</div></div></div>
+      <div class="hero-badge"><div><div class="badge-num">9</div><div class="badge-lbl">Plataformas IA</div></div></div>
+      <div class="hero-badge"><div><div class="badge-num">6</div><div class="badge-lbl">Calculadoras técnicas</div></div></div>
+      <div class="hero-badge"><div><div class="badge-num">🇨🇴</div><div class="badge-lbl">Ley 769 · Ley 2251 · INVIAS</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMPTS -->
+<section id="prompts" class="alt-bg">
+  <div class="section-inner">
+    <div class="section-kicker">Herramientas IA</div>
+    <h2>Prompts para Uso en Escena</h2>
+    <p class="section-sub">Copia y pega en Claude, ChatGPT, Gemini o Grok. Diseñados para análisis con fotos desde el celular.</p>
+    <div id="promptsGrid"></div>
+  </div>
+</section>
+
+<!-- DOCUMENTOS -->
+<section id="documentos">
+  <div class="section-inner">
+    <div class="section-kicker">Material de referencia</div>
+    <h2>Documentos del Curso</h2>
+    <p class="section-sub">Normativa, manuales y material de apoyo del diplomado.</p>
+    <div class="docs-grid" id="docsGrid"></div>
+  </div>
+</section>
+
+<!-- FORO -->
+<section id="foro" class="alt-bg">
+  <div class="section-inner">
+    <div class="section-kicker">Comunidad</div>
+    <h2>Foro de Dudas</h2>
+    <p class="section-sub">Deja tu pregunta. Las preguntas se guardan en tu navegador.</p>
+    <div class="foro-grid">
+      <div class="foro-box">
+        <h3>📝 Nueva Pregunta</h3>
+        <div class="field"><label>Tu nombre</label><input type="text" id="foroNombre" placeholder="Agente / nombre de pila"></div>
+        <div class="field">
+          <label>Tema</label>
+          <select id="foroTema">
+            <option value="Accidentología">Accidentología</option>
+            <option value="Normativa">Normativa colombiana</option>
+            <option value="Prompts IA">Uso de Prompts IA</option>
+            <option value="Peritaje">Peritaje y valoración</option>
+            <option value="Velocidad">Análisis de velocidad</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="field"><label>Tu pregunta o comentario</label><textarea id="foroPregunta" placeholder="Escribe aquí tu duda, caso o comentario..."></textarea></div>
+        <button class="btn-submit" onclick="enviarPregunta()">Publicar pregunta →</button>
+      </div>
+      <div class="foro-box">
+        <h3>💬 Preguntas recientes</h3>
+        <div id="preguntasPanel"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IAs DISPONIBLES -->
+<section id="ias">
+  <div class="section-inner">
+    <div class="section-kicker">Herramientas disponibles</div>
+    <h2>IAs que Puedes Usar</h2>
+    <p class="section-sub">Haz clic para abrir la plataforma. Cada agente usa su propia cuenta — sin costos para el diplomado.</p>
+    <div class="ia-grid" id="iaGrid"></div>
+
+    <div class="context-box">
+      <div class="context-label">// Prompt de contexto — cópialo y pégalo en cualquier IA</div>
+      <div class="context-text" id="promptContexto">Eres un panel experto: Ingeniero Civil Vial + Perito en Reconstrucción de Accidentes + Especialista Legal en tránsito colombiano. Asistes a agentes de tránsito en campo. Responde de forma técnica pero clara, usando normas colombianas (Ley 769 de 2002, Ley 2251 de 2022, normas INVIAS). Mi consulta es:</div>
+      <button class="btn-copy-sm" id="copyContexto" onclick="copyContexto()" style="margin-top:0.8rem;">📋 Copiar prompt de contexto</button>
+    </div>
+
+    <div style="margin-top:3rem;">
+      <div class="section-kicker">Empresas detrás de cada IA</div>
+      <h2 style="font-size:1.6rem;margin-bottom:1.2rem;">¿Quién las hace?</h2>
+      <div class="owners-grid" id="ownersGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS ENCUESTA -->
+<section id="resultados" class="alt-bg">
+  <div class="section-inner">
+    <div class="section-kicker">Diagnóstico del grupo</div>
+    <h2>Resultados del Diagnóstico</h2>
+    <p class="section-sub">Análisis de los retos reales que enfrentan los agentes participantes del diplomado.</p>
+    <div class="stats-row" id="statsCards"></div>
+    <div class="prob-grid" id="problemasGrid"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="hallazgos-card">
+        <h3>🔎 Hallazgos clave</h3>
+        <div id="hallazgos"></div>
+      </div>
+      <div class="sol-card">
+        <h3>✅ Cómo la IA resuelve cada problema</h3>
+        <div id="soluciones"></div>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--muted);font-size:0.74rem;margin-top:1.2rem;">📊 Basado en <strong id="totalResp">2</strong> respuestas · Se actualiza con cada nueva carga de datos</p>
+  </div>
+</section>
+
+<!-- CALCULADORAS -->
+<section id="calculadoras">
+  <div class="section-inner">
+    <div class="section-kicker">Herramientas de cálculo</div>
+    <h2>Calculadoras Técnicas</h2>
+    <p class="section-sub">Sin IA — fórmulas físicas y normativa colombiana. Ingresa los datos y obtén resultados al instante.</p>
+    <div class="calc-grid">
+
+      <div class="calc-card">
+        <div class="calc-head">
+          <div class="calc-icon-box">🏎️</div>
+          <div><div class="calc-title">Velocidad por Huellas de Frenado</div><div class="calc-formula">V = √(2 × μ × g × d)</div></div>
+        </div>
+        <div class="calc-body">
+          <div class="calc-field"><label>Longitud de huella (d) en metros</label><input type="number" id="c1_d" placeholder="Ej: 25" min="0" oninput="calcVelocidad()" onchange="calcVelocidad()" onkeyup="calcVelocidad()"></div>
+          <div class="calc-field"><label>Tipo de superficie</label>
+            <select id="c1_mu" onchange="calcVelocidad()">
+              <option value="0.75">Asfalto seco (μ = 0.75)</option>
+              <option value="0.50">Asfalto húmedo (μ = 0.50)</option>
+              <option value="0.35">Asfalto mojado (μ = 0.35)</option>
+              <option value="0.30">Tierra compactada seca (μ = 0.30)</option>
+              <option value="0.20">Barro / tierra mojada (μ = 0.20)</option>
+              <option value="0.15">Gravilla (μ = 0.15)</option>
+            </select></div>
+          <div class="calc-result"><div class="res-label">Velocidad estimada</div><div class="res-value" id="c1_val">— km/h</div><div class="res-note" id="c1_note"></div></div>
+        </div>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-head">
+          <div class="calc-icon-box">🛑</div>
+          <div><div class="calc-title">Distancia de Frenado</div><div class="calc-formula">d = V² / (2 × μ × g) + d_reacción</div></div>
+        </div>
+        <div class="calc-body">
+          <div class="calc-field"><label>Velocidad del vehículo (km/h)</label><input type="number" id="c2_v" placeholder="Ej: 60" min="0" oninput="calcFrenado()" onchange="calcFrenado()" onkeyup="calcFrenado()"></div>
+          <div class="calc-field"><label>Tipo de superficie</label>
+            <select id="c2_mu" onchange="calcFrenado()">
+              <option value="0.75">Asfalto seco (μ = 0.75)</option>
+              <option value="0.50">Asfalto húmedo (μ = 0.50)</option>
+              <option value="0.35">Asfalto mojado (μ = 0.35)</option>
+              <option value="0.30">Tierra compactada seca (μ = 0.30)</option>
+              <option value="0.20">Barro / tierra mojada (μ = 0.20)</option>
+            </select></div>
+          <div class="calc-field"><label>Tiempo de reacción del conductor</label>
+            <select id="c2_tr" onchange="calcFrenado()">
+              <option value="0.75">Normal alertado (0.75s)</option>
+              <option value="1.0" selected>Normal (1.0s)</option>
+              <option value="1.5">Distracción leve (1.5s)</option>
+              <option value="2.5">Distracción / fatiga (2.5s)</option>
+            </select></div>
+          <div class="calc-result"><div class="res-label">Distancia total de parada</div><div class="res-value" id="c2_val">— metros</div><div class="res-note" id="c2_note"></div></div>
+        </div>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-head">
+          <div class="calc-icon-box">⚖️</div>
+          <div><div class="calc-title">Clasificación del Accidente</div><div class="calc-formula">Ley 769 de 2002 · Art. 143</div></div>
+        </div>
+        <div class="calc-body">
+          <div class="calc-field"><label>¿Hay personas heridas?</label>
+            <select id="c3_her" onchange="calcClasificacion()"><option value="no">No</option><option value="leve">Sí — leves</option><option value="grave">Sí — graves</option></select></div>
+          <div class="calc-field"><label>¿Hay personas fallecidas?</label>
+            <select id="c3_mue" onchange="calcClasificacion()"><option value="no">No</option><option value="si">Sí</option></select></div>
+          <div class="calc-field"><label>¿Solo daños materiales?</label>
+            <select id="c3_mat" onchange="calcClasificacion()"><option value="si">Sí — solo latas</option><option value="no">No</option></select></div>
+          <div class="calc-result"><div class="res-label">Clasificación</div><div class="res-value" id="c3_val" style="font-size:1rem;line-height:1.3;">Selecciona opciones</div><div class="res-note" id="c3_note"></div></div>
+        </div>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-head">
+          <div class="calc-icon-box">📊</div>
+          <div><div class="calc-title">Índice de Severidad (IS)</div><div class="calc-formula">IS = (F×13 + HG×5 + HL×3) / veh</div></div>
+        </div>
+        <div class="calc-body">
+          <div class="calc-field"><label>N° de fallecidos</label><input type="number" id="c4_f" placeholder="0" min="0" value="0" oninput="calcSeveridad()"></div>
+          <div class="calc-field"><label>N° de heridos graves</label><input type="number" id="c4_hg" placeholder="0" min="0" value="0" oninput="calcSeveridad()"></div>
+          <div class="calc-field"><label>N° de heridos leves</label><input type="number" id="c4_hl" placeholder="0" min="0" value="0" oninput="calcSeveridad()"></div>
+          <div class="calc-field"><label>N° de vehículos involucrados</label><input type="number" id="c4_v" placeholder="2" min="1" value="2" oninput="calcSeveridad()"></div>
+          <div class="calc-result"><div class="res-label">Índice de Severidad</div><div class="res-value" id="c4_val">0.00</div><div class="res-note" id="c4_note">Severidad cero — Solo daños materiales</div></div>
+        </div>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-head">
+          <div class="calc-icon-box">✅</div>
+          <div><div class="calc-title">Checklist de Escena</div><div class="calc-formula">Protocolo mínimo · Ley 769</div></div>
+        </div>
+        <div class="calc-body">
+          <div id="checklist"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.5rem;">
+            <span style="font-size:0.75rem;color:var(--muted);">Progreso: <strong id="checkPct" style="color:var(--police);">0%</strong></span>
+            <button onclick="resetChecklist()" style="background:none;border:1px solid var(--border);color:var(--muted);padding:3px 10px;border-radius:10px;font-size:0.7rem;cursor:pointer;font-family:inherit;">Reiniciar</button>
+          </div>
+          <div class="check-progress-bar"><div class="check-progress-fill" id="checkBar" style="width:0%;"></div></div>
+        </div>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-head">
+          <div class="calc-icon-box">⏱️</div>
+          <div><div class="calc-title">Velocidad Media entre Puntos</div><div class="calc-formula">V = d / t (corroborar testigos)</div></div>
+        </div>
+        <div class="calc-body">
+          <div class="calc-field"><label>Distancia entre puntos de referencia (m)</label><input type="number" id="c6_d" placeholder="Ej: 100" min="0" oninput="calcVelMedia()" onchange="calcVelMedia()" onkeyup="calcVelMedia()"></div>
+          <div class="calc-field"><label>Tiempo estimado (segundos)</label><input type="number" id="c6_t" placeholder="Ej: 4" min="0.1" step="0.1" oninput="calcVelMedia()" onchange="calcVelMedia()" onkeyup="calcVelMedia()"></div>
+          <div class="calc-result"><div class="res-label">Velocidad media estimada</div><div class="res-value" id="c6_val">— km/h</div><div class="res-note" id="c6_note"></div></div>
+        </div>
+      </div>
+
+    </div><!-- end calc-grid -->
+  </div>
+</section>
+
+<!-- ADMIN FAB -->
+<button class="admin-fab" onclick="abrirAdmin()" title="Panel Admin">🔐</button>
+
+<!-- ADMIN MODAL -->
+<div class="modal-overlay" id="adminModal" style="display:none;">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarAdmin()">✕</button>
+    <div id="adminLoginView">
+      <div class="modal-title">🔐 Panel Admin</div>
+      <div class="modal-sub">Solo el instructor puede acceder</div>
+      <div class="field"><label>Contraseña</label><input type="password" id="adminPass" placeholder="Contraseña" onkeydown="if(event.key==='Enter')verificarAdmin()"></div>
+      <div id="adminError" style="color:var(--red);font-size:0.75rem;margin-bottom:0.6rem;display:none;">❌ Contraseña incorrecta</div>
+      <button class="btn-submit" onclick="verificarAdmin()">Entrar →</button>
+    </div>
+    <div id="adminPanelView" style="display:none;">
+      <div class="modal-title">📊 Panel de Control</div>
+      <div class="admin-section-label">// Secciones más visitadas</div>
+      <div id="adminClics"></div>
+      <div class="admin-section-label">// IAs más usadas</div>
+      <div id="adminIAs"></div>
+      <div class="admin-section-label">// Prompts más copiados</div>
+      <div id="adminPrompts"></div>
+      <div class="admin-section-label">// Preguntas del foro</div>
+      <div id="adminForo" style="max-height:150px;overflow-y:auto;"></div>
+      <button onclick="resetStats()" style="width:100%;background:none;border:1px solid var(--red);color:var(--red);border-radius:8px;padding:0.5rem;font-size:0.75rem;cursor:pointer;margin-top:1rem;font-family:inherit;">🗑 Resetear estadísticas</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="top-stripe"></div>
+  <p style="margin-top:1.5rem;">🛡️ <strong>Diplomado Agentes de Tránsito & IA</strong> · Policía Nacional de Colombia</p>
+  <p style="margin-top:6px; opacity:0.6;">Normativa: INVIAS · Ley 769 de 2002 · Ley 2251 de 2022 · Sistema Seguro Colombia</p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   DIPLOMADO TRÁNSITO & IA — Script principal
+   ═══════════════════════════════════════════ */
+
+/* ── PROMPTS ── */
+const PROMPTS = [
+  { num:"PROMPT 01", title:"Análisis General de Daños y Dinámica", uso:"El más usado en escena",
+    text:`Eres un panel experto: Ingeniero Civil Vial, Perito en Reconstrucción de Accidentes y especialista en responsabilidad en choques (Colombia). 
+
+Analiza las fotos que te subo del vehículo(s) accidentado(s). 
+
+Proporciona:
+1. Zonas afectadas (tercios anterior/medio/posterior, laterales, vértices).
+2. Tipos de daños y nivel de severidad estructural.
+3. Dinámica probable del accidente (ángulo de impacto, dirección, secuencia).
+4. Velocidad aproximada de impacto (si es posible estimarla).
+5. Posibles factores contribuyentes de vía o vehículo.
+6. Recomendaciones prácticas para el agente en la escena y posibles implicaciones legales (responsabilidad).
+
+Sé técnico pero claro. Usa normas colombianas (INVIAS, Ley 769, Ley 2251).` },
+  { num:"PROMPT 02", title:"Estimación de Velocidad y Huellas de Frenado", uso:"Física inversa + cálculos",
+    text:`Actúa como Ingeniero Civil Vial especializado en física inversa y reconstrucción de accidentes + Perito judicial.
+
+Tengo fotos de huellas de frenado, derrape y daños del vehículo. 
+
+Analiza:
+- Longitud y tipo de huellas.
+- Estimación de velocidad pre-impacto (usa fórmula de fricción y energía).
+- Comparación con límite de velocidad de la vía.
+- Si el conductor frenó a tiempo o no.
+- Consistencia con los daños visibles.
+
+Incluye cálculos aproximados y margen de error. 
+Sé muy preciso y menciona las normas técnicas colombianas que aplican (Manual INVIAS, coeficiente de fricción, etc.).` },
+  { num:"PROMPT 03", title:"Validación de Versión del Conductor vs. Evidencia", uso:"Contrastar declaraciones",
+    text:`Eres un experto en reconstrucción de choques, ingeniero vial y perito con visión jurídica.
+
+Tengo fotos del accidente + la versión que dio el conductor (pégala aquí).
+
+Analiza paso a paso:
+1. ¿Es consistente la versión con los daños y huellas que ves?
+2. ¿Qué evidencia física apoya o contradice la versión?
+3. ¿Qué velocidad o maniobra real parece haber ocurrido?
+4. ¿Hay indicios de responsabilidad técnica (exceso de velocidad, distracción, falla de vía o vehículo)?
+5. Recomendaciones para el agente: qué debe documentar adicionalmente para fortalecer el informe.
+
+Sé objetivo, técnico y claro. Usa física inversa.` },
+  { num:"PROMPT 04", title:"Daños Estructurales y Factores de Vía", uso:"Sistema Seguro – Ley 2251",
+    text:`Eres Ingeniero Civil Vial + Perito en valoración de daños estructurales + experto en Sistema Seguro (Ley 2251 de 2022).
+
+Analiza las fotos del vehículo dañado:
+
+- Identifica daños estructurales (largueros, pilares, piso, zonas de deformación programada).
+- Evalúa si los daños indican alta energía o falla prematura de seguridad pasiva.
+- ¿Hay indicios de que el diseño o estado de la vía contribuyó (radio de curva, visibilidad, fricción, pendiente)?
+- Recomendaciones técnicas para el peritaje y posibles implicaciones en la responsabilidad.
+
+Sé muy técnico y menciona normas INVIAS y Ley 2251 cuando aplique.` },
+  { num:"PROMPT 05", title:"Peritaje Rápido + Costos e Implicaciones Legales", uso:"Informe policial completo",
+    text:`Actúa como Perito Técnico en Valoración de Daños + Ingeniero Civil + asesor jurídico para policías de tránsito.
+
+Tengo fotos completas del vehículo accidentado.
+
+Genera un peritaje rápido e inteligente que incluya:
+1. Listado de piezas y zonas afectadas.
+2. Estimación preliminar de costos directos (repuestos + mano de obra).
+3. Posibles costos indirectos (pérdida de uso, etc.).
+4. Análisis de dinámica y responsabilidad técnica.
+5. Recomendaciones prácticas para el agente (qué documentar, fotos adicionales, cadena de custodia).
+
+Sé concreto, profesional y útil para un informe policial.` }
+];
+
+/* ── DOCS ── */
+const DOCS = [
+  { icon:"📄", name:"Manual INVIAS – Señalización", desc:"Referencia oficial de señalización vial", badge:"PDF · Próximamente", link:"#" },
+  { icon:"⚖️", name:"Ley 769 de 2002", desc:"Código Nacional de Tránsito Terrestre", badge:"PDF · Próximamente", link:"#" },
+  { icon:"🛡️", name:"Ley 2251 de 2022", desc:"Sistema Seguro – Visión Cero Colombia", badge:"PDF · Próximamente", link:"#" },
+  { icon:"🔬", name:"Guía de Peritaje en Escena", desc:"Protocolo de documentación y cadena de custodia", badge:"PDF · Próximamente", link:"#" },
+  { icon:"📊", name:"Formulario Informe de Accidente", desc:"Formato oficial para el informe policial", badge:"DOCX · Próximamente", link:"#" },
+  { icon:"🎓", name:"Presentación del Diplomado", desc:"Material de presentación del curso completo", badge:"PPTX · Próximamente", link:"#" }
+];
+
+/* ── IAs ── */
+const IAS = [
+  { name:"Claude", tag:"IA principal del curso", url:"https://claude.ai/new", main:true,
+    color:"#d97706", bg:"rgba(217,119,6,0.12)", border:"#e5c07b",
+    svg:`<svg viewBox="0 0 64 64" width="48" height="48"><rect width="64" height="64" rx="14" fill="#d97706"/><text x="32" y="44" text-anchor="middle" font-size="32" fill="white" font-family="serif" font-weight="bold">C</text></svg>` },
+  { name:"ChatGPT", tag:"OpenAI · GPT-5", url:"https://chatgpt.com/",
+    color:"#10a37f", bg:"rgba(16,163,127,0.1)", border:"#a7d7c5",
+    svg:`<svg viewBox="0 0 64 64" width="48" height="48"><rect width="64" height="64" rx="14" fill="#10a37f"/><path d="M32 14C22 14 15 21 15 30c0 5 2.5 9.5 6.5 12.5L20 50l7.5-4c1.5.5 3 1 4.5 1 10 0 17-7 17-16 0-9-7-17-17-17z" fill="white" opacity="0.9"/></svg>` },
+  { name:"Gemini", tag:"Google · Gemini 3.1", url:"https://gemini.google.com/",
+    color:"#4285f4", bg:"rgba(66,133,244,0.1)", border:"#a8c4f5",
+    svg:`<svg viewBox="0 0 64 64" width="48" height="48"><rect width="64" height="64" rx="14" fill="#e8f0fe"/><polygon points="32,10 38,28 56,28 42,38 47,56 32,45 17,56 22,38 8,28 26,28" fill="#4285f4" opacity="0.3"/><circle cx="32" cy="32" r="5" fill="#4285f4"/></svg>` },
+  { name:"Grok", tag:"xAI · Grok 4", url:"https://grok.com/",
+    color:"#333", bg:"rgba(0,0,0,0.05)", border:"#ccc",
+    svg:`<svg viewBox="0 0 64 64" width="48" height="48"><rect width="64" height="64" rx="14" fill="#111"/><text x="32" y="46" text-anchor="middle" font-size="32" fill="white" font-family="Arial Black" font-weight="900">X</text></svg>` },
+  { name:"Copilot", tag:"Microsoft", url:"https://copilot.microsoft.com/",
+    color:"#0078d4", bg:"rgba(0,120,212,0.08)", border:"#90bce8",
+    svg:`<svg viewBox="0 0 64 64" width="48" height="48"><rect width="64" height="64" rx="14" fill="#e8f3fd"/><circle cx="32" cy="32" r="13" fill="none" stroke="#0078d4" stroke-width="3"/><circle cx="32" cy="32" r="5" fill="#0078d4"/></svg>` },
+  { name:"Manus", tag:"Agente autónomo", url:"https://manus.im/",
+    color:"#7c3aed", bg:"rgba(124,58,237,0.08)", border:"#c4b5fd",
+    svg:`<svg viewBox="0 0 64 64" width="48" height="48"><rect width="64" height="64" rx="14" fill="#f5f3ff"/><text x="32" y="44" text-anchor="middle" font-size="28" fill="#7c3aed" font-family="Arial" font-weight="bold">M</text></svg>` },
+  { name:"Perplexity", tag:"Búsqueda + IA", url:"https://www.perplexity.ai/",
+    color:"#20c997", bg:"rgba(32,201,151,0.08)", border:"#99e9cb",
+    svg:`<svg viewBox="0 0 64 64" width="48" height="48"><rect width="64" height="64" rx="14" fill="#f0fdf9"/><circle cx="32" cy="26" r="10" fill="none" stroke="#20c997" stroke-width="3"/><line x1="32" y1="36" x2="32" y2="50" stroke="#20c997" stroke-width="3" stroke-linecap="round"/><line x1="22" y1="50" x2="42" y2="50" stroke="#20c997" stroke-width="3" stroke-linecap="round"/></svg>` },
+  { name:"NotebookLM", tag:"Google · Documentos", url:"https://notebooklm.google.com/",
+    color:"#f59e0b", bg:"rgba(245,158,11,0.08)", border:"#fcd34d",
+    svg:`<svg viewBox="0 0 64 64" width="48" height="48"><rect width="64" height="64" rx="14" fill="#fffbeb"/><rect x="16" y="14" width="32" height="36" rx="4" fill="none" stroke="#f59e0b" stroke-width="2.5"/><line x1="22" y1="24" x2="42" y2="24" stroke="#f59e0b" stroke-width="2"/><line x1="22" y1="31" x2="42" y2="31" stroke="#f59e0b" stroke-width="2"/><line x1="22" y1="38" x2="34" y2="38" stroke="#f59e0b" stroke-width="2"/></svg>` },
+  { name:"Kimi", tag:"Moonshot AI", url:"https://kimi.ai/",
+    color:"#38bdf8", bg:"rgba(56,189,248,0.08)", border:"#93d5f7",
+    svg:`<svg viewBox="0 0 64 64" width="48" height="48"><rect width="64" height="64" rx="14" fill="#f0faff"/><circle cx="32" cy="32" r="14" fill="none" stroke="#38bdf8" stroke-width="2.5"/><path d="M32 18 Q40 26 32 32 Q24 38 32 46" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/></svg>` }
+];
+
+/* ── OWNERS ── */
+const OWNERS = [
+  { ia:"Claude", empresa:"Anthropic", pais:"Estados Unidos 🇺🇸", flag:"🧠", desc:"Fundada 2021 por ex-OpenAI" },
+  { ia:"ChatGPT", empresa:"OpenAI", pais:"Estados Unidos 🇺🇸", flag:"🤖", desc:"Fundada 2015, respaldada por Microsoft" },
+  { ia:"Gemini", empresa:"Google DeepMind", pais:"Estados Unidos 🇺🇸", flag:"🔍", desc:"División IA de Alphabet / Google" },
+  { ia:"Grok", empresa:"xAI (Elon Musk)", pais:"Estados Unidos 🇺🇸", flag:"𝕏", desc:"Integrado en X (ex-Twitter)" },
+  { ia:"Copilot", empresa:"Microsoft", pais:"Estados Unidos 🇺🇸", flag:"💼", desc:"Integrado en toda la suite Office" },
+  { ia:"Manus", empresa:"Manus AI", pais:"China / Global 🌐", flag:"🦾", desc:"Agente autónomo de tareas complejas" },
+  { ia:"Perplexity", empresa:"Perplexity AI", pais:"Estados Unidos 🇺🇸", flag:"🔎", desc:"Motor de búsqueda potenciado por IA" },
+  { ia:"NotebookLM", empresa:"Google Labs", pais:"Estados Unidos 🇺🇸", flag:"📓", desc:"Especializado en análisis de documentos" },
+  { ia:"Kimi", empresa:"Moonshot AI", pais:"China 🇨🇳", flag:"🌙", desc:"Líder en contexto largo y documentos" }
+];
+
+/* ── ENCUESTA ── */
+const ENCUESTA = {
+  total: 2,
+  problemas: [
+    { pregunta:"¿Cuál es el MAYOR RETO al llegar a un accidente?", icon:"🚨", color:"#ef4444",
+      respuestas:["No saber por dónde empezar — presión del público y múltiples opiniones","Dificultad para entender cómo se originó el accidente"],
+      patron:"Desorientación inicial + presión social" },
+    { pregunta:'¿Qué complica los accidentes "solo latas"?', icon:"🚗", color:"#f59e0b",
+      respuestas:["Las personas no entienden los procedimientos","Determinar quién tuvo la culpa"],
+      patron:"Comunicación con implicados + determinación de responsabilidad" },
+    { pregunta:"¿Qué información del vehículo necesitan más rápido?", icon:"🔍", color:"#3b82f6",
+      respuestas:["Desconocimiento de marcas y modelos — miedo a equivocarse","Saber si aplica como choque de solo latas"],
+      patron:"Falta de conocimiento técnico vehicular" },
+    { pregunta:"¿Mayor desafío para peritar daños en escena?", icon:"📋", color:"#a78bfa",
+      respuestas:["No saber qué datos tomar ni qué hacer","Determinar cuántos y cuáles datos recopilar"],
+      patron:"Ausencia de protocolo claro de peritaje" },
+    { pregunta:"¿Tipo de accidente más frecuente y difícil?", icon:"🏍️", color:"#10b981",
+      respuestas:["Moto contra carro","Carro y moto"],
+      patron:"100% coinciden: moto-carro es el más complejo" },
+    { pregunta:"¿Qué problema cotidiano quieren resolver?", icon:"💡", color:"#20c997",
+      respuestas:["Tractocamión contra motocicleta — alta complejidad","Buscar asesoría rápida en el momento"],
+      patron:"Necesidad urgente de consultoría técnica en tiempo real" }
+  ],
+  hallazgos: [
+    { icon:"🎯", texto:"<strong>Desorientación en escena:</strong> Ambos agentes reportan dificultad para estructurar la atención desde el primer momento, sin importar la experiencia." },
+    { icon:"🏍️", texto:"<strong>Moto-carro es el accidente rey:</strong> 100% de los encuestados lo menciona como el más frecuente y complejo de determinar." },
+    { icon:"📋", texto:"<strong>Vacío de protocolo de peritaje:</strong> Ninguno sabe claramente qué datos recopilar. El problema es igual para novato y oficial con 4-7 años." },
+    { icon:"🔧", texto:"<strong>Desconocimiento técnico vehicular:</strong> Los agentes desconocen marcas y estructuras, lo que genera inseguridad en el informe." },
+    { icon:"⚡", texto:"<strong>Necesidad de asesoría instantánea:</strong> 'Buscar asesoría rápida' es la respuesta de un oficial con experiencia. Exactamente lo que resuelven los prompts IA." },
+    { icon:"👥", texto:"<strong>Presión social en escena:</strong> El agente novel siente el peso del juicio público, añadiendo carga cognitiva al proceso técnico." }
+  ],
+  soluciones: [
+    { problema:"Desorientación inicial", solucion:"PROMPT 01 — Estructura inmediata: zonas, dinámica, velocidad, factores.", p:"P-01", color:"#ef4444" },
+    { problema:"Determinar culpa en solo latas", solucion:"PROMPT 03 — Valida versión del conductor vs. evidencia física.", p:"P-03", color:"#f59e0b" },
+    { problema:"Desconocimiento vehicular", solucion:"PROMPT 04 — Identifica daños estructurales sin ser mecánico.", p:"P-04", color:"#3b82f6" },
+    { problema:"No saber qué datos recopilar", solucion:"PROMPT 05 — Checklist completo de peritaje + cadena de custodia.", p:"P-05", color:"#a78bfa" },
+    { problema:"Accidentes moto-carro difíciles", solucion:"PROMPT 02 — Calcula velocidad pre-impacto con huellas de frenado.", p:"P-02", color:"#10b981" },
+    { problema:"Necesidad de asesoría rápida", solucion:"Cualquier IA + prompt de contexto = asesor técnico 24/7 sin costo.", p:"ALL", color:"#20c997" }
+  ]
+};
+
+/* ═══════════════════════════════
+   RENDER FUNCTIONS
+   ═══════════════════════════════ */
+
+function renderPrompts() {
+  document.getElementById('promptsGrid').innerHTML = PROMPTS.map((p,i) => `
+    <div class="prompt-card" id="pc${i}">
+      <div class="prompt-header" onclick="togglePrompt(${i})">
+        <div class="prompt-left">
+          <span class="prompt-pill">${p.num}</span>
+          <div>
+            <div class="prompt-name">${p.title}</div>
+            <div class="prompt-use">${p.uso}</div>
+          </div>
+        </div>
+        <div class="prompt-btns">
+          <button class="btn-copy-sm" id="copy${i}" onclick="copyPrompt(event,${i})">📋 Copiar</button>
+          <a class="btn-claude-sm" href="https://claude.ai/new" target="_blank" onclick="copyPromptSilent(${i})">⚡ Claude</a>
+          <span class="chevron">▾</span>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-code">${p.text}</div>
+      </div>
+    </div>`).join('');
+}
+
+function togglePrompt(i) { document.getElementById('pc'+i).classList.toggle('open'); }
+
+function copyPrompt(e,i) {
+  e.stopPropagation();
+  navigator.clipboard.writeText(PROMPTS[i].text).then(() => {
+    const btn = document.getElementById('copy'+i);
+    btn.textContent = '✅ Copiado';
+    btn.classList.add('copied');
+    trackPrompt(PROMPTS[i].title);
+    setTimeout(() => { btn.textContent = '📋 Copiar'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+function copyPromptSilent(i) {
+  navigator.clipboard.writeText(PROMPTS[i].text).catch(()=>{});
+  trackPrompt(PROMPTS[i].title);
+}
+
+function renderDocs() {
+  document.getElementById('docsGrid').innerHTML = DOCS.map(d => `
+    <a class="doc-card" href="${d.link}" ${d.link!=='#'?'target="_blank"':''}>
+      <div class="doc-icon">${d.icon}</div>
+      <div class="doc-name">${d.name}</div>
+      <div class="doc-desc">${d.desc}</div>
+      <span class="doc-tag">${d.badge}</span>
+    </a>`).join('');
+}
+
+function renderIAs() {
+  document.getElementById('iaGrid').innerHTML = IAS.map(ia => `
+    <a class="ia-card" href="${ia.url}" target="_blank" onclick="trackIA('${ia.name}')"
+       style="border-color:${ia.border};"
+       onmouseover="this.style.borderColor='${ia.color}';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.1)'"
+       onmouseout="this.style.borderColor='${ia.border}';this.style.boxShadow=''">
+      ${ia.main ? '<span class="ia-main-badge">★ PRINCIPAL</span>' : ''}
+      <div class="ia-logo">${ia.svg}</div>
+      <div class="ia-name">${ia.name}</div>
+      <div class="ia-tag">${ia.tag}</div>
+    </a>`).join('');
+}
+
+function renderOwners() {
+  document.getElementById('ownersGrid').innerHTML = OWNERS.map(o => `
+    <div class="owner-card">
+      <div class="owner-icon">${o.flag}</div>
+      <div>
+        <div class="owner-ia">${o.ia}</div>
+        <div class="owner-co">${o.empresa}</div>
+        <div class="owner-pais">${o.pais}</div>
+        <div class="owner-desc">${o.desc}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderResultados() {
+  const E = ENCUESTA;
+  document.getElementById('statsCards').innerHTML = [
+    { num:E.total, label:'Respuestas recibidas', icon:'📊' },
+    { num:2, label:'Perfiles representados', icon:'👮' },
+    { num:E.problemas.length, label:'Dimensiones analizadas', icon:'🔍' },
+    { num:'100%', label:'Mencionan moto-carro', icon:'🏍️' }
+  ].map(c=>`
+    <div class="stat-card">
+      <div class="stat-icon">${c.icon}</div>
+      <div class="stat-num">${c.num}</div>
+      <div class="stat-lbl">${c.label}</div>
+    </div>`).join('');
+
+  document.getElementById('problemasGrid').innerHTML = E.problemas.map(p=>`
+    <div class="prob-card" style="border-left:3px solid ${p.color};">
+      <div class="prob-q"><span>${p.icon}</span>${p.pregunta}</div>
+      ${p.respuestas.map(r=>`<div class="prob-r">${r}</div>`).join('')}
+      <span class="prob-tag" style="background:${p.color}22;color:${p.color};">📌 ${p.patron}</span>
+    </div>`).join('');
+
+  document.getElementById('hallazgos').innerHTML = E.hallazgos.map(h=>`
+    <div class="hall-item"><span>${h.icon}</span><div>${h.texto}</div></div>`).join('');
+
+  document.getElementById('soluciones').innerHTML = E.soluciones.map(s=>`
+    <div class="sol-item">
+      <span class="sol-pill" style="background:${s.color}22;color:${s.color};">${s.p}</span>
+      <div><div class="sol-prob">${s.problema}</div><div class="sol-text">${s.solucion}</div></div>
+    </div>`).join('');
+
+  document.getElementById('totalResp').textContent = E.total;
+}
+
+/* ── FORO ── */
+function loadPreguntas() {
+  const data = JSON.parse(localStorage.getItem('foroPreguntas') || '[]');
+  const panel = document.getElementById('preguntasPanel');
+  if (!data.length) { panel.innerHTML = '<div class="no-pq">Aún no hay preguntas. ¡Sé el primero!</div>'; return; }
+  panel.innerHTML = data.slice().reverse().slice(0,8).map(p=>`
+    <div class="pregunta-card">
+      <div class="pregunta-meta">
+        <span class="pq-autor">👤 ${p.nombre}</span>
+        <span class="pq-tema">${p.tema}</span>
+        <span class="pq-fecha">${p.fecha}</span>
+      </div>
+      <div class="pq-text">${p.texto}</div>
+    </div>`).join('');
+}
+
+function enviarPregunta() {
+  const nombre = document.getElementById('foroNombre').value.trim() || 'Agente anónimo';
+  const tema   = document.getElementById('foroTema').value;
+  const texto  = document.getElementById('foroPregunta').value.trim();
+  if (!texto) { alert('Escribe tu pregunta antes de publicar.'); return; }
+  const arr = JSON.parse(localStorage.getItem('foroPreguntas') || '[]');
+  arr.push({ nombre, tema, texto, fecha: new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) });
+  localStorage.setItem('foroPreguntas', JSON.stringify(arr));
+  document.getElementById('foroPregunta').value = '';
+  loadPreguntas();
+}
+
+/* ── COPY CONTEXT ── */
+function copyContexto() {
+  const text = document.getElementById('promptContexto').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyContexto');
+    btn.textContent = '✅ Copiado — ahora abre tu IA';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copiar prompt de contexto'; btn.classList.remove('copied'); }, 3000);
+  });
+}
+
+/* ── TRACKING ── */
+function getStats() { return JSON.parse(localStorage.getItem('adminStats') || '{"secciones":{},"ias":{},"prompts":{}}'); }
+function saveStats(s) { localStorage.setItem('adminStats', JSON.stringify(s)); }
+function trackSeccion(n) { const s=getStats(); s.secciones[n]=(s.secciones[n]||0)+1; saveStats(s); }
+function trackIA(n)      { const s=getStats(); s.ias[n]=(s.ias[n]||0)+1; saveStats(s); }
+function trackPrompt(n)  { const s=getStats(); s.prompts[n]=(s.prompts[n]||0)+1; saveStats(s); }
+document.querySelectorAll('.nav-links a').forEach(a => {
+  const sec = (a.getAttribute('href')||'').replace('#','');
+  a.addEventListener('click', () => trackSeccion(sec));
+});
+
+/* ── ADMIN ── */
+const ADMIN_PASS = 'transito2026';
+function abrirAdmin() {
+  document.getElementById('adminModal').style.display = 'flex';
+  document.getElementById('adminLoginView').style.display = 'block';
+  document.getElementById('adminPanelView').style.display = 'none';
+  document.getElementById('adminError').style.display = 'none';
+  document.getElementById('adminPass').value = '';
+  setTimeout(() => document.getElementById('adminPass').focus(), 100);
+}
+function cerrarAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+function verificarAdmin() {
+  if (document.getElementById('adminPass').value === ADMIN_PASS) {
+    document.getElementById('adminLoginView').style.display = 'none';
+    document.getElementById('adminPanelView').style.display = 'block';
+    cargarPanelAdmin();
+  } else { document.getElementById('adminError').style.display = 'block'; }
+}
+function bar(label, val, max, color) {
+  const pct = max > 0 ? Math.round(val/max*100) : 0;
+  return `<div class="stat-bar-row">
+    <div class="stat-bar-meta"><span>${label}</span><strong style="color:${color}">${val}</strong></div>
+    <div class="stat-bar-bg"><div class="stat-bar-fill" style="background:${color};width:${pct}%;"></div></div>
+  </div>`;
+}
+function cargarPanelAdmin() {
+  const s = getStats();
+  const secL = {prompts:'Prompts IA',documentos:'Documentos',foro:'Foro',ias:'IAs',resultados:'Resultados',calculadoras:'Calculadoras'};
+  const sMax = Math.max(...Object.values(s.secciones), 1);
+  document.getElementById('adminClics').innerHTML = Object.entries(s.secciones).sort((a,b)=>b[1]-a[1])
+    .map(([k,v])=>bar(secL[k]||k,v,sMax,'var(--police)')).join('') || '<div style="font-size:0.74rem;color:var(--muted)">Sin datos aún</div>';
+  const iE = Object.entries(s.ias).sort((a,b)=>b[1]-a[1]);
+  const iM = Math.max(...iE.map(e=>e[1]),1);
+  document.getElementById('adminIAs').innerHTML = iE.length
+    ? iE.map(([k,v])=>bar(k,v,iM,'var(--gold)')).join('')
+    : '<div style="font-size:0.74rem;color:var(--muted)">Sin clics aún</div>';
+  const pE = Object.entries(s.prompts).sort((a,b)=>b[1]-a[1]);
+  const pM = Math.max(...pE.map(e=>e[1]),1);
+  document.getElementById('adminPrompts').innerHTML = pE.length
+    ? pE.map(([k,v])=>bar(k,v,pM,'var(--green)')).join('')
+    : '<div style="font-size:0.74rem;color:var(--muted)">Sin copias aún</div>';
+  const pqs = JSON.parse(localStorage.getItem('foroPreguntas')||'[]');
+  document.getElementById('adminForo').innerHTML = pqs.length
+    ? pqs.slice().reverse().map(p=>`<div style="font-size:0.72rem;padding:5px 0;border-bottom:1px solid var(--border);"><strong>${p.nombre}</strong> · <span style="color:var(--gold);font-size:0.65rem;">${p.tema}</span><br><span style="color:var(--muted);">${p.texto}</span></div>`).join('')
+    : '<div style="font-size:0.74rem;color:var(--muted)">Sin preguntas aún</div>';
+}
+function resetStats() { if(confirm('¿Resetear estadísticas?')) { localStorage.removeItem('adminStats'); cargarPanelAdmin(); } }
+document.addEventListener('keydown', e => { if(e.key==='Escape') cerrarAdmin(); });
+document.getElementById('adminModal').addEventListener('click', function(e) { if(e.target===this) cerrarAdmin(); });
+
+/* ═══════════════════════════════
+   CALCULADORAS TÉCNICAS
+   ═══════════════════════════════ */
+const G = 9.81;
+
+function calcVelocidad() {
+  const d  = parseFloat(document.getElementById('c1_d').value);
+  const mu = parseFloat(document.getElementById('c1_mu').value);
+  const resEl   = document.getElementById('c1_val');
+  const noteEl  = document.getElementById('c1_note');
+  if (!document.getElementById('c1_d').value || isNaN(d) || d <= 0) {
+    resEl.textContent = '— km/h';
+    resEl.style.color = 'var(--police)';
+    noteEl.textContent = 'Ingresa la longitud de la huella en metros';
+    return;
+  }
+  const vkm = Math.sqrt(2 * mu * G * d) * 3.6;
+  resEl.textContent = vkm.toFixed(1) + ' km/h';
+  resEl.style.color = vkm > 80 ? 'var(--red)' : vkm > 60 ? '#ea580c' : vkm > 30 ? 'var(--gold)' : 'var(--green)';
+  let alerta = vkm > 120 ? '🔴 Supera límite nacional (120 km/h)'
+             : vkm > 80  ? '🟠 Supera límite secundario (80 km/h)'
+             : vkm > 60  ? '🟡 Supera límite urbano (60 km/h)'
+             : vkm > 30  ? '🟢 Dentro del límite urbano'
+             :              '🟢 Velocidad baja — zona residencial';
+  noteEl.textContent = 'Huella: ' + d + 'm · μ = ' + mu + ' · Margen ±15% · ' + alerta;
+}
+
+function calcFrenado() {
+  const v  = parseFloat(document.getElementById('c2_v').value);
+  const mu = parseFloat(document.getElementById('c2_mu').value);
+  const tr = parseFloat(document.getElementById('c2_tr').value);
+  const resEl  = document.getElementById('c2_val');
+  const noteEl = document.getElementById('c2_note');
+  if (!document.getElementById('c2_v').value || isNaN(v) || v <= 0) {
+    resEl.textContent = '— metros'; noteEl.textContent = 'Ingresa la velocidad en km/h'; return;
+  }
+  const vms = v / 3.6;
+  const dR = vms * tr;
+  const dF = (vms * vms) / (2 * mu * G);
+  const total = dR + dF;
+  resEl.textContent = total.toFixed(1) + ' m';
+  resEl.style.color = total > 80 ? 'var(--red)' : total > 40 ? '#ea580c' : 'var(--green)';
+  noteEl.textContent = 'Reacción: ' + dR.toFixed(1) + 'm + Frenado: ' + dF.toFixed(1) + 'm · μ = ' + mu;
+}
+
+function calcClasificacion() {
+  const her = document.getElementById('c3_her').value;
+  const mue = document.getElementById('c3_mue').value;
+  const mat = document.getElementById('c3_mat').value;
+  const valEl  = document.getElementById('c3_val');
+  const noteEl = document.getElementById('c3_note');
+  if (mue === 'si') {
+    valEl.textContent = '🔴 ACCIDENTE CON MUERTOS';
+    valEl.style.color = 'var(--red)';
+    noteEl.textContent = 'Art.143 Ley 769 · Notificar Fiscalía · Preservar escena · SIPAT obligatorio';
+  } else if (her === 'grave') {
+    valEl.textContent = '🟠 ACCIDENTE CON HERIDOS GRAVES';
+    valEl.style.color = '#ea580c';
+    noteEl.textContent = 'Activar cadena de socorro · Ambulancia prioritaria · Posible imputación penal';
+  } else if (her === 'leve') {
+    valEl.textContent = '🟡 ACCIDENTE CON HERIDOS LEVES';
+    valEl.style.color = 'var(--gold)';
+    noteEl.textContent = 'Atención médica · Registro SIPAT · Informe policial obligatorio';
+  } else if (mat === 'si') {
+    valEl.textContent = '🟢 SOLO DAÑOS MATERIALES';
+    valEl.style.color = 'var(--green)';
+    noteEl.textContent = '"Solo latas" · Declaración de colisión · Croquis + fotos requeridos';
+  } else {
+    valEl.textContent = 'Verifica las opciones';
+    valEl.style.color = 'var(--muted)';
+    noteEl.textContent = '';
+  }
+}
+
+function calcSeveridad() {
+  const f  = parseInt(document.getElementById('c4_f').value)  || 0;
+  const hg = parseInt(document.getElementById('c4_hg').value) || 0;
+  const hl = parseInt(document.getElementById('c4_hl').value) || 0;
+  const v  = Math.max(parseInt(document.getElementById('c4_v').value) || 1, 1);
+  const IS = (f*13 + hg*5 + hl*3) / v;
+  const valEl  = document.getElementById('c4_val');
+  const noteEl = document.getElementById('c4_note');
+  valEl.textContent = IS.toFixed(2);
+  if (IS === 0)     { valEl.style.color = 'var(--green)';  noteEl.textContent = 'Severidad CERO — Solo daños materiales'; }
+  else if (IS < 3)  { valEl.style.color = 'var(--gold)';   noteEl.textContent = 'Severidad BAJA — heridos leves'; }
+  else if (IS < 8)  { valEl.style.color = '#ea580c';        noteEl.textContent = 'Severidad MEDIA — heridos graves involucrados'; }
+  else              { valEl.style.color = 'var(--red)';     noteEl.textContent = '🔴 Severidad ALTA — fatalidades o múltiples heridos graves'; }
+}
+
+function calcVelMedia() {
+  const d = parseFloat(document.getElementById('c6_d').value);
+  const t = parseFloat(document.getElementById('c6_t').value);
+  const valEl  = document.getElementById('c6_val');
+  const noteEl = document.getElementById('c6_note');
+  if (!document.getElementById('c6_d').value || isNaN(d) || isNaN(t) || t <= 0) {
+    valEl.textContent = '— km/h'; noteEl.textContent = 'Ingresa distancia y tiempo'; return;
+  }
+  const vkm = (d / t) * 3.6;
+  valEl.textContent = vkm.toFixed(1) + ' km/h';
+  valEl.style.color = vkm > 60 ? 'var(--red)' : 'var(--green)';
+  noteEl.textContent = 'Útil para corroborar versiones de testigos · Margen depende de precisión del tiempo';
+}
+
+/* ── CHECKLIST ── */
+const CHECKS = [
+  'Señalizar el área (triángulos / conos / luces)',
+  'Verificar si hay heridos — activar cadena de socorro',
+  'Asegurar la escena — evitar contaminación de evidencia',
+  'Solicitar identificación a conductores e involucrados',
+  'Fotografiar la escena completa (panorámica → detalle)',
+  'Registrar huellas de frenado y derrape con medición',
+  'Identificar testigos y tomar declaraciones',
+  'Hacer croquis o plano de la escena',
+  'Verificar documentos: licencia, SOAT, revisión técnico-mecánica',
+  'Registrar condiciones de la vía y climáticas',
+  'Verificar si hay cámaras de seguridad cercanas',
+  'Elaborar informe policial de accidente de tránsito'
+];
+
+function renderChecklist() {
+  const saved = JSON.parse(localStorage.getItem('checklistState') || '[]');
+  document.getElementById('checklist').innerHTML = CHECKS.map((ch, i) => {
+    const checked = saved[i] || false;
+    return `<label class="check-item${checked?' done':''}" id="chk_${i}">
+      <input type="checkbox" ${checked?'checked':''} onchange="toggleCheck(${i},this)">
+      <span>${ch}</span>
+    </label>`;
+  }).join('');
+  updateCheckProgress();
+}
+
+function toggleCheck(i, el) {
+  const saved = JSON.parse(localStorage.getItem('checklistState') || '[]');
+  saved[i] = el.checked;
+  localStorage.setItem('checklistState', JSON.stringify(saved));
+  document.getElementById('chk_'+i).classList.toggle('done', el.checked);
+  updateCheckProgress();
+}
+
+function updateCheckProgress() {
+  const saved = JSON.parse(localStorage.getItem('checklistState') || '[]');
+  const done = saved.filter(Boolean).length;
+  const pct  = Math.round(done / CHECKS.length * 100);
+  document.getElementById('checkPct').textContent = pct + '%';
+  const bar = document.getElementById('checkBar');
+  bar.style.width = pct + '%';
+  bar.style.background = pct === 100 ? 'var(--green)' : pct > 60 ? 'var(--gold)' : 'var(--police)';
+}
+
+function resetChecklist() {
+  localStorage.removeItem('checklistState');
+  renderChecklist();
+}
+
+/* ═══════════════════════════════
+   INIT
+   ═══════════════════════════════ */
+renderPrompts();
+renderDocs();
+loadPreguntas();
+renderIAs();
+renderOwners();
+renderResultados();
+renderChecklist();
+calcClasificacion();
+</script>
+</body>
+</html>

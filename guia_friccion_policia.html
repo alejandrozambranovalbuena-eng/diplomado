@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Evaluación Visual de Fricción — Policía de Tránsito</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+
+  :root {
+    --navy: #0a1628;
+    --navy2: #112240;
+    --gold: #f0a500;
+    --gold2: #ffc93c;
+    --red: #c0392b;
+    --green: #1a7a4a;
+    --amber: #d4720a;
+    --white: #f5f5f0;
+    --gray: #8a9ab5;
+    --light: #e8ecf4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* PORTADA */
+  .cover {
+    background: linear-gradient(135deg, var(--navy) 0%, #0d1f3c 60%, #1a2e50 100%);
+    border-bottom: 4px solid var(--gold);
+    padding: 32px 40px 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(240,165,0,0.07);
+  }
+  .escudo {
+    width: 72px; height: 72px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    flex-shrink: 0;
+    box-shadow: 0 0 24px rgba(240,165,0,0.4);
+  }
+  .cover-text h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .cover-text p {
+    color: var(--gray);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .cover-badge {
+    margin-left: auto;
+    background: var(--red);
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  /* AVISO LEGAL */
+  .aviso {
+    background: rgba(192,57,43,0.15);
+    border-left: 4px solid var(--red);
+    margin: 20px 24px;
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+  }
+  .aviso h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    color: #e74c3c;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .aviso p { font-size: 13px; color: #ccc; }
+
+  /* SECCIONES */
+  .content { padding: 0 24px 40px; }
+
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid rgba(240,165,0,0.3);
+    padding-bottom: 8px;
+    margin: 24px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title span { font-size: 18px; }
+
+  /* SEMÁFORO DE CONDICIÓN */
+  .semaforo {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .nivel {
+    border-radius: 8px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .nivel.bueno  { background: rgba(26,122,74,0.2); border: 2px solid var(--green); }
+  .nivel.regular{ background: rgba(212,114,10,0.2); border: 2px solid var(--amber); }
+  .nivel.malo   { background: rgba(192,57,43,0.2); border: 2px solid var(--red); }
+  .nivel-icon { font-size: 28px; display: block; margin-bottom: 6px; }
+  .nivel-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .nivel.bueno  .nivel-label { color: #2ecc71; }
+  .nivel.regular .nivel-label { color: #f39c12; }
+  .nivel.malo   .nivel-label { color: #e74c3c; }
+  .nivel ul { list-style: none; text-align: left; }
+  .nivel ul li {
+    font-size: 11.5px;
+    color: #ccc;
+    padding: 2px 0;
+    padding-left: 14px;
+    position: relative;
+  }
+  .nivel ul li::before { content: '•'; position: absolute; left: 0; }
+
+  /* TABLA DE INDICADORES */
+  .tabla-indicadores {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+  .tabla-indicadores thead tr {
+    background: var(--navy2);
+    color: var(--gold);
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .tabla-indicadores th { padding: 10px 12px; text-align: left; }
+  .tabla-indicadores td {
+    padding: 9px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    vertical-align: top;
+  }
+  .tabla-indicadores tr:nth-child(even) td { background: rgba(255,255,255,0.03); }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.5px;
+  }
+  .tag.alto   { background: rgba(192,57,43,0.3); color: #e74c3c; border: 1px solid #e74c3c; }
+  .tag.medio  { background: rgba(212,114,10,0.3); color: #f39c12; border: 1px solid #f39c12; }
+  .tag.bajo   { background: rgba(26,122,74,0.3); color: #2ecc71; border: 1px solid #2ecc71; }
+
+  /* PROTOCOLO PASOS */
+  .pasos { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .paso {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--navy2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    border-left: 3px solid var(--gold);
+  }
+  .paso-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 30px;
+  }
+  .paso-body h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .paso-body p { font-size: 12.5px; color: #bbb; }
+  .paso-body ul { margin-top: 6px; padding-left: 16px; }
+  .paso-body ul li { font-size: 12px; color: #aaa; padding: 1px 0; }
+
+  /* FORMULARIO DE CAMPO */
+  .formato {
+    background: var(--navy2);
+    border: 1px solid rgba(240,165,0,0.3);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .formato h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .campo-grupo { margin-bottom: 14px; }
+  .campo-label {
+    font-size: 11px;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .campo-linea {
+    border: none;
+    border-bottom: 1px dashed rgba(255,255,255,0.2);
+    width: 100%;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    padding: 4px 0;
+    outline: none;
+  }
+  .campo-linea::placeholder { color: rgba(255,255,255,0.15); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+  .checkbox-group { display: flex; flex-direction: column; gap: 6px; }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    color: #ccc;
+    cursor: pointer;
+  }
+  .check-box {
+    width: 16px; height: 16px;
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    flex-shrink: 0;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .check-box:checked { background: var(--gold); }
+
+  .semaforo-check {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .radio-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .radio-btn input { cursor: pointer; accent-color: var(--gold); }
+
+  .firma-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .firma-box {
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 8px;
+    text-align: center;
+  }
+  .firma-box span { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* RESPONSABLE */
+  .responsables {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .resp-card {
+    background: var(--navy2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    border-top: 3px solid var(--gold);
+  }
+  .resp-card h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .resp-card p { font-size: 12px; color: #bbb; }
+
+  /* NORMAS */
+  .normas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .norma-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 12px;
+  }
+  .norma-card h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    color: var(--gold2);
+    margin-bottom: 4px;
+  }
+  .norma-card p { font-size: 11.5px; color: #aaa; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--navy2);
+    border-top: 1px solid rgba(240,165,0,0.2);
+    padding: 16px 24px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--gray);
+  }
+  .footer strong { color: var(--gold); }
+
+  /* PRINT */
+  @media print {
+    body { background: white; color: black; }
+    .cover { background: #003580; }
+    .campo-linea { border-bottom: 1px solid #333; color: black; }
+  }
+
+  /* Botón imprimir */
+  .btn-print {
+    display: block;
+    margin: 0 24px 20px;
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: calc(100% - 48px);
+    transition: background 0.2s;
+  }
+  .btn-print:hover { background: var(--gold2); }
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="escudo">🚔</div>
+  <div class="cover-text">
+    <h1>Guía de Evaluación Visual<br>de Fricción en Pavimento</h1>
+    <p>Policía Nacional — Tránsito y Transporte · Colombia · Uso en campo</p>
+  </div>
+  <div class="cover-badge">Uso Oficial</div>
+</div>
+
+<!-- AVISO LEGAL -->
+<div class="aviso">
+  <h3>⚠️ Límite de Competencia</h3>
+  <p>El policía <strong>NO puede dictaminar técnicamente</strong> el coeficiente de fricción. Esta guía le permite hacer una <strong>valoración visual documentada</strong> que sirve como <strong>indicio técnico</strong> y fundamento para solicitar el ensayo oficial al ente competente (INVIAS, Gobernación, Alcaldía o Concesión).</p>
+</div>
+
+<div class="content">
+
+  <!-- SEMÁFORO -->
+  <div class="section-title"><span>🚦</span> Estado del Pavimento — Semáforo Visual</div>
+  <div class="semaforo">
+    <div class="nivel bueno">
+      <span class="nivel-icon">✅</span>
+      <div class="nivel-label">Bueno</div>
+      <ul>
+        <li>Textura rugosa al tacto</li>
+        <li>Áridos visibles</li>
+        <li>Color gris uniforme</li>
+        <li>Sin marcas de derrape</li>
+        <li>Drenaje adecuado</li>
+      </ul>
+    </div>
+    <div class="nivel regular">
+      <span class="nivel-icon">⚠️</span>
+      <div class="nivel-label">Regular</div>
+      <ul>
+        <li>Textura moderada</li>
+        <li>Algunos áridos pulidos</li>
+        <li>Manchas de asfalto</li>
+        <li>Pocas marcas derrape</li>
+        <li>Pequeñas grietas</li>
+      </ul>
+    </div>
+    <div class="nivel malo">
+      <span class="nivel-icon">🔴</span>
+      <div class="nivel-label">Peligroso</div>
+      <ul>
+        <li>Superficie lisa y brillante</li>
+        <li>Sin textura visible</li>
+        <li>Exudación de asfalto</li>
+        <li>Múltiples marcas derrape</li>
+        <li>Zona de accidentes frecuentes</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- INDICADORES VISUALES -->
+  <div class="section-title"><span>🔍</span> Indicadores Visuales Detallados</div>
+  <table class="tabla-indicadores">
+    <thead>
+      <tr>
+        <th>Lo que observa</th>
+        <th>Significado técnico</th>
+        <th>Riesgo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Superficie lisa y brillante</td>
+        <td>Áridos pulidos por tráfico — fricción muy reducida</td>
+        <td><span class="tag alto">ALTO</span></td>
+      </tr>
+      <tr>
+        <td>Asfalto negro aflorando (exudación)</td>
+        <td>Ligante en superficie — peligroso en lluvia</td>
+        <td><span class="tag alto">ALTO</span></td>
+      </tr>
+      <tr>
+        <td>Marcas de frenada muy largas</td>
+        <td>Baja adherencia — distancia de frenado excesiva</td>
+        <td><span class="tag alto">ALTO</span></td>
+      </tr>
+      <tr>
+        <td>Múltiples huellas de derrape en curva</td>
+        <td>Zona donde vehículos han perdido control repetidamente</td>
+        <td><span class="tag alto">ALTO</span></td>
+      </tr>
+      <tr>
+        <td>Sin textura visible al tacto o vista</td>
+        <td>Macro y microtextura agotada</td>
+        <td><span class="tag alto">ALTO</span></td>
+      </tr>
+      <tr>
+        <td>Áridos parcialmente pulidos</td>
+        <td>Inicio de desgaste — fricción en reducción</td>
+        <td><span class="tag medio">MEDIO</span></td>
+      </tr>
+      <tr>
+        <td>Grietas longitudinales o transversales</td>
+        <td>Posible acumulación de agua — hidroplaneo</td>
+        <td><span class="tag medio">MEDIO</span></td>
+      </tr>
+      <tr>
+        <td>Zonas de color diferente en curva</td>
+        <td>Desgaste diferencial por mayor demanda de fricción</td>
+        <td><span class="tag medio">MEDIO</span></td>
+      </tr>
+      <tr>
+        <td>Manchas de aceite o combustible</td>
+        <td>Reducción puntual severa de adherencia</td>
+        <td><span class="tag alto">ALTO</span></td>
+      </tr>
+      <tr>
+        <td>Superficie rugosa con áridos salientes</td>
+        <td>Buena textura — fricción adecuada</td>
+        <td><span class="tag bajo">BAJO</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- PROTOCOLO EN CAMPO -->
+  <div class="section-title"><span>📋</span> Protocolo de Actuación en Campo</div>
+  <div class="pasos">
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-body">
+        <h4>Asegurar la Escena</h4>
+        <p>Antes de evaluar el pavimento, garantice la seguridad vial del área. Señalice con conos o vehículo patrulla.</p>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-body">
+        <h4>Registrar Ubicación Exacta</h4>
+        <p>Tome coordenadas GPS o identifique abscisa vial. Registre nombre de la vía, municipio, departamento y tipo de vía (nacional, departamental, municipal).</p>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">3</div>
+      <div class="paso-body">
+        <h4>Fotografiar Sistemáticamente</h4>
+        <ul>
+          <li>Vista panorámica de la zona (mínimo 4 fotos desde diferentes ángulos)</li>
+          <li>Primer plano de la textura del pavimento</li>
+          <li>Marcas de frenada o derrape (con objeto de referencia para escala)</li>
+          <li>Señalización existente o ausente</li>
+          <li>Condición climática del momento</li>
+        </ul>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">4</div>
+      <div class="paso-body">
+        <h4>Evaluar Visualmente con esta Guía</h4>
+        <p>Aplique el semáforo visual y la tabla de indicadores. Documente cada hallazgo en el formato de campo. No emita juicios técnicos — solo describa lo observado.</p>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">5</div>
+      <div class="paso-body">
+        <h4>Medir Marcas de Frenada</h4>
+        <p>Si hay marcas de frenada, medir su longitud en metros con cinta métrica. Esto es dato técnico clave para el perito reconstructor de accidentes.</p>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">6</div>
+      <div class="paso-body">
+        <h4>Solicitar Ensayo Técnico Oficial</h4>
+        <p>Con base en los hallazgos, elevar solicitud formal al ente responsable de la vía para que realice el ensayo BPT (Péndulo Británico) según norma INV E-792.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMATO DE CAMPO -->
+  <div class="section-title"><span>📝</span> Formato de Registro en Campo</div>
+  <div class="formato">
+    <h3>🚔 Registro de Evaluación Visual de Pavimento — Policía de Tránsito</h3>
+
+    <div class="campo-grupo">
+      <span class="campo-label">Número de Informe / Radicado</span>
+      <input class="campo-linea" type="text" placeholder="Ej: IT-2026-0512-001">
+    </div>
+
+    <div class="grid2">
+      <div class="campo-grupo">
+        <span class="campo-label">Fecha</span>
+        <input class="campo-linea" type="text" placeholder="DD/MM/AAAA">
+      </div>
+      <div class="campo-grupo">
+        <span class="campo-label">Hora</span>
+        <input class="campo-linea" type="text" placeholder="HH:MM">
+      </div>
+    </div>
+
+    <div class="campo-grupo">
+      <span class="campo-label">Nombre de la Vía</span>
+      <input class="campo-linea" type="text" placeholder="Ej: Ruta Nacional 45 — Troncal del Magdalena">
+    </div>
+
+    <div class="grid2">
+      <div class="campo-grupo">
+        <span class="campo-label">Municipio</span>
+        <input class="campo-linea" type="text" placeholder="">
+      </div>
+      <div class="campo-grupo">
+        <span class="campo-label">Departamento</span>
+        <input class="campo-linea" type="text" placeholder="">
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="campo-grupo">
+        <span class="campo-label">Coordenadas GPS / Abscisa</span>
+        <input class="campo-linea" type="text" placeholder="Lat: N  Lon: W  /  K+">
+      </div>
+      <div class="campo-grupo">
+        <span class="campo-label">Condición Climática</span>
+        <input class="campo-linea" type="text" placeholder="Seco / Húmedo / Lluvia">
+      </div>
+    </div>
+
+    <div class="campo-grupo">
+      <span class="campo-label">Tipo de Vía</span>
+      <div style="display:flex; gap:20px; margin-top:6px;">
+        <label class="radio-btn"><input type="radio" name="tipo_via"> Nacional</label>
+        <label class="radio-btn"><input type="radio" name="tipo_via"> Departamental</label>
+        <label class="radio-btn"><input type="radio" name="tipo_via"> Municipal</label>
+        <label class="radio-btn"><input type="radio" name="tipo_via"> Concesionada</label>
+      </div>
+    </div>
+
+    <div class="campo-grupo" style="margin-top:16px;">
+      <span class="campo-label">Indicadores Visuales Observados (marque los que apliquen)</span>
+      <div class="checkbox-group" style="margin-top:8px;">
+        <label class="check-item"><input type="checkbox" class="check-box"> Superficie lisa y brillante</label>
+        <label class="check-item"><input type="checkbox" class="check-box"> Ausencia de textura visible</label>
+        <label class="check-item"><input type="checkbox" class="check-box"> Exudación de asfalto (color negro intenso)</label>
+        <label class="check-item"><input type="checkbox" class="check-box"> Marcas de frenada largas</label>
+        <label class="check-item"><input type="checkbox" class="check-box"> Huellas de derrape visibles</label>
+        <label class="check-item"><input type="checkbox" class="check-box"> Manchas de aceite o combustible</label>
+        <label class="check-item"><input type="checkbox" class="check-box"> Grietas en la superficie</label>
+        <label class="check-item"><input type="checkbox" class="check-box"> Áridos parcialmente pulidos</label>
+        <label class="check-item"><input type="checkbox" class="check-box"> Señalización horizontal borrada</label>
+        <label class="check-item"><input type="checkbox" class="check-box"> Ausencia de señalización vertical</label>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:16px;">
+      <div class="campo-grupo">
+        <span class="campo-label">Longitud marcas de frenada (m)</span>
+        <input class="campo-linea" type="text" placeholder="Ej: 18.5 m">
+      </div>
+      <div class="campo-grupo">
+        <span class="campo-label">Número de fotos tomadas</span>
+        <input class="campo-linea" type="text" placeholder="Ej: 8">
+      </div>
+    </div>
+
+    <div class="campo-grupo" style="margin-top:16px;">
+      <span class="campo-label">Valoración Visual General del Pavimento</span>
+      <div class="semaforo-check">
+        <label class="radio-btn" style="color:#2ecc71;"><input type="radio" name="valoracion"> ✅ BUENO</label>
+        <label class="radio-btn" style="color:#f39c12;"><input type="radio" name="valoracion"> ⚠️ REGULAR</label>
+        <label class="radio-btn" style="color:#e74c3c;"><input type="radio" name="valoracion"> 🔴 PELIGROSO</label>
+      </div>
+    </div>
+
+    <div class="campo-grupo" style="margin-top:16px;">
+      <span class="campo-label">Descripción de Hallazgos (solo lo observado, sin dictamen técnico)</span>
+      <textarea class="campo-linea" rows="4" placeholder="Describa objetivamente lo observado. Ejemplo: Se observa superficie con brillo y sin textura aparente al tacto. Se identifican 3 marcas de derrape de aproximadamente 12 metros en la curva. No se evidencia señalización horizontal." style="resize:vertical; width:100%; background:transparent; color:white; font-family:inherit; font-size:13px; border:1px dashed rgba(255,255,255,0.2); padding:8px; border-radius:4px; margin-top:4px;"></textarea>
+    </div>
+
+    <div class="campo-grupo" style="margin-top:16px;">
+      <span class="campo-label">¿Se solicita ensayo técnico al ente responsable?</span>
+      <div style="display:flex; gap:20px; margin-top:6px;">
+        <label class="radio-btn"><input type="radio" name="ensayo"> Sí — Oficio enviado</label>
+        <label class="radio-btn"><input type="radio" name="ensayo"> Pendiente</label>
+        <label class="radio-btn"><input type="radio" name="ensayo"> No aplica</label>
+      </div>
+    </div>
+
+    <div class="firma-area">
+      <div class="firma-box">
+        <br><br>
+        <span>Firma y Grado del Agente</span>
+      </div>
+      <div class="firma-box">
+        <br><br>
+        <span>Código / Placa del Agente</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESPONSABLES -->
+  <div class="section-title"><span>🏛️</span> ¿A Quién Solicitar el Ensayo Técnico?</div>
+  <div class="responsables">
+    <div class="resp-card">
+      <h4>🛣️ Vía Nacional</h4>
+      <p>INVIAS — Instituto Nacional de Vías<br><small>Dirección territorial correspondiente</small></p>
+    </div>
+    <div class="resp-card">
+      <h4>🗺️ Vía Departamental</h4>
+      <p>Gobernación<br><small>Secretaría de Infraestructura</small></p>
+    </div>
+    <div class="resp-card">
+      <h4>🏙️ Vía Municipal</h4>
+      <p>Alcaldía<br><small>Secretaría de Obras Públicas</small></p>
+    </div>
+    <div class="resp-card">
+      <h4>🤝 Vía Concesionada</h4>
+      <p>Concesionario + ANI<br><small>Agencia Nacional de Infraestructura</small></p>
+    </div>
+  </div>
+
+  <!-- NORMAS DE RESPALDO -->
+  <div class="section-title"><span>⚖️</span> Normas que Respaldan tu Actuación</div>
+  <div class="normas-grid">
+    <div class="norma-card">
+      <h4>Ley 769 de 2002</h4>
+      <p>Código Nacional de Tránsito. Art. 131 y ss.: infracciones relacionadas con el estado de la vía.</p>
+    </div>
+    <div class="norma-card">
+      <h4>Decreto 1079 de 2015</h4>
+      <p>Decreto Único Reglamentario Sector Transporte. Responsabilidades sobre el estado de vías.</p>
+    </div>
+    <div class="norma-card">
+      <h4>INVIAS — INV E-792</h4>
+      <p>Norma para ensayo de Péndulo Británico. Mide resistencia al deslizamiento. Lo aplica el ente técnico.</p>
+    </div>
+    <div class="norma-card">
+      <h4>Manual INVIAS 2008</h4>
+      <p>Cap. 3, Tabla 3.1. Valores de fricción transversal de referencia para diseño vial.</p>
+    </div>
+  </div>
+
+</div>
+
+<button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+
+<div class="footer">
+  <strong>Policía Nacional de Colombia — Dirección de Tránsito y Transporte</strong><br>
+  Guía de uso en campo · Basada en Manual INVIAS 2008 y normativa colombiana vigente · Este documento es un apoyo, no reemplaza el dictamen técnico oficial.
+</div>
+
+</body>
+</html>

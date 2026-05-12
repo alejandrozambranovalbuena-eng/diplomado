@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kit Operativo del Agente Forense - Colombia</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
+  :root {
+    --negro: #0a0a0a;
+    --amarillo: #FFD100;
+    --naranja: #FF6B00;
+    --azul: #003F8A;
+    --azul-claro: #0066CC;
+    --verde: #00A651;
+    --rojo: #CC0000;
+    --gris: #2a2a2a;
+    --gris-claro: #f0f0f0;
+    --blanco: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--negro);
+    color: var(--blanco);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--azul) 0%, var(--negro) 60%);
+    border-bottom: 3px solid var(--amarillo);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+    color: var(--amarillo);
+    line-height: 1;
+  }
+  .header-sub {
+    font-size: 0.75rem;
+    color: #aaa;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .badge {
+    background: var(--amarillo);
+    color: var(--negro);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    letter-spacing: 1px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    border-bottom: 2px solid #222;
+    background: #111;
+    padding: 0 32px;
+    gap: 4px;
+    overflow-x: auto;
+  }
+  .tab {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 14px 20px;
+    cursor: pointer;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  .tab:hover { color: #aaa; }
+  .tab.active { color: var(--amarillo); border-bottom-color: var(--amarillo); }
+
+  /* CONTENT */
+  .content { display: none; padding: 32px; max-width: 1200px; margin: 0 auto; }
+  .content.active { display: block; }
+
+  /* ===== TARJETA DE BOLSILLO ===== */
+  .card-wrapper {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .pocket-card {
+    background: var(--blanco);
+    color: var(--negro);
+    width: 340px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    flex-shrink: 0;
+  }
+  .pc-header {
+    background: var(--azul);
+    color: var(--amarillo);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    padding: 8px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pc-header span { font-size: 0.6rem; color: #aac; font-family: 'IBM Plex Mono', monospace; }
+  .pc-section {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .pc-section:last-child { border-bottom: none; }
+  .pc-section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--azul);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pc-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--azul);
+    opacity: 0.2;
+  }
+  .pc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 4px;
+    font-size: 0.72rem;
+    line-height: 1.4;
+    color: #222;
+  }
+  .pc-num {
+    background: var(--azul);
+    color: var(--blanco);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 0.6rem;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .pc-alert {
+    background: #FFF3CD;
+    border-left: 3px solid var(--naranja);
+    padding: 6px 10px;
+    font-size: 0.68rem;
+    color: #555;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .pc-formula {
+    background: var(--negro);
+    color: var(--amarillo);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 6px 10px;
+    border-radius: 2px;
+    margin-top: 4px;
+  }
+  .pc-footer {
+    background: var(--negro);
+    color: #888;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    padding: 6px 14px;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  .print-btn {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .btn {
+    background: var(--amarillo);
+    color: var(--negro);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    padding: 12px 28px;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .btn:hover { background: var(--naranja); color: var(--blanco); }
+
+  /* ===== GUÍA DIGITAL ===== */
+  .digital-guide {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .dg-phase {
+    background: var(--gris);
+    border-radius: 4px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border-left: 4px solid var(--azul-claro);
+  }
+  .dg-phase.alerta { border-left-color: var(--rojo); }
+  .dg-phase.ok { border-left-color: var(--verde); }
+  .dg-phase.ia { border-left-color: var(--amarillo); }
+  .dg-phase-header {
+    padding: 14px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .dg-phase-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .phase-num {
+    background: rgba(255,255,255,0.1);
+    font-size: 0.7rem;
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+  .dg-time {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: #aaa;
+  }
+  .dg-body {
+    padding: 0 20px 16px 20px;
+    display: none;
+  }
+  .dg-body.open { display: block; }
+  .dg-item {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    align-items: flex-start;
+  }
+  .dg-item:last-child { border-bottom: none; }
+  .dg-icon {
+    font-size: 1.1rem;
+    min-width: 24px;
+    text-align: center;
+    margin-top: 2px;
+  }
+  .dg-text { font-size: 0.85rem; line-height: 1.5; color: #ddd; }
+  .dg-text strong { color: var(--blanco); }
+  .dg-tip {
+    background: rgba(255,209,0,0.1);
+    border: 1px solid rgba(255,209,0,0.3);
+    border-radius: 3px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 0.78rem;
+    color: var(--amarillo);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .toggle-icon { font-size: 0.8rem; color: #666; transition: transform 0.2s; }
+  .open-icon { transform: rotate(180deg); }
+
+  /* ===== DIAPOSITIVAS ===== */
+  .slides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+  }
+  .slide {
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .slide-header {
+    padding: 12px 18px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .slide-header span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    opacity: 0.7;
+  }
+  .slide-body {
+    padding: 18px;
+    background: #1a1a1a;
+    min-height: 200px;
+  }
+  .slide-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 1px; margin-bottom: 14px; }
+  .slide-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #ccc;
+  }
+  .slide-dot { color: var(--amarillo); font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+  .slide-callout {
+    background: rgba(255,209,0,0.08);
+    border: 1px solid rgba(255,209,0,0.2);
+    border-radius: 3px;
+    padding: 12px;
+    margin-top: 14px;
+    font-size: 0.78rem;
+    color: var(--amarillo);
+    font-style: italic;
+  }
+
+  /* Prompt box */
+  .prompt-box {
+    background: #0a0a0a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 1.7;
+    color: #00ff88;
+    margin-top: 10px;
+    position: relative;
+  }
+  .prompt-label {
+    position: absolute;
+    top: -10px;
+    left: 12px;
+    background: var(--negro);
+    color: #666;
+    font-size: 0.6rem;
+    padding: 0 6px;
+    letter-spacing: 1px;
+  }
+  .prompt-highlight { color: var(--amarillo); }
+  .prompt-comment { color: #555; }
+
+  /* Checklist interactivo */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .checklist li:hover { color: var(--blanco); }
+  .checklist li.checked { color: var(--verde); text-decoration: line-through; opacity: 0.6; }
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #444;
+    border-radius: 2px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    margin-top: 1px;
+    transition: all 0.2s;
+  }
+  .checklist li.checked .check-box {
+    background: var(--verde);
+    border-color: var(--verde);
+    color: var(--blanco);
+  }
+  .reset-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: #666;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 6px 14px;
+    cursor: pointer;
+    margin-top: 12px;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: #666; color: #aaa; }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: var(--amarillo);
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    font-size: 0.8rem;
+    color: #888;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 28px;
+  }
+
+  @media print {
+    body { background: white; }
+    .tabs, .header, .print-btn { display: none !important; }
+    .content { display: block !important; padding: 10px; }
+    .pocket-card { box-shadow: none; border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">KIT OPERATIVO FORENSE</div>
+    <div class="header-sub">AGENTE DE TRÁNSITO · COLOMBIA · PROTOCOLO DE CAMPO</div>
+  </div>
+  <div class="badge">DIPLOMADO ZAMBRANO · 2024</div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('bolsillo')">📋 TARJETA DE BOLSILLO</button>
+  <button class="tab" onclick="showTab('digital')">📱 GUÍA DIGITAL</button>
+  <button class="tab" onclick="showTab('diapositivas')">🖥️ DIAPOSITIVAS</button>
+</div>
+
+<!-- ===== TAB 1: TARJETA DE BOLSILLO ===== -->
+<div id="bolsillo" class="content active">
+  <div class="section-title">TARJETA DE BOLSILLO</div>
+  <div class="section-sub">IMPRIME · PLASTIFICA · LLEVA EN EL CHALECO</div>
+
+  <div class="card-wrapper">
+
+    <!-- TARJETA FRONTAL -->
+    <div class="pocket-card">
+      <div class="pc-header">
+        PROTOCOLO ESCENA · CARA A
+        <span>MINUTOS 0–15</span>
+      </div>
+
+      <div class="pc-section">
+        <div class="pc-section-title">🔴 TRIAGE INMEDIATO (MIN 0-2)</div>
+        <div class="pc-item"><div class="pc-num">1</div>¿Hay heridos? → LLAMA PRIMERO, documenta después</div>
+        <div class="pc-item"><div class="pc-num">2</div>¿Escena alterada? → Anota quién movió qué y cuándo</div>
+        <div class="pc-item"><div class="pc-num">3</div>Nivel: Solo Latas / Con Heridos / Con Muerto</div>
+      </div>
+
+      <div class="pc-section">
+        <div class="pc-section-title">📸 8 FOTOS OBLIGATORIAS (MIN 2-8)</div>
+        <div class="pc-item"><div class="pc-num">F1</div>Vista general desde 20m — sentido de la vía</div>
+        <div class="pc-item"><div class="pc-num">F2</div>Vista general desde el lado opuesto</div>
+        <div class="pc-item"><div class="pc-num">F3</div>Punto de impacto — vista cenital (desde arriba)</div>
+        <div class="pc-item"><div class="pc-num">F4</div>Huella de frenado completa — inicio a fin</div>
+        <div class="pc-item"><div class="pc-num">F5</div>Daño vehículo 1 — zona de deformación principal</div>
+        <div class="pc-item"><div class="pc-num">F6</div>Daño vehículo 2 — zona de deformación principal</div>
+        <div class="pc-item"><div class="pc-num">F7</div>Señalización visible 200m antes del impacto</div>
+        <div class="pc-item"><div class="pc-num">F8</div>Estado del pavimento en zona de frenado</div>
+        <div class="pc-alert">⚠️ Cada foto: activa ubicación GPS en el celular antes de disparar</div>
+      </div>
+
+      <div class="pc-section">
+        <div class="pc-section-title">📏 3 MEDIDAS MÍNIMAS</div>
+        <div class="pc-item"><div class="pc-num">M1</div>Longitud huella de frenado (metros)</div>
+        <div class="pc-item"><div class="pc-num">M2</div>Distancia entre posiciones finales de vehículos</div>
+        <div class="pc-item"><div class="pc-num">M3</div>Ancho carril en zona de impacto</div>
+      </div>
+
+      <div class="pc-footer">LEY 2251 · INVIAS 2008 · DIPLOMADO ZAMBRANO</div>
+    </div>
+
+    <!-- TARJETA POSTERIOR -->
+    <div class="pocket-card">
+      <div class="pc-header">
+        DIAGNÓSTICO TÉCNICO · CARA B
+        <span>MINUTOS 8–20</span>
+      </div>
+
+      <div class="pc-section">
+        <div class="pc-section-title">🚗 LEER EL VEHÍCULO</div>
+        <div class="pc-item"><div class="pc-num">V1</div><strong>Zona frontal:</strong> hundimiento + desplazamiento de largueros = impacto frontal alta velocidad</div>
+        <div class="pc-item"><div class="pc-num">V2</div><strong>Zona lateral:</strong> deformación pilar B = verificar daño oculto estructural</div>
+        <div class="pc-item"><div class="pc-num">V3</div><strong>Airbags activados:</strong> delta-V estimado &gt; 25 km/h</div>
+        <div class="pc-item"><div class="pc-num">V4</div><strong>PDOF:</strong> dirección del aplastamiento = dirección del impacto</div>
+      </div>
+
+      <div class="pc-section">
+        <div class="pc-section-title">🛣️ LEER LA VÍA</div>
+        <div class="pc-item"><div class="pc-num">R1</div>¿Hay vegetación bloqueando visión en curva? → Fotografiar</div>
+        <div class="pc-item"><div class="pc-num">R2</div>¿Pavimento liso/pulido? → Coef. fricción bajo → Frenado extendido</div>
+        <div class="pc-item"><div class="pc-num">R3</div>¿Pintura borrada en carril? → Factor contribuyente nocturno</div>
+        <div class="pc-item"><div class="pc-num">R4</div>¿Berma ausente o angosta? → Sin zona de escape</div>
+      </div>
+
+      <div class="pc-section">
+        <div class="pc-section-title">📱 PROMPT DE IA (COPIAR Y PEGAR)</div>
+        <div class="pc-formula">
+          Actúa como perito en tránsito e ing. civil colombiano. Analiza este accidente:<br>
+          TIPO VÍA: [urbana/rural]<br>
+          HUELLA FRENADO: [X] metros<br>
+          PAVIMENTO: [seco/húmedo/pulido]<br>
+          DAÑO V1: [zona y descripción]<br>
+          DAÑO V2: [zona y descripción]<br>
+          SEÑALIZACIÓN: [presente/ausente]<br>
+          Genera estructura de informe con causas, norma INVIAS aplicable y estimado de velocidad.
+        </div>
+      </div>
+
+      <div class="pc-section">
+        <div class="pc-section-title">⚡ REGLA DE ORO</div>
+        <div class="pc-alert">Por cada $1 en daños visibles → $4 en costos indirectos ocultos. Documenta como si fuera fatalidad.</div>
+      </div>
+
+      <div class="pc-footer">EL VEHÍCULO Y LA VÍA NO MIENTEN · M. ZAMBRANO</div>
+    </div>
+
+  </div>
+
+  <div class="print-btn">
+    <button class="btn" onclick="window.print()">🖨️ IMPRIMIR TARJETAS</button>
+  </div>
+</div>
+
+<!-- ===== TAB 2: GUÍA DIGITAL ===== -->
+<div id="digital" class="content">
+  <div class="digital-guide">
+    <div class="section-title">GUÍA DIGITAL DE CAMPO</div>
+    <div class="section-sub">TOCA CADA FASE PARA EXPANDIR · USA EN EL CELULAR</div>
+
+    <!-- Checklist interactivo -->
+    <div class="dg-phase ok" style="margin-bottom:16px;">
+      <div class="dg-phase-header" onclick="togglePhase(this)">
+        <div class="dg-phase-title"><span class="phase-num">✓</span> CHECKLIST INTERACTIVO DE ESCENA</div>
+        <div class="dg-time">Toca para expandir ▼</div>
+      </div>
+      <div class="dg-body">
+        <ul class="checklist" id="checklist">
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>Escena segura para mi y los involucrados</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>GPS activado en celular</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>Hora exacta registrada</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>F1 — Vista general desde 20m (sentido vía)</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>F2 — Vista general sentido contrario</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>F3 — Punto de impacto cenital</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>F4 — Huella de frenado completa</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>F5 — Deformación vehículo 1</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>F6 — Deformación vehículo 2</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>F7 — Señalización 200m antes</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>F8 — Estado pavimento zona frenado</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>M1 — Longitud huella de frenado medida</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>M2 — Distancia posiciones finales medida</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>M3 — Ancho carril medido</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>Testimonios: nombre + cédula + versión grabada</li>
+          <li onclick="toggleCheck(this)"><div class="check-box"></div>Informe generado con IA antes de salir de escena</li>
+        </ul>
+        <button class="reset-btn" onclick="resetChecklist()">↺ REINICIAR CHECKLIST</button>
+      </div>
+    </div>
+
+    <div class="dg-phase" onclick="togglePhase(this.querySelector('.dg-phase-header'))">
+      <div class="dg-phase-header">
+        <div class="dg-phase-title"><span class="phase-num">01</span> LLEGADA — 0 a 2 MIN</div>
+        <div class="dg-time">⏱ CRÍTICO</div>
+      </div>
+      <div class="dg-body">
+        <div class="dg-item"><div class="dg-icon">🔴</div><div class="dg-text"><strong>Primero la vida.</strong> Si hay heridos, llama antes de tocar cualquier evidencia.</div></div>
+        <div class="dg-item"><div class="dg-icon">📍</div><div class="dg-text"><strong>Fija tu posición GPS.</strong> Abre Google Maps, activa ubicación, toma captura de pantalla.</div></div>
+        <div class="dg-item"><div class="dg-icon">🕐</div><div class="dg-text"><strong>Registra la hora exacta.</strong> Es el primer dato del informe y no se puede recuperar.</div></div>
+        <div class="dg-item"><div class="dg-icon">👁️</div><div class="dg-text"><strong>¿Escena alterada?</strong> Pregunta quién movió los vehículos y anota nombre. Eso va en el informe como variable de incertidumbre.</div></div>
+        <div class="dg-tip">⚡ TIP: El 78% de la evidencia geométrica se pierde en los primeros 15 minutos. Tú eres el único que puede capturarla.</div>
+      </div>
+    </div>
+
+    <div class="dg-phase">
+      <div class="dg-phase-header" onclick="togglePhase(this)">
+        <div class="dg-phase-title"><span class="phase-num">02</span> FOTOGRAFÍA — 2 a 8 MIN</div>
+        <div class="dg-time">⏱ 8 FOTOS MÍNIMO</div>
+      </div>
+      <div class="dg-body">
+        <div class="dg-item"><div class="dg-icon">📸</div><div class="dg-text"><strong>Foto 1 y 2:</strong> Vista general desde ambos sentidos de la vía, a mínimo 20 metros. Muestra el contexto completo.</div></div>
+        <div class="dg-item"><div class="dg-icon">📸</div><div class="dg-text"><strong>Foto 3:</strong> Punto de impacto desde arriba (sube a un andén, vehículo o usa el brazo extendido). Muestra la geometría del choque.</div></div>
+        <div class="dg-item"><div class="dg-icon">📸</div><div class="dg-text"><strong>Foto 4:</strong> Huella de frenado completa. Ubícate al inicio de la huella, dispara hacia el final. Incluye cinta métrica en el suelo si puedes.</div></div>
+        <div class="dg-item"><div class="dg-icon">📸</div><div class="dg-text"><strong>Fotos 5 y 6:</strong> Zona de deformación de cada vehículo. Acércate. El aplastamiento del metal es evidencia matemática.</div></div>
+        <div class="dg-item"><div class="dg-icon">📸</div><div class="dg-text"><strong>Foto 7:</strong> Camina 200 metros antes del punto de impacto y fotografía toda señal visible (o la ausencia de ella).</div></div>
+        <div class="dg-item"><div class="dg-icon">📸</div><div class="dg-text"><strong>Foto 8:</strong> Estado del asfalto en la zona de frenado. ¿Liso, pulido, agrietado, húmedo? Eso determina el coeficiente de fricción.</div></div>
+        <div class="dg-tip">⚡ TIP: Activa la ubicación GPS antes de cada foto. La metadata de la imagen registra coordenadas automáticamente.</div>
+      </div>
+    </div>
+
+    <div class="dg-phase alerta">
+      <div class="dg-phase-header" onclick="togglePhase(this)">
+        <div class="dg-phase-title"><span class="phase-num">03</span> ESCENA ALTERADA — ¿QUÉ HAGO?</div>
+        <div class="dg-time">⏱ CASO REAL</div>
+      </div>
+      <div class="dg-body">
+        <div class="dg-item"><div class="dg-icon">🚨</div><div class="dg-text"><strong>No entres en pánico.</strong> La física inversa trabaja incluso con escena alterada. Los daños del vehículo no mienten aunque lo hayan movido.</div></div>
+        <div class="dg-item"><div class="dg-icon">📝</div><div class="dg-text"><strong>Documenta quién alteró la escena:</strong> nombre, cédula, por qué razón. Eso protege tu informe legalmente.</div></div>
+        <div class="dg-item"><div class="dg-icon">🔍</div><div class="dg-text"><strong>Busca evidencia residual:</strong> fragmentos de vidrio, fluidos, marcas de neumático en el pavimento, rastros de tierra. El punto cero del impacto suele quedar marcado.</div></div>
+        <div class="dg-item"><div class="dg-icon">👥</div><div class="dg-text"><strong>Testigos = datos.</strong> Entrevístalos con el celular grabando (con su permiso). Su versión es un vector más para la reconstrucción.</div></div>
+        <div class="dg-item"><div class="dg-icon">🚗</div><div class="dg-text"><strong>El vehículo sigue hablando.</strong> Aunque lo movieron, la deformación del metal registra la velocidad y dirección del impacto. Documenta ambos vehículos en detalle.</div></div>
+        <div class="dg-tip">⚡ TIP: Anota en el informe explícitamente: "Escena encontrada ya alterada por [nombre]. Se procede con física inversa sobre evidencia remanente." Eso te protege y hace el informe más fuerte, no más débil.</div>
+      </div>
+    </div>
+
+    <div class="dg-phase ia">
+      <div class="dg-phase-header" onclick="togglePhase(this)">
+        <div class="dg-phase-title"><span class="phase-num">04</span> USAR LA IA EN CAMPO</div>
+        <div class="dg-time">⏱ 3 MIN</div>
+      </div>
+      <div class="dg-body">
+        <div class="dg-item"><div class="dg-icon">💡</div><div class="dg-text"><strong>La IA no reemplaza tu juicio.</strong> Procesa tus observaciones a través de física e ingeniería en segundos. Tú decides.</div></div>
+        <div class="dg-item"><div class="dg-icon">📋</div><div class="dg-text"><strong>Prompt mínimo funcional</strong> — copia esto en Claude o ChatGPT desde tu celular:</div></div>
+        <div style="background:#0a0a0a; border:1px solid #333; border-radius:4px; padding:14px; font-family:'IBM Plex Mono',monospace; font-size:0.72rem; line-height:1.8; color:#00ff88; margin-top:8px;">
+          <span style="color:#555"># PROMPT FORENSE — DIPLOMADO ZAMBRANO</span><br>
+          Actúa como perito experto en tránsito e ingeniería civil colombiana bajo Ley 2251 e INVIAS.<br><br>
+          <span style="color:#FFD100">DATOS DEL ACCIDENTE:</span><br>
+          - Tipo vía: [urbana / rural / secundaria]<br>
+          - Condición pavimento: [seco / húmedo / pulido]<br>
+          - Longitud huella frenado: [X] metros<br>
+          - Separación final vehículos: [Y] metros<br>
+          - Daño V1: [zona frontal/lateral + descripción]<br>
+          - Daño V2: [zona frontal/lateral + descripción]<br>
+          - Señalización: [presente / ausente / deteriorada]<br>
+          - Airbags: [activados / no activados]<br><br>
+          <span style="color:#FFD100">GENERA:</span><br>
+          1. Estimado de velocidad de impacto<br>
+          2. Fase donde ocurrió la falla principal<br>
+          3. Responsabilidad de la vía (norma INVIAS)<br>
+          4. Estructura del informe pericial<br>
+          5. Costos directos e indirectos estimados
+        </div>
+        <div class="dg-tip">⚡ Entre más datos precisos des, mejor respuesta obtienes. Tus fotos y medidas son el combustible del motor de IA.</div>
+      </div>
+    </div>
+
+    <div class="dg-phase">
+      <div class="dg-phase-header" onclick="togglePhase(this)">
+        <div class="dg-phase-title"><span class="phase-num">05</span> PRESIÓN PARA DESPEJAR — ¿QUÉ HAGO?</div>
+        <div class="dg-time">⏱ CONFLICTO REAL</div>
+      </div>
+      <div class="dg-body">
+        <div class="dg-item"><div class="dg-icon">⚖️</div><div class="dg-text"><strong>La Ley 2251 te respalda.</strong> La documentación técnica es tu deber legal, no una opción. Puedes citarla si te presionan.</div></div>
+        <div class="dg-item"><div class="dg-icon">⏱️</div><div class="dg-text"><strong>Protocolo exprés:</strong> 8 fotos toman menos de 3 minutos. 3 medidas toman 2 minutos. Antes de mover cualquier vehículo tienes 5 minutos de trabajo real.</div></div>
+        <div class="dg-item"><div class="dg-icon">📢</div><div class="dg-text"><strong>Frase operativa:</strong> "Necesito 5 minutos para el protocolo legal antes de despejar. Es para proteger a todos los involucrados, incluidas las aseguradoras."</div></div>
+        <div class="dg-item"><div class="dg-icon">📝</div><div class="dg-text"><strong>Si te obligan a despejar antes:</strong> Documenta en el informe: "Se procedió al despeje a las [hora] por instrucción de [cargo/nombre]. Evidencia geométrica disponible limitada."</div></div>
+        <div class="dg-tip">⚡ Un despeje sin documentación cuesta en promedio 4 veces más en procesos judiciales. Ese dato es tu argumento con el supervisor.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== TAB 3: DIAPOSITIVAS ===== -->
+<div id="diapositivas" class="content">
+  <div class="section-title">DIAPOSITIVAS ADICIONALES</div>
+  <div class="section-sub">COMPLEMENTO AL DIPLOMADO · PARA USAR EN CLASE</div>
+
+  <div class="slides-grid">
+
+    <div class="slide">
+      <div class="slide-header" style="background:var(--rojo);">
+        SLIDE ADD-01 <span>MÓDULO OPERATIVO</span>
+      </div>
+      <div class="slide-body">
+        <div class="slide-title">EL PROTOCOLO DE LAS 8 FOTOS</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>F1-F2: Contexto general — la vía antes del impacto</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>F3: Geometría del choque — vista superior</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>F4: La huella — el velocímetro congelado en el asfalto</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>F5-F6: El metal — registra velocidad y dirección</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>F7: La señalización — responsabilidad del Estado</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>F8: El pavimento — determina el coeficiente de fricción</div>
+        <div class="slide-callout">"8 fotos en 3 minutos. Eso es todo lo que necesitas para que la física inverse funcione."</div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header" style="background:var(--naranja);">
+        SLIDE ADD-02 <span>MÓDULO OPERATIVO</span>
+      </div>
+      <div class="slide-body">
+        <div class="slide-title">ESCENA ALTERADA: NO ES EL FIN</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>El vehículo movido aún contiene toda su deformación cinética</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>Los fragmentos de vidrio marcan el punto cero del impacto</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>Los fluidos en el asfalto revelan la posición original</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>Los testigos son vectores de reconstrucción</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>Documenta quién alteró, cómo y cuándo → protege tu informe</div>
+        <div class="slide-callout">"Una escena alterada documentada correctamente es más sólida que una escena intacta sin documentar."</div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header" style="background:var(--azul);">
+        SLIDE ADD-03 <span>MÓDULO IA</span>
+      </div>
+      <div class="slide-body">
+        <div class="slide-title">ANATOMÍA DEL PROMPT PERFECTO</div>
+        <div class="slide-item"><div class="slide-dot">▶</div><strong>ROL:</strong> "Actúa como perito experto en tránsito e ingeniería civil colombiana"</div>
+        <div class="slide-item"><div class="slide-dot">▶</div><strong>CONTEXTO:</strong> Datos exactos de campo (huella, pavimento, daños)</div>
+        <div class="slide-item"><div class="slide-dot">▶</div><strong>MARCO LEGAL:</strong> "Bajo Ley 2251 e INVIAS 2008"</div>
+        <div class="slide-item"><div class="slide-dot">▶</div><strong>TAREA:</strong> Estructura de informe + estimado de velocidad + responsabilidades</div>
+        <div class="slide-item"><div class="slide-dot">▶</div><strong>FORMATO:</strong> "Viñetas claras y profesionales"</div>
+        <div class="slide-callout">"Basura entra, basura sale. Datos precisos entran, informe judicial sale."</div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header" style="background:var(--verde);">
+        SLIDE ADD-04 <span>MÓDULO ECONÓMICO</span>
+      </div>
+      <div class="slide-body">
+        <div class="slide-title">EL ARGUMENTO PARA DESPEJAR</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>Regla Heinrich 1:4 — por cada $1 visible, $4 ocultos</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>Un informe técnico reduce el proceso judicial en 60-70% del tiempo</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>La conciliación ágil solo es posible con datos exactos</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>5 minutos de documentación = semanas menos de proceso</div>
+        <div class="slide-item"><div class="slide-dot">▶</div>El supervisor también se beneficia: menos retrasos a largo plazo</div>
+        <div class="slide-callout">"No documentar la escena no acelera el proceso. Lo encarece y lo alarga. Ese es el argumento."</div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header" style="background:#555;">
+        SLIDE ADD-05 <span>CASO COMPLETO</span>
+      </div>
+      <div class="slide-body">
+        <div class="slide-title">CASO EJEMPLO: DE INICIO A FIN</div>
+        <div class="slide-item"><div class="slide-dot">1</div>Llegué a las 14:32. Escena intacta. Nivel 1 — Solo Latas.</div>
+        <div class="slide-item"><div class="slide-dot">2</div>8 fotos en 3 minutos. GPS activo. Huella: 12 metros. Pavimento seco.</div>
+        <div class="slide-item"><div class="slide-dot">3</div>Daño V1 frontal severo con desplazamiento de largueros. V2 frontal moderado.</div>
+        <div class="slide-item"><div class="slide-dot">4</div>Señalización ausente 200m antes. Curva sin peralte visible.</div>
+        <div class="slide-item"><div class="slide-dot">5</div>Prompt en IA → estimado: V1 ≈ 72 km/h en zona de 50. Falla vía + falla conductor.</div>
+        <div class="slide-item"><div class="slide-dot">6</div>Informe estructurado generado antes de salir de escena.</div>
+        <div class="slide-callout">"El informe se construyó en 20 minutos. El proceso judicial duró 3 semanas, no 8 meses."</div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header" style="background:#222; border-top: 3px solid var(--amarillo);">
+        SLIDE ADD-06 <span>CIERRE</span>
+      </div>
+      <div class="slide-body">
+        <div class="slide-title" style="color:var(--amarillo);">TU NUEVO ROL DESDE MAÑANA</div>
+        <div class="slide-item"><div class="slide-dot" style="color:var(--verde);">✓</div>Ver la escena como choque de 4 partículas, no solo carros dañados</div>
+        <div class="slide-item"><div class="slide-dot" style="color:var(--verde);">✓</div>Fotografiar la geometría, no solo los daños cosméticos</div>
+        <div class="slide-item"><div class="slide-dot" style="color:var(--verde);">✓</div>Medir 3 datos que alimentan la física inversa</div>
+        <div class="slide-item"><div class="slide-dot" style="color:var(--verde);">✓</div>Usar IA como motor de procesamiento, no como sustituto</div>
+        <div class="slide-item"><div class="slide-dot" style="color:var(--verde);">✓</div>Proteger la cadena de custodia como acto de justicia</div>
+        <div class="slide-callout" style="border-color:var(--amarillo); color:var(--amarillo);">"Sus evidencias alimentan la ciencia. Recolecten con precisión, y la física hará el resto." — M. Zambrano</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function togglePhase(header) {
+    const body = header.nextElementSibling;
+    const icon = header.querySelector('.toggle-icon');
+    if (body.classList.contains('open')) {
+      body.classList.remove('open');
+      if (icon) icon.classList.remove('open-icon');
+    } else {
+      body.classList.add('open');
+      if (icon) icon.classList.add('open-icon');
+    }
+  }
+
+  function toggleCheck(li) {
+    li.classList.toggle('checked');
+    const box = li.querySelector('.check-box');
+    box.textContent = li.classList.contains('checked') ? '✓' : '';
+  }
+
+  function resetChecklist() {
+    document.querySelectorAll('#checklist li').forEach(li => {
+      li.classList.remove('checked');
+      li.querySelector('.check-box').textContent = '';
+    });
+  }
+
+  // Abrir primera fase por defecto
+  document.addEventListener('DOMContentLoaded', () => {
+    const firstBody = document.querySelector('.dg-body');
+    if (firstBody) firstBody.classList.add('open');
+  });
+</script>
+</body>
+</html>

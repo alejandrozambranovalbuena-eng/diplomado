@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formato de Fijación de Curva — Agente de Tránsito</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+  :root {
+    --navy:   #08111f;
+    --navy2:  #0f1e35;
+    --navy3:  #162844;
+    --gold:   #e8a000;
+    --gold2:  #ffc233;
+    --red:    #d63031;
+    --green:  #00b894;
+    --amber:  #e17055;
+    --blue:   #0984e3;
+    --white:  #eef2f7;
+    --gray:   #7f8fa6;
+    --line:   rgba(255,255,255,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #08111f 0%, #0d1e38 70%, #152c50 100%);
+    border-bottom: 3px solid var(--gold);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,160,0,0.12) 0%, transparent 70%);
+  }
+  .header-inner {
+    display: flex; align-items: stretch;
+    position: relative; z-index: 1;
+  }
+  .header-badge {
+    background: var(--gold);
+    width: 90px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px;
+    flex-shrink: 0;
+    padding: 20px 0;
+  }
+  .header-badge .icon { font-size: 30px; }
+  .header-badge .badge-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: 9px; font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    text-align: center; line-height: 1.2;
+  }
+  .header-text {
+    padding: 22px 28px;
+    flex: 1;
+  }
+  .header-text .pretitle {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px; font-weight: 400;
+    color: var(--gold); letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .header-text h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--white); line-height: 1.15;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .header-text h1 span { color: var(--gold); }
+  .header-text .subtitle {
+    color: var(--gray); font-size: 12px; margin-top: 5px;
+  }
+  .header-ref {
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-end;
+    padding: 16px 24px; gap: 6px; flex-shrink: 0;
+  }
+  .ref-chip {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--gray);
+    text-align: right;
+  }
+  .ref-chip strong { color: var(--gold2); }
+
+  /* ── AVISO ── */
+  .aviso-legal {
+    background: rgba(214,48,49,0.12);
+    border-left: 4px solid var(--red);
+    margin: 18px 24px;
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .aviso-legal .icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .aviso-legal h4 {
+    font-family: 'Oswald', sans-serif; font-size: 12px;
+    color: #ff7675; text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 3px;
+  }
+  .aviso-legal p { font-size: 12px; color: #ccc; }
+
+  /* ── LAYOUT ── */
+  .page { padding: 0 24px 40px; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 10px;
+    margin: 22px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-header .ico {
+    width: 30px; height: 30px;
+    background: var(--gold);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px; font-weight: 600;
+    color: var(--gold); text-transform: uppercase; letter-spacing: 2px;
+  }
+  .section-header .num {
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--gray);
+  }
+
+  /* ── GRID DE CAMPOS ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  .field label {
+    font-size: 10px; color: var(--gray);
+    text-transform: uppercase; letter-spacing: 1px;
+    font-weight: 600;
+  }
+  .field input, .field textarea, .field select {
+    background: var(--navy2);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    color: var(--white);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .field input:focus, .field textarea:focus {
+    border-color: var(--gold);
+    background: var(--navy3);
+  }
+  .field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,0.18); }
+  .field textarea { resize: vertical; min-height: 70px; }
+  .field select option { background: var(--navy2); }
+
+  /* ── BLOQUE MEDICIÓN ── */
+  .medicion-block {
+    background: var(--navy2);
+    border: 1px solid rgba(232,160,0,0.25);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .medicion-header {
+    background: rgba(232,160,0,0.1);
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid rgba(232,160,0,0.2);
+  }
+  .medicion-header h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px; font-weight: 600;
+    color: var(--gold); text-transform: uppercase; letter-spacing: 1px;
+  }
+  .medicion-body { padding: 16px; }
+
+  /* ── DIAGRAMA SVG ── */
+  .diagrama-container {
+    background: #f0f4f8;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  /* ── CALCULADORA ── */
+  .calc-box {
+    background: var(--navy3);
+    border: 1px solid rgba(232,160,0,0.3);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .calc-box h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px; color: var(--gold);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .calc-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 14px;
+  }
+  .calc-result {
+    background: var(--navy);
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .calc-result .result-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px; color: var(--gray);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .calc-result .result-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 26px; font-weight: 600;
+    color: var(--gold2);
+  }
+  .calc-result .result-unit {
+    font-size: 13px; color: var(--gray); margin-left: 4px;
+  }
+  .btn-calc {
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    border: none; border-radius: 6px;
+    padding: 10px 20px; cursor: pointer;
+    width: 100%; margin-top: 10px;
+    transition: background 0.2s;
+  }
+  .btn-calc:hover { background: var(--gold2); }
+
+  /* ── TABLA INVIAS ── */
+  .tabla-invias {
+    width: 100%; border-collapse: collapse;
+    font-size: 12.5px; margin-bottom: 16px;
+    border-radius: 8px; overflow: hidden;
+  }
+  .tabla-invias thead tr {
+    background: var(--navy3);
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px; color: var(--gold);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .tabla-invias th { padding: 10px 12px; text-align: center; border-bottom: 1px solid var(--line); }
+  .tabla-invias td {
+    padding: 9px 12px; text-align: center;
+    border-bottom: 1px solid var(--line);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .tabla-invias tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .tabla-invias .highlight {
+    animation: pulse-row 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse-row {
+    0%,100% { background: rgba(232,160,0,0.08); }
+    50% { background: rgba(232,160,0,0.22); }
+  }
+  .tabla-invias .vel-col { color: var(--white); font-weight: 600; }
+  .col-header-blue { color: #74b9ff !important; }
+  .col-header-red  { color: #ff7675 !important; }
+
+  /* ── VEREDICTO ── */
+  .veredicto-box {
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 16px;
+    display: flex; align-items: flex-start; gap: 16px;
+    transition: all 0.3s;
+  }
+  .veredicto-box.conforme {
+    background: rgba(0,184,148,0.12);
+    border: 2px solid var(--green);
+  }
+  .veredicto-box.no-conforme {
+    background: rgba(214,48,49,0.12);
+    border: 2px solid var(--red);
+  }
+  .veredicto-box.pendiente {
+    background: rgba(127,143,166,0.1);
+    border: 2px solid var(--gray);
+  }
+  .veredicto-icon { font-size: 36px; flex-shrink: 0; }
+  .veredicto-text h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .veredicto-box.conforme .veredicto-text h3 { color: var(--green); }
+  .veredicto-box.no-conforme .veredicto-text h3 { color: var(--red); }
+  .veredicto-box.pendiente .veredicto-text h3 { color: var(--gray); }
+  .veredicto-text p { font-size: 12.5px; color: #ccc; line-height: 1.5; }
+
+  /* ── PASOS ── */
+  .paso-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .paso-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: var(--navy2);
+    border-radius: 8px; padding: 13px 15px;
+    border-left: 3px solid var(--gold);
+  }
+  .paso-n {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--gold); flex-shrink: 0; width: 24px;
+    line-height: 1;
+  }
+  .paso-item h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px; color: var(--white);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 3px;
+  }
+  .paso-item p { font-size: 12px; color: #bbb; }
+  .tip-box {
+    margin-top: 7px;
+    background: rgba(232,160,0,0.08);
+    border-left: 3px solid var(--gold);
+    padding: 6px 10px;
+    font-size: 11.5px; color: #ddd;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* ── CHECKBOX ── */
+  .check-list { display: flex; flex-direction: column; gap: 7px; }
+  .check-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12.5px; color: #ccc; cursor: pointer;
+    padding: 6px 10px;
+    background: var(--navy2);
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    transition: border-color 0.2s;
+  }
+  .check-item:hover { border-color: rgba(232,160,0,0.3); }
+  .check-item input[type=checkbox] { accent-color: var(--gold); width: 15px; height: 15px; cursor: pointer; }
+
+  /* ── RADIO ── */
+  .radio-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+  .radio-opt {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 12.5px; color: #ccc; cursor: pointer;
+    background: var(--navy2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 7px 14px;
+    transition: all 0.2s;
+  }
+  .radio-opt:hover { border-color: rgba(232,160,0,0.4); }
+  .radio-opt input { accent-color: var(--gold); }
+
+  /* ── FIRMAS ── */
+  .firmas-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px; margin-top: 20px;
+  }
+  .firma-box {
+    background: var(--navy2);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+    border: 1px solid var(--line);
+  }
+  .firma-line {
+    border-top: 1px solid rgba(255,255,255,0.2);
+    margin: 40px 0 8px;
+  }
+  .firma-box span { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ── NORMAS ── */
+  .normas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .norma-card {
+    background: var(--navy2);
+    border-radius: 8px; padding: 12px 14px;
+    border-left: 3px solid var(--gold);
+  }
+  .norma-card h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px; color: var(--gold2);
+    margin-bottom: 4px;
+  }
+  .norma-card p { font-size: 11.5px; color: #aaa; }
+
+  /* ── BUTTON IMPRIMIR ── */
+  .btn-print {
+    background: var(--gold); color: var(--navy);
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px;
+    border: none; border-radius: 8px;
+    padding: 13px; cursor: pointer; width: 100%;
+    margin-bottom: 16px;
+    transition: background 0.2s;
+  }
+  .btn-print:hover { background: var(--gold2); }
+
+  footer {
+    background: var(--navy2);
+    border-top: 1px solid var(--line);
+    padding: 14px 24px;
+    text-align: center;
+    font-size: 11px; color: var(--gray);
+  }
+  footer strong { color: var(--gold); }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--line); margin: 6px 0 16px; }
+
+  /* ── FORMULA DISPLAY ── */
+  .formula-display {
+    background: var(--navy);
+    border: 1px solid rgba(232,160,0,0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px; color: var(--gold2);
+    text-align: center;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+  }
+
+  @media print {
+    body { background: white; color: black; }
+    .btn-print { display: none; }
+    header { background: #003580; }
+    .field input, .field textarea, .field select {
+      background: white; color: black;
+      border: 1px solid #ccc;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-badge">
+      <div class="icon">🚔</div>
+      <div class="badge-text">Policía<br>Nacional</div>
+    </div>
+    <div class="header-text">
+      <div class="pretitle">Diagnóstico Forense de Infraestructura Vial</div>
+      <h1>Fijación de <span>Curva Horizontal</span><br>en Escena de Accidente</h1>
+      <div class="subtitle">Medición de Cuerda · Flecha · Radio · Comparación INVIAS 2008</div>
+    </div>
+    <div class="header-ref">
+      <div class="ref-chip">Norma: <strong>INVIAS Cap. 3</strong></div>
+      <div class="ref-chip">Tablas: <strong>3.2 y 3.3</strong></div>
+      <div class="ref-chip">Fórmula: <strong>R = C²/8f + f/2</strong></div>
+    </div>
+  </div>
+</header>
+
+<!-- AVISO -->
+<div class="aviso-legal">
+  <div class="icon">⚠️</div>
+  <div>
+    <h4>Límite de Competencia del Agente</h4>
+    <p>El agente <strong>documenta y mide</strong>. No emite dictamen técnico oficial. Las mediciones registradas aquí son <strong>prueba material en la escena</strong> y fundamento para solicitar peritaje técnico al ente responsable de la vía.</p>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- SECCIÓN 1: IDENTIFICACIÓN -->
+  <div class="section-header">
+    <div class="ico">📋</div>
+    <h2>Identificación del Caso</h2>
+    <span class="num">01</span>
+  </div>
+  <div class="grid3" style="margin-bottom:12px;">
+    <div class="field">
+      <label>N° Informe / Radicado</label>
+      <input type="text" placeholder="IT-2026-____-___">
+    </div>
+    <div class="field">
+      <label>Fecha</label>
+      <input type="date">
+    </div>
+    <div class="field">
+      <label>Hora de llegada a escena</label>
+      <input type="time">
+    </div>
+  </div>
+  <div class="grid2" style="margin-bottom:12px;">
+    <div class="field">
+      <label>Nombre de la Vía</label>
+      <input type="text" placeholder="Ej: Ruta Nacional 45A">
+    </div>
+    <div class="field">
+      <label>Abscisa / Coordenadas GPS</label>
+      <input type="text" placeholder="K+  /  N:  W:">
+    </div>
+  </div>
+  <div class="grid3" style="margin-bottom:12px;">
+    <div class="field">
+      <label>Municipio</label>
+      <input type="text" placeholder="">
+    </div>
+    <div class="field">
+      <label>Departamento</label>
+      <input type="text" placeholder="">
+    </div>
+    <div class="field">
+      <label>Condición Climática</label>
+      <select>
+        <option value="">Seleccionar...</option>
+        <option>Seco</option>
+        <option>Húmedo</option>
+        <option>Lluvia leve</option>
+        <option>Lluvia intensa</option>
+        <option>Neblina</option>
+      </select>
+    </div>
+  </div>
+  <div class="field" style="margin-bottom:12px;">
+    <label>Tipo de Vía Responsable</label>
+    <div class="radio-row">
+      <label class="radio-opt"><input type="radio" name="tipo_via"> 🛣️ Nacional (INVIAS)</label>
+      <label class="radio-opt"><input type="radio" name="tipo_via"> 🗺️ Departamental</label>
+      <label class="radio-opt"><input type="radio" name="tipo_via"> 🏙️ Municipal</label>
+      <label class="radio-opt"><input type="radio" name="tipo_via"> 🤝 Concesionada (ANI)</label>
+    </div>
+  </div>
+
+  <!-- SECCIÓN 2: DIAGRAMA -->
+  <div class="section-header">
+    <div class="ico">📐</div>
+    <h2>Referencia: Cuerda y Flecha</h2>
+    <span class="num">02</span>
+  </div>
+
+  <div class="diagrama-container">
+    <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+      <rect width="720" height="300" fill="#e8edf2"/>
+
+      <!-- Carretera (arco de curva) -->
+      <path d="M 70 265 Q 360 10 650 265" fill="none" stroke="#b0b8c4" stroke-width="64" stroke-linecap="round"/>
+      <path d="M 70 265 Q 360 10 650 265" fill="none" stroke="#d0d6de" stroke-width="60" stroke-linecap="round"/>
+      <!-- Línea central -->
+      <path d="M 70 265 Q 360 10 650 265" fill="none" stroke="#e8a000" stroke-width="2.5" stroke-dasharray="16,9"/>
+      <!-- Bordes -->
+      <path d="M 70 265 Q 360 10 650 265" fill="none" stroke="#7f8fa6" stroke-width="1.5"/>
+
+      <!-- CUERDA: línea recta de A a B -->
+      <line x1="162" y1="205" x2="558" y2="205" stroke="#0984e3" stroke-width="3"/>
+      <!-- Puntas de flecha en A y B -->
+      <polygon points="162,205 174,199 174,211" fill="#0984e3"/>
+      <polygon points="558,205 546,199 546,211" fill="#0984e3"/>
+
+      <!-- Punto A -->
+      <circle cx="162" cy="205" r="8" fill="#0984e3" stroke="white" stroke-width="2"/>
+      <text x="138" y="193" font-family="Oswald,sans-serif" font-size="15" font-weight="700" fill="#0984e3">A</text>
+
+      <!-- Punto B -->
+      <circle cx="558" cy="205" r="8" fill="#0984e3" stroke="white" stroke-width="2"/>
+      <text x="566" y="193" font-family="Oswald,sans-serif" font-size="15" font-weight="700" fill="#0984e3">B</text>
+
+      <!-- Etiqueta CUERDA -->
+      <rect x="300" y="210" width="120" height="22" rx="4" fill="#0984e3"/>
+      <text x="360" y="225" text-anchor="middle" font-family="Oswald,sans-serif" font-size="13" font-weight="600" fill="white">CUERDA (C)</text>
+
+      <!-- Punto M (medio de la cuerda) -->
+      <circle cx="360" cy="205" r="6" fill="#636e72" stroke="white" stroke-width="1.5"/>
+      <text x="368" y="222" font-family="IBM Plex Sans,sans-serif" font-size="11" fill="#636e72">M</text>
+
+      <!-- FLECHA: desde M hasta el arco -->
+      <!-- El arco en x=360 está aproximadamente en y=72 -->
+      <line x1="360" y1="205" x2="360" y2="80" stroke="#d63031" stroke-width="3"/>
+      <polygon points="360,72 354,88 366,88" fill="#d63031"/>
+      <polygon points="360,212 354,198 366,198" fill="#d63031"/>
+
+      <!-- Punto P en el arco -->
+      <circle cx="360" cy="75" r="7" fill="#d63031" stroke="white" stroke-width="2"/>
+
+      <!-- Etiqueta FLECHA -->
+      <rect x="368" y="128" width="100" height="22" rx="4" fill="#d63031"/>
+      <text x="418" y="143" text-anchor="middle" font-family="Oswald,sans-serif" font-size="13" font-weight="600" fill="white">FLECHA (f)</text>
+      <line x1="368" y1="139" x2="363" y2="139" stroke="#d63031" stroke-width="1.5"/>
+
+      <!-- Label P -->
+      <text x="372" y="73" font-family="Oswald,sans-serif" font-size="13" font-weight="700" fill="#d63031">P</text>
+      <text x="386" y="73" font-family="IBM Plex Sans,sans-serif" font-size="11" fill="#636e72">(punto del arco)</text>
+
+      <!-- Perpendicular símbolo en M -->
+      <rect x="360" y="197" width="8" height="8" fill="none" stroke="#636e72" stroke-width="1.5"/>
+
+      <!-- Acotación cuerda abajo -->
+      <line x1="162" y1="248" x2="558" y2="248" stroke="#0984e3" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="162" y1="242" x2="162" y2="254" stroke="#0984e3" stroke-width="1.5"/>
+      <line x1="558" y1="242" x2="558" y2="254" stroke="#0984e3" stroke-width="1.5"/>
+      <text x="360" y="268" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="11" fill="#0984e3">← Medir con cinta métrica en el pavimento →</text>
+
+      <!-- LEYENDA -->
+      <rect x="16" y="14" width="215" height="76" rx="6" fill="rgba(8,17,31,0.82)"/>
+      <circle cx="34" cy="36" r="6" fill="#0984e3"/>
+      <text x="48" y="41" font-family="IBM Plex Sans,sans-serif" font-size="12" fill="white">Cuerda (C): línea recta A → B</text>
+      <circle cx="34" cy="58" r="6" fill="#d63031"/>
+      <text x="48" y="63" font-family="IBM Plex Sans,sans-serif" font-size="12" fill="white">Flecha (f): distancia M → P</text>
+      <circle cx="34" cy="79" r="5" fill="#636e72"/>
+      <text x="48" y="84" font-family="IBM Plex Sans,sans-serif" font-size="12" fill="#aaa">M = punto medio de la cuerda</text>
+
+      <!-- FORMULA en esquina -->
+      <rect x="488" y="14" width="218" height="44" rx="6" fill="rgba(8,17,31,0.82)"/>
+      <text x="597" y="30" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#e8a000">R ≈ (C² ÷ 8f) + (f ÷ 2)</text>
+      <text x="597" y="48" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="10" fill="#7f8fa6">Fórmula de cuerda y flecha</text>
+    </svg>
+    <p style="font-size:11px;color:#7f8fa6;margin-top:6px;">Diagrama técnico — Manual INVIAS 2008, Capítulo 3</p>
+  </div>
+
+  <!-- SECCIÓN 3: MEDICIÓN EN CAMPO -->
+  <div class="section-header">
+    <div class="ico">📏</div>
+    <h2>Medición en Campo</h2>
+    <span class="num">03</span>
+  </div>
+
+  <div class="paso-list">
+    <div class="paso-item">
+      <div class="paso-n">1</div>
+      <div>
+        <h4>Identifique los extremos de la curva (A y B)</h4>
+        <p>Ubique el punto donde la vía empieza a curvar (A) y donde termina (B). Use el borde del pavimento o la línea de demarcación como referencia visual.</p>
+        <div class="tip-box">💡 Si la curva es muy larga, use una longitud fija de cuerda (ej. 20 m) y mida la flecha de ese segmento. El resultado es igualmente válido.</div>
+      </div>
+    </div>
+    <div class="paso-item">
+      <div class="paso-n">2</div>
+      <div>
+        <h4>Marque y mida la Cuerda A → B</h4>
+        <p>Extienda la cinta en <strong>línea recta</strong> de A a B sobre el pavimento. Anote la distancia en metros. Fotografíe la cinta extendida.</p>
+      </div>
+    </div>
+    <div class="paso-item">
+      <div class="paso-n">3</div>
+      <div>
+        <h4>Ubique el Punto Medio M</h4>
+        <p>Divida la cuerda en 2. Desde A, mida esa distancia y marque M con tiza o cono.</p>
+      </div>
+    </div>
+    <div class="paso-item">
+      <div class="paso-n">4</div>
+      <div>
+        <h4>Mida la Flecha M → arco (perpendicular)</h4>
+        <p>Desde M, mida en ángulo recto hacia el borde <strong>interior</strong> de la curva hasta tocarlo. Esa es la flecha. <strong>Debe ser perpendicular</strong> a la cuerda, no diagonal.</p>
+        <div class="tip-box">💡 Use una segunda cinta o regla. Verifique la perpendicularidad formando una L con la cuerda.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTRO DE MEDIDAS -->
+  <div class="medicion-block">
+    <div class="medicion-header">
+      <span>📏</span>
+      <h3>Registro de Medidas Tomadas en Campo</h3>
+    </div>
+    <div class="medicion-body">
+      <div class="grid3">
+        <div class="field">
+          <label>🔵 Cuerda C (metros)</label>
+          <input type="number" id="inp_c" placeholder="Ej: 40.5" step="0.1" oninput="calcular()">
+        </div>
+        <div class="field">
+          <label>🔴 Flecha f (metros)</label>
+          <input type="number" id="inp_f" placeholder="Ej: 2.3" step="0.01" oninput="calcular()">
+        </div>
+        <div class="field">
+          <label>N° Fotos Tomadas</label>
+          <input type="number" placeholder="Ej: 6" min="0">
+        </div>
+      </div>
+      <div class="field" style="margin-top:12px;">
+        <label>Descripción de la medición (observaciones de campo)</label>
+        <textarea placeholder="Ej: La cuerda fue medida sobre el carril derecho sentido norte-sur. La flecha fue tomada desde el borde blanco de la calzada. Se observa desgaste en la zona de la flecha..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALCULADORA AUTOMÁTICA -->
+  <div class="calc-box">
+    <h3>🧮 Calculadora de Radio Aproximado</h3>
+    <div class="formula-display">R ≈ (C² ÷ 8f) + (f ÷ 2)</div>
+    <div class="calc-result">
+      <div>
+        <div class="result-label">Radio Calculado (R)</div>
+        <div style="font-size:12px;color:var(--gray);margin-top:2px;">Ingrese C y f arriba para calcular</div>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:4px;">
+        <div class="result-value" id="result_r">—</div>
+        <div class="result-unit">m</div>
+      </div>
+    </div>
+    <div id="veredicto_auto" class="veredicto-box pendiente" style="margin-top:12px;margin-bottom:0;">
+      <div class="veredicto-icon">⏳</div>
+      <div class="veredicto-text">
+        <h3>Esperando datos</h3>
+        <p>Ingrese la Cuerda (C), la Flecha (f) y seleccione la velocidad de diseño en la tabla para obtener el diagnóstico automático.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN 4: TABLA INVIAS -->
+  <div class="section-header">
+    <div class="ico">📊</div>
+    <h2>Tabla de Radios Mínimos — INVIAS 2008</h2>
+    <span class="num">04</span>
+  </div>
+
+  <p style="font-size:12px;color:var(--gray);margin-bottom:12px;">Seleccione la fila que corresponde a la velocidad de diseño de la vía. Compare con el radio calculado. Si el radio real es <strong style="color:var(--red)">menor</strong> al mínimo → falla geométrica documentable.</p>
+
+  <table class="tabla-invias">
+    <thead>
+      <tr>
+        <th>Velocidad<br>Diseño (km/h)</th>
+        <th class="col-header-blue">Radio Mín.<br>e=8% (m)</th>
+        <th class="col-header-red">Radio Mín.<br>e=6% (m)</th>
+        <th>Fricción<br>f_T_máx</th>
+        <th>¿Seleccionar?</th>
+      </tr>
+    </thead>
+    <tbody id="tabla_body">
+      <!-- Generado por JS -->
+    </tbody>
+  </table>
+
+  <div class="field" style="margin-bottom:16px;">
+    <label>Velocidad Señalizada en la Curva (km/h)</label>
+    <input type="number" id="vel_señal" placeholder="Ej: 60 — según señal de velocidad máxima visible en el sitio" oninput="evaluar()">
+  </div>
+
+  <!-- SECCIÓN 5: SEÑALIZACIÓN -->
+  <div class="section-header">
+    <div class="ico">🚧</div>
+    <h2>Condición de Señalización en la Curva</h2>
+    <span class="num">05</span>
+  </div>
+
+  <div class="check-list" style="margin-bottom:16px;">
+    <label class="check-item"><input type="checkbox"> ✅ Señal de velocidad máxima visible y legible</label>
+    <label class="check-item"><input type="checkbox"> ✅ Señal de curva peligrosa (chevrones o delineadores)</label>
+    <label class="check-item"><input type="checkbox"> ✅ Demarcación horizontal (línea central) visible</label>
+    <label class="check-item"><input type="checkbox"> ✅ Demarcación de borde de calzada visible</label>
+    <label class="check-item"><input type="checkbox"> ⚠️ Señal de velocidad ausente o ilegible</label>
+    <label class="check-item"><input type="checkbox"> ⚠️ Señal de curva ausente</label>
+    <label class="check-item"><input type="checkbox"> ⚠️ Demarcación borrada o inexistente</label>
+    <label class="check-item"><input type="checkbox"> 🔴 Ausencia total de señalización en la curva</label>
+    <label class="check-item"><input type="checkbox"> 🔴 Señalización inconsistente con la geometría real</label>
+  </div>
+
+  <div class="field" style="margin-bottom:16px;">
+    <label>Observaciones de señalización</label>
+    <textarea placeholder="Describa el estado de la señalización existente. Ej: Se observa señal de velocidad máxima 60 km/h a 80 metros antes de la curva, pero no hay chevrones ni delineadores en el desarrollo de la misma..."></textarea>
+  </div>
+
+  <!-- SECCIÓN 6: SOLICITUD TÉCNICA -->
+  <div class="section-header">
+    <div class="ico">📬</div>
+    <h2>Solicitud de Ensayo Técnico Oficial</h2>
+    <span class="num">06</span>
+  </div>
+
+  <div class="normas-grid">
+    <div class="norma-card">
+      <h4>Ensayo a Solicitar</h4>
+      <p>Péndulo Británico de Fricción<br><strong>Norma: INV E-792</strong><br>Mide resistencia al deslizamiento in situ</p>
+    </div>
+    <div class="norma-card">
+      <h4>Verificación Geométrica</h4>
+      <p>Levantamiento topográfico del eje<br><strong>Norma: INVIAS Cap. 3</strong><br>Radio real con equipo de precisión</p>
+    </div>
+    <div class="norma-card">
+      <h4>Norma de Respaldo</h4>
+      <p>Ley 769/2002 — Art. 131<br>Decreto 1079/2015<br>Manual INVIAS 2008</p>
+    </div>
+    <div class="norma-card">
+      <h4>Ente a Notificar</h4>
+      <p id="ente_text">Definir según tipo de vía seleccionada arriba</p>
+    </div>
+  </div>
+
+  <div class="field" style="margin-bottom:16px;">
+    <label>¿Se eleva solicitud formal de ensayo técnico?</label>
+    <div class="radio-row">
+      <label class="radio-opt"><input type="radio" name="solicitud"> ✅ Sí — Oficio enviado</label>
+      <label class="radio-opt"><input type="radio" name="solicitud"> 📋 Pendiente de envío</label>
+      <label class="radio-opt"><input type="radio" name="solicitud"> ❌ No aplica</label>
+    </div>
+  </div>
+
+  <div class="field" style="margin-bottom:20px;">
+    <label>Observaciones Finales del Agente</label>
+    <textarea rows="4" placeholder="Registre cualquier observación adicional relevante para el expediente. Recuerde: solo describa lo observado, no emita dictamen técnico..."></textarea>
+  </div>
+
+  <!-- FIRMAS -->
+  <div class="firmas-grid">
+    <div class="firma-box">
+      <div class="firma-line"></div>
+      <span>Firma y Grado del Agente</span>
+    </div>
+    <div class="firma-box">
+      <div class="firma-line"></div>
+      <span>Código / Placa — Unidad</span>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;"></div>
+  <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+
+</div>
+
+<footer>
+  <strong>Policía Nacional de Colombia — Dirección de Tránsito y Transporte</strong><br>
+  Formato de fijación forense en curva · Basado en Manual INVIAS 2008, Cap. 3, Tablas 3.2 y 3.3 · Las mediciones aquí registradas son prueba material de la escena.
+</footer>
+
+<script>
+  // Datos tabla INVIAS (VCH, R_min e=8%, R_min e=6%, fT_max)
+  const datosInvias = [
+    { v: 20,  r8: 14,   r6: 17,   ft: 0.35 },
+    { v: 30,  r8: 25,   r6: 30,   ft: 0.28 },
+    { v: 40,  r8: 45,   r6: 55,   ft: 0.23 },
+    { v: 50,  r8: 75,   r6: 90,   ft: 0.19 },
+    { v: 60,  r8: 115,  r6: 135,  ft: 0.17 },
+    { v: 70,  r8: 165,  r6: 195,  ft: 0.15 },
+    { v: 80,  r8: 230,  r6: 270,  ft: 0.14 },
+    { v: 90,  r8: 310,  r6: 365,  ft: 0.13 },
+    { v: 100, r8: 395,  r6: 465,  ft: 0.12 },
+    { v: 110, r8: 500,  r6: 585,  ft: 0.11 },
+    { v: 120, r8: 620,  r6: 725,  ft: 0.10 },
+  ];
+
+  let filaSeleccionada = null;
+
+  // Generar tabla
+  const tbody = document.getElementById('tabla_body');
+  datosInvias.forEach((d, i) => {
+    const tr = document.createElement('tr');
+    tr.id = 'fila_' + i;
+    tr.innerHTML = `
+      <td class="vel-col">${d.v} km/h</td>
+      <td style="color:#74b9ff;font-weight:600;">${d.r8} m</td>
+      <td style="color:#ff7675;font-weight:600;">${d.r6} m</td>
+      <td>${d.ft}</td>
+      <td>
+        <label style="cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;">
+          <input type="radio" name="vel_diseño" value="${i}" onchange="seleccionarFila(${i})" style="accent-color:var(--gold);"> Usar esta
+        </label>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  function seleccionarFila(idx) {
+    // Limpiar highlight anterior
+    datosInvias.forEach((_, i) => {
+      const tr = document.getElementById('fila_' + i);
+      tr.classList.remove('highlight');
+    });
+    document.getElementById('fila_' + idx).classList.add('highlight');
+    filaSeleccionada = idx;
+    evaluar();
+  }
+
+  function calcular() {
+    const C = parseFloat(document.getElementById('inp_c').value);
+    const f = parseFloat(document.getElementById('inp_f').value);
+    if (!isNaN(C) && !isNaN(f) && f > 0) {
+      const R = (C * C) / (8 * f) + (f / 2);
+      document.getElementById('result_r').textContent = R.toFixed(1);
+      evaluar();
+    } else {
+      document.getElementById('result_r').textContent = '—';
+    }
+  }
+
+  function evaluar() {
+    const C = parseFloat(document.getElementById('inp_c').value);
+    const f = parseFloat(document.getElementById('inp_f').value);
+    const vDiv = document.getElementById('veredicto_auto');
+
+    if (isNaN(C) || isNaN(f) || f <= 0) {
+      vDiv.className = 'veredicto-box pendiente';
+      vDiv.innerHTML = `<div class="veredicto-icon">⏳</div><div class="veredicto-text"><h3>Esperando datos</h3><p>Ingrese la Cuerda (C) y la Flecha (f) para calcular el radio.</p></div>`;
+      return;
+    }
+
+    const R = (C * C) / (8 * f) + (f / 2);
+
+    if (filaSeleccionada === null) {
+      vDiv.className = 'veredicto-box pendiente';
+      vDiv.innerHTML = `<div class="veredicto-icon">👆</div><div class="veredicto-text"><h3>Seleccione la velocidad de diseño</h3><p>Radio calculado: <strong>${R.toFixed(1)} m</strong>. Ahora seleccione la velocidad de diseño en la tabla para comparar con INVIAS.</p></div>`;
+      return;
+    }
+
+    const dato = datosInvias[filaSeleccionada];
+    const rMin = dato.r8; // más permisivo (8%)
+
+    if (R >= rMin) {
+      vDiv.className = 'veredicto-box conforme';
+      vDiv.innerHTML = `<div class="veredicto-icon">✅</div><div class="veredicto-text"><h3>Conforme con INVIAS</h3><p>Radio calculado: <strong>${R.toFixed(1)} m</strong> ≥ Radio mínimo INVIAS para ${dato.v} km/h: <strong>${rMin} m</strong> (e=8%). La geometría de la curva cumple la norma. Documente igualmente para el expediente.</p></div>`;
+    } else {
+      vDiv.className = 'veredicto-box no-conforme';
+      vDiv.innerHTML = `<div class="veredicto-icon">🚨</div><div class="veredicto-text"><h3>NO Conforme — Posible Falla Geométrica</h3><p>Radio calculado: <strong>${R.toFixed(1)} m</strong> &lt; Radio mínimo INVIAS para ${dato.v} km/h: <strong>${rMin} m</strong> (e=8%). <br><br>La curva tiene radio insuficiente según norma. Esto constituye indicio técnico de falla geométrica. <strong>Solicite verificación topográfica oficial al ente responsable de la vía.</strong></p></div>`;
+    }
+  }
+
+  // Actualizar ente según tipo de vía
+  document.querySelectorAll('input[name="tipo_via"]').forEach(r => {
+    r.addEventListener('change', function() {
+      const entes = {
+        '🛣️ Nacional (INVIAS)': 'INVIAS — Dirección territorial',
+        '🗺️ Departamental': 'Gobernación — Secretaría de Infraestructura',
+        '🏙️ Municipal': 'Alcaldía — Secretaría de Obras Públicas',
+        '🤝 Concesionada (ANI)': 'Concesionario + Agencia Nacional de Infraestructura (ANI)',
+      };
+      document.getElementById('ente_text').textContent = entes[this.parentElement.textContent.trim()] || '—';
+    });
+  });
+</script>
+</body>
+</html>

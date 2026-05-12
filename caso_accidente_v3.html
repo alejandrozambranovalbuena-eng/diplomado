@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caso Físico — Accidente Suesca-Nemocón</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg:      #ffffff;
+  --bg2:     #f9fafb;
+  --bg3:     #f3f4f6;
+  --border:  #e5e7eb;
+  --orange:  #f04e23;
+  --orL:     #fff4f1;
+  --dark:    #0f1117;
+  --body:    #374151;
+  --muted:   #6b7280;
+  --faint:   #9ca3af;
+  --green:   #047857;
+  --greenL:  #ecfdf5;
+  --red:     #b91c1c;
+  --redL:    #fef2f2;
+  --blue:    #1d4ed8;
+  --blueL:   #eff6ff;
+  --amber:   #b45309;
+  --amberL:  #fffbeb;
+  --sh:      0 1px 2px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.07);
+  --sh2:     0 8px 28px rgba(0,0,0,0.09);
+
+  /* TIPOGRAFÍA */
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-head: 'Fraunces', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  background: var(--bg3);
+  color: var(--dark);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* ────────── NAV ────────── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  height: 56px;
+  display: flex; align-items: center;
+  padding: 0 32px; gap: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.nav-brand {
+  font-family: var(--font-head);
+  font-size: 17px; font-weight: 700;
+  color: var(--dark); letter-spacing: -0.3px;
+  margin-right: 8px; white-space: nowrap;
+}
+.nav-brand span { color: var(--orange); }
+.nav-sep { width: 1px; height: 22px; background: var(--border); flex-shrink: 0; }
+.nav-pill {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: transparent; color: var(--faint);
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.nav-pill.on { background: var(--orange); border-color: var(--orange); color: #fff; }
+.nav-pill:hover:not(.on) { border-color: var(--orange); color: var(--orange); }
+.nav-label {
+  flex: 1; padding-left: 8px;
+  font-size: 12px; color: var(--faint);
+  font-family: var(--font-mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nav-btns { display: flex; gap: 8px; flex-shrink: 0; }
+.nav-btn {
+  height: 34px; padding: 0 18px;
+  background: var(--bg2); border: 1.5px solid var(--border);
+  color: var(--body); border-radius: 8px; cursor: pointer;
+  font-family: var(--font-body); font-size: 13px; font-weight: 600;
+  transition: all 0.15s; white-space: nowrap;
+}
+.nav-btn:hover { border-color: var(--orange); color: var(--orange); background: var(--orL); }
+
+/* ────────── SLIDE SYSTEM ────────── */
+.slide { display: none; min-height: 100vh; padding-top: 56px; }
+.slide.on { display: block; animation: up .28s cubic-bezier(.4,0,.2,1); }
+@keyframes up { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+/* ────────── SHARED LAYOUT ────────── */
+.sw { background: var(--bg); min-height: calc(100vh - 56px); padding: 44px 52px 80px; }
+
+.sl-head {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding-bottom: 28px; margin-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+.sl-n {
+  font-family: var(--font-head);
+  font-size: 80px; font-weight: 900; line-height: 1;
+  color: var(--bg3); margin-top: -10px; flex-shrink: 0;
+  user-select: none; letter-spacing: -2px;
+}
+.sl-ht h2 {
+  font-family: var(--font-head);
+  font-size: 32px; font-weight: 700;
+  color: var(--dark); line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+.sl-ht h2 em { color: var(--orange); font-style: italic; }
+.sl-ht p {
+  font-size: 14px; color: var(--muted);
+  margin-top: 6px; line-height: 1.5;
+  font-weight: 400;
+}
+
+/* Foot fijo */
+.sf {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  background: var(--bg); border-top: 1px solid var(--border);
+  padding: 9px 52px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.sf span { font-family: var(--font-mono); font-size: 11px; color: var(--faint); }
+.sf strong { color: var(--orange); }
+
+/* ────────── ATOMS ────────── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+
+.card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 14px; padding: 22px;
+  box-shadow: var(--sh);
+}
+.card-t-or { border-top: 3px solid var(--orange); }
+.card-t-bl { border-top: 3px solid var(--blue); }
+.card-t-gr { border-top: 3px solid var(--green); }
+.card-t-rd { border-top: 3px solid var(--red); }
+.card-l-or { border-left: 4px solid var(--orange); }
+.card-l-gr { border-left: 4px solid var(--green); }
+.card-l-rd { border-left: 4px solid var(--red); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 11px; border-radius: 20px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  line-height: 1.6;
+}
+.chip-or { background: var(--orL);    color: var(--orange); border: 1px solid rgba(240,78,35,.18); }
+.chip-gr { background: var(--greenL); color: var(--green);  border: 1px solid rgba(4,120,87,.18); }
+.chip-rd { background: var(--redL);   color: var(--red);    border: 1px solid rgba(185,28,28,.18); }
+.chip-bl { background: var(--blueL);  color: var(--blue);   border: 1px solid rgba(29,78,216,.18); }
+.chip-am { background: var(--amberL); color: var(--amber);  border: 1px solid rgba(180,83,9,.18); }
+
+/* Tabla filas */
+.dr {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 9px 0; border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+.dr:last-child { border: none; }
+.dr .dl { font-size: 13px; color: var(--muted); font-weight: 400; flex-shrink: 0; }
+.dr .dv { font-family: var(--font-mono); font-size: 13px; color: var(--dark); font-weight: 500; text-align: right; }
+
+/* Card heading */
+.ch {
+  font-family: var(--font-body); font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .6px;
+  margin-bottom: 14px;
+}
+.ch-or { color: var(--orange); }
+.ch-bl { color: var(--blue); }
+.ch-gr { color: var(--green); }
+.ch-rd { color: var(--red); }
+
+/* ────────── SLIDE 1 — PORTADA ────────── */
+.portada {
+  background: var(--bg); min-height: calc(100vh - 56px);
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+.p-left {
+  padding: 64px 52px; display: flex; flex-direction: column;
+  justify-content: center; border-right: 1px solid var(--border);
+}
+.p-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--orL); color: var(--orange);
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  padding: 5px 14px; border-radius: 20px;
+  border: 1px solid rgba(240,78,35,.2);
+  margin-bottom: 24px; width: fit-content;
+  letter-spacing: .3px;
+}
+.p-left h1 {
+  font-family: var(--font-head);
+  font-size: clamp(42px, 4.5vw, 64px);
+  font-weight: 900; line-height: 1.03;
+  color: var(--dark); margin-bottom: 18px;
+  letter-spacing: -1.5px;
+}
+.p-left h1 em { color: var(--orange); font-style: italic; }
+.p-left .p-desc {
+  font-size: 15px; color: var(--body); line-height: 1.75;
+  max-width: 440px; margin-bottom: 36px; font-weight: 400;
+}
+.p-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin-bottom: 32px;
+}
+.ps {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 18px;
+}
+.ps .v {
+  font-family: var(--font-head);
+  font-size: 36px; font-weight: 900; line-height: 1;
+  display: block; margin-bottom: 5px; letter-spacing: -1px;
+}
+.ps .l {
+  font-size: 11px; color: var(--faint);
+  text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+  font-family: var(--font-body);
+}
+.ps.rd .v { color: var(--red); }
+.ps.gr .v { color: var(--green); }
+.ps.am .v { color: var(--amber); }
+.ps.bl .v { color: var(--blue); }
+
+.p-meta { display: flex; flex-direction: column; gap: 9px; }
+.pm {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13.5px; color: var(--muted);
+}
+.pm strong { color: var(--dark); font-weight: 600; }
+.pm-dot { width: 6px; height: 6px; background: var(--orange); border-radius: 50%; flex-shrink: 0; }
+
+.p-right {
+  background: var(--bg2); display: flex;
+  align-items: center; justify-content: center; padding: 40px;
+  position: relative; overflow: hidden;
+}
+.p-right::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 65% 35%, rgba(240,78,35,.07) 0%, transparent 55%);
+}
+
+/* ────────── MED CARDS ────────── */
+.mc {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 22px 20px;
+  box-shadow: var(--sh); position: relative; overflow: hidden;
+}
+.mc::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  border-radius: 14px 14px 0 0;
+}
+.mc.or::before { background: var(--orange); }
+.mc.bl::before { background: var(--blue); }
+.mc.rd::before { background: var(--red); }
+.mc.gr::before { background: var(--green); }
+.mc.pu::before { background: #7c3aed; }
+.mc-ico { font-size: 22px; margin-bottom: 12px; display: block; }
+.mc-val {
+  font-family: var(--font-head);
+  font-size: 48px; font-weight: 900; line-height: 1;
+  display: block; letter-spacing: -2px;
+}
+.mc.or .mc-val { color: var(--orange); }
+.mc.bl .mc-val { color: var(--blue); }
+.mc.rd .mc-val { color: var(--red); }
+.mc.gr .mc-val { color: var(--green); }
+.mc.pu .mc-val { color: #7c3aed; }
+.mc-unit { font-size: 16px; color: var(--muted); letter-spacing: 0; font-family: var(--font-body); font-weight: 400; }
+.mc-name {
+  font-size: 11px; color: var(--dark); font-weight: 700;
+  text-transform: uppercase; letter-spacing: .8px;
+  margin: 10px 0 5px;
+}
+.mc-desc { font-size: 12px; color: var(--muted); line-height: 1.55; font-weight: 400; }
+
+/* ────────── FÓRMULA BOXES ────────── */
+.fb {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-left: 4px solid var(--orange);
+  border-radius: 10px; padding: 18px 22px; margin-bottom: 12px;
+}
+.fb .eq {
+  font-family: var(--font-mono); font-size: 13.5px;
+  color: var(--dark); line-height: 2; font-weight: 400;
+}
+.fb .eq .hi  { color: var(--orange); font-weight: 600; }
+.fb .eq .res { color: var(--red);    font-weight: 600; }
+.fb .note {
+  font-size: 11.5px; color: var(--muted);
+  border-top: 1px solid var(--border);
+  padding-top: 9px; margin-top: 9px; line-height: 1.6;
+}
+
+/* paso calc */
+.pc {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 18px; margin-bottom: 10px;
+  box-shadow: var(--sh);
+}
+.pc-n {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: var(--orange); color: #fff;
+  font-family: var(--font-head); font-size: 15px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.pc h4 {
+  font-size: 13.5px; font-weight: 700; color: var(--dark); margin-bottom: 5px;
+}
+.pc p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.pc .inline {
+  font-family: var(--font-mono); font-size: 12.5px; color: var(--dark);
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 7px 12px; margin-top: 8px; display: block;
+}
+.pc .inline .ans { color: var(--orange); font-weight: 600; }
+
+/* ────────── MOMENTUM FLOW ────────── */
+.mflow {
+  display: grid; grid-template-columns: 1fr 44px 72px 44px 1fr;
+  align-items: stretch;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  margin-bottom: 20px; box-shadow: var(--sh);
+}
+.mf-col { padding: 22px 20px; }
+.mf-ico {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg2); font-size: 20px; color: var(--orange);
+}
+.mf-boom {
+  background: var(--redL); padding: 22px 12px; text-align: center;
+  border-left: 1px solid rgba(185,28,28,.15);
+  border-right: 1px solid rgba(185,28,28,.15);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+}
+.mf-boom .b { font-size: 30px; animation: bb 1.4s ease-in-out infinite; }
+@keyframes bb { 0%,100%{transform:scale(1)} 50%{transform:scale(1.16)} }
+.mf-boom .bl {
+  font-family: var(--font-mono); font-size: 9px; color: var(--red);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.mf-col h4 {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--faint); margin-bottom: 14px;
+}
+.mfl {
+  display: flex; justify-content: space-between; padding: 7px 0;
+  border-bottom: 1px solid var(--border); font-size: 12.5px; gap: 8px;
+}
+.mfl:last-child { border: none; }
+.mfl .ml { color: var(--muted); flex-shrink: 0; }
+.mfl .mv { font-family: var(--font-mono); font-weight: 500; color: var(--dark); font-size: 12px; text-align: right; }
+
+/* ────────── VELOCIDADES RESULTADO ────────── */
+.vels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.vc {
+  border-radius: 16px; padding: 26px 22px; text-align: center;
+  border: 2px solid transparent; box-shadow: var(--sh);
+}
+.vc.gr { background: var(--greenL); border-color: rgba(4,120,87,.25); }
+.vc.rd { background: var(--redL);   border-color: rgba(185,28,28,.25); }
+.vc.am { background: var(--amberL); border-color: rgba(180,83,9,.25); }
+.vc .vt {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .8px; margin-bottom: 14px;
+}
+.vc.gr .vt { color: var(--green); }
+.vc.rd .vt { color: var(--red); }
+.vc.am .vt { color: var(--amber); }
+.vc .vn {
+  font-family: var(--font-head);
+  font-size: 64px; font-weight: 900; line-height: 1;
+  display: block; margin-bottom: 4px; letter-spacing: -3px;
+}
+.vc.gr .vn { color: var(--green); }
+.vc.rd .vn { color: var(--red); }
+.vc.am .vn { color: var(--amber); }
+.vc .vu { font-size: 14px; color: var(--muted); font-weight: 400; }
+
+/* conclusiones */
+.concls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cc {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 18px;
+  display: flex; gap: 12px; align-items: flex-start;
+  box-shadow: var(--sh);
+}
+.cc.ok { border-left: 4px solid var(--green); }
+.cc.rd { border-left: 4px solid var(--red); }
+.cc .ci { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.cc p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+.cc p strong { color: var(--dark); font-weight: 600; }
+
+/* ────────── LECCIÓN ────────── */
+.lc-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.lc {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 14px; padding: 22px; box-shadow: var(--sh);
+}
+.lc.bad { border-top: 3px solid var(--red); }
+.lc.good { border-top: 3px solid var(--green); }
+.lc h4 {
+  font-size: 14px; font-weight: 700; margin-bottom: 16px;
+}
+.lc.bad h4  { color: var(--red); }
+.lc.good h4 { color: var(--green); }
+.lc ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.lc ul li {
+  font-size: 13.5px; color: var(--muted);
+  padding-left: 22px; position: relative; line-height: 1.5;
+}
+.lc.bad  ul li::before { content: '✗'; position: absolute; left: 0; color: var(--red);   font-weight: 700; }
+.lc.good ul li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+
+.mt { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 20px; }
+.mth {
+  display: grid; grid-template-columns: 1fr 38px 1fr;
+  background: var(--orange); padding: 11px 22px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .8px; color: #fff; gap: 10px;
+}
+.mtr {
+  display: grid; grid-template-columns: 1fr 38px 1fr;
+  padding: 11px 22px; gap: 10px; align-items: center;
+  border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.mtr:last-child { border: none; }
+.mtr:nth-child(even) { background: var(--bg); }
+.mtr .f { color: var(--muted); }
+.mtr .a { color: var(--orange); font-size: 17px; text-align: center; }
+.mtr .t { color: var(--dark); font-weight: 500; }
+
+.frase {
+  background: linear-gradient(135deg, var(--orL), #fff8);
+  border: 1.5px solid rgba(240,78,35,.2);
+  border-radius: 16px; padding: 30px 36px; text-align: center;
+}
+.frase .q {
+  font-family: var(--font-head);
+  font-size: 72px; font-weight: 900;
+  color: rgba(240,78,35,.12); line-height: .5;
+  display: block; margin-bottom: 16px; letter-spacing: -3px;
+}
+.frase p {
+  font-family: var(--font-head);
+  font-size: 20px; font-weight: 700; font-style: italic;
+  color: var(--dark); line-height: 1.65; margin-bottom: 14px;
+  letter-spacing: -.3px;
+}
+.frase p em { color: var(--orange); font-style: italic; }
+.frase .att {
+  font-family: var(--font-mono); font-size: 11px; color: var(--faint);
+  text-transform: uppercase; letter-spacing: 2px;
+}
+
+/* barras energía */
+.ebars { display: flex; flex-direction: column; gap: 12px; }
+.ebar { display: grid; grid-template-columns: 148px 1fr 52px; align-items: center; gap: 14px; }
+.ebar .el { font-size: 13px; color: var(--muted); }
+.ebar-t { background: var(--bg3); border-radius: 20px; height: 8px; overflow: hidden; }
+.ebar-f { height: 100%; border-radius: 20px; }
+.ebar .ev { font-family: var(--font-mono); font-size: 12px; color: var(--dark); text-align: right; font-weight: 500; }
+
+/* escena info */
+.escena-wrap {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: var(--sh);
+}
+
+/* alertas */
+.alert {
+  border-radius: 12px; padding: 16px 20px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.alert.rd { background: var(--redL); border: 1px solid rgba(185,28,28,.25); }
+.alert.or { background: var(--orL);  border: 1px solid rgba(240,78,35,.25); }
+.alert .ai { font-size: 24px; flex-shrink: 0; }
+.alert h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.alert.rd h4 { color: var(--red); }
+.alert.or h4 { color: var(--orange); }
+.alert p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.alert p strong { color: var(--dark); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav class="nav">
+  <div class="nav-brand">física<span>vial</span></div>
+  <div class="nav-sep"></div>
+  <button class="nav-pill on"  onclick="ir(0)">1</button>
+  <button class="nav-pill"     onclick="ir(1)">2</button>
+  <button class="nav-pill"     onclick="ir(2)">3</button>
+  <button class="nav-pill"     onclick="ir(3)">4</button>
+  <button class="nav-pill"     onclick="ir(4)">5</button>
+  <button class="nav-pill"     onclick="ir(5)">6</button>
+  <button class="nav-pill"     onclick="ir(6)">7</button>
+  <span class="nav-label" id="nlbl">Portada — El Caso</span>
+  <div class="nav-btns">
+    <button class="nav-btn" onclick="ant()">← Anterior</button>
+    <button class="nav-btn" onclick="sig()">Siguiente →</button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════
+     SLIDE 1 — PORTADA
+════════════════════════════════════ -->
+<div class="slide on" id="s0">
+<div class="portada">
+  <div class="p-left">
+    <div class="p-eyebrow">🚔 Caso de Estudio · Física Forense Vial · Colombia</div>
+    <h1>La Física<br><em>No Miente</em></h1>
+    <p class="p-desc">Cómo la Conservación del Momentum, las marcas de frenada y la deformación vehicular resolvieron una colisión frontal en la vía Suesca–Nemocón, Cundinamarca.</p>
+    <div class="p-stats">
+      <div class="ps rd"><span class="v">94</span><span class="l">km/h — Campero (real)</span></div>
+      <div class="ps am"><span class="v">60</span><span class="l">km/h — Límite en la curva</span></div>
+      <div class="ps gr"><span class="v">48</span><span class="l">km/h — Camión (real)</span></div>
+      <div class="ps bl"><span class="v">42</span><span class="l">cm — Deformación campero</span></div>
+    </div>
+    <div class="p-meta">
+      <div class="pm"><div class="pm-dot"></div><div><strong>Lugar:</strong> Vía Suesca–Nemocón · K12 · Cundinamarca</div></div>
+      <div class="pm"><div class="pm-dot"></div><div><strong>Hora:</strong> 07:15 a.m. · Pavimento húmedo</div></div>
+      <div class="pm"><div class="pm-dot"></div><div><strong>Tipo:</strong> Colisión frontal en curva horizontal</div></div>
+      <div class="pm"><div class="pm-dot"></div><div><strong>Norma:</strong> INVIAS 2008 Cap. 3 · Tablas 3.2 y 3.3</div></div>
+    </div>
+  </div>
+  <div class="p-right">
+    <svg viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg" style="max-width:460px;width:100%;">
+      <defs>
+        <marker id="ao" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#f04e23"/></marker>
+        <marker id="ab" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#1d4ed8"/></marker>
+        <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity=".12"/></filter>
+      </defs>
+      <!-- Asfalto -->
+      <rect x="0" y="175" width="500" height="130" rx="0" fill="#4b5563"/>
+      <rect x="0" y="173" width="500" height="5" fill="#6b7280"/>
+      <rect x="0" y="300" width="500" height="5" fill="#6b7280"/>
+      <!-- Línea central -->
+      <line x1="0" y1="238" x2="500" y2="238" stroke="#fbbf24" stroke-width="3" stroke-dasharray="22,13"/>
+      <!-- Vegetación -->
+      <ellipse cx="28"  cy="163" rx="24" ry="18" fill="#16a34a" opacity=".85"/>
+      <rect    x="25"   y="173" width="6" height="9" fill="#78350f"/>
+      <ellipse cx="78"  cy="168" rx="18" ry="14" fill="#15803d" opacity=".85"/>
+      <rect    x="75"   y="176" width="5" height="8" fill="#78350f"/>
+      <ellipse cx="430" cy="163" rx="24" ry="18" fill="#16a34a" opacity=".85"/>
+      <rect    x="427"  y="173" width="6" height="9" fill="#78350f"/>
+      <ellipse cx="475" cy="168" rx="18" ry="14" fill="#15803d" opacity=".85"/>
+      <rect    x="472"  y="176" width="5" height="8" fill="#78350f"/>
+      <!-- Berma -->
+      <rect x="0" y="305" width="500" height="28" fill="#9ca3af"/>
+
+      <!-- ─── CAMPERO ─── -->
+      <!-- Carrocería -->
+      <rect x="38" y="193" width="136" height="58" rx="7" fill="#e2e8f0" filter="url(#sh)"/>
+      <!-- Techo -->
+      <path d="M 66 193 L 78 168 L 158 168 L 166 193 Z" fill="#cbd5e0"/>
+      <!-- Parabrisas -->
+      <path d="M 80 190 L 90 171 L 156 171 L 162 190 Z" fill="#bae6fd" opacity=".75"/>
+      <!-- Ventanas laterales -->
+      <rect x="90"  y="172" width="32" height="18" rx="2" fill="#bae6fd" opacity=".65"/>
+      <rect x="128" y="172" width="28" height="18" rx="2" fill="#bae6fd" opacity=".65"/>
+      <!-- Capó aplastado (daño) -->
+      <path d="M 38 207 L 80 193 L 38 193 Z" fill="#fca5a5" opacity=".6"/>
+      <path d="M 38 200 Q 54 186 72 200" stroke="#b91c1c" stroke-width="2" fill="none"/>
+      <path d="M 46 200 Q 60 184 76 200" stroke="#b91c1c" stroke-width="1.5" fill="none"/>
+      <path d="M 38 207 L 58 195 L 78 207" stroke="#991b1b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Ruedas campero -->
+      <circle cx="74"  cy="251" r="19" fill="#1f2937"/>
+      <circle cx="74"  cy="251" r="12" fill="#374151"/>
+      <circle cx="74"  cy="251" r="5"  fill="#4b5563"/>
+      <circle cx="152" cy="251" r="19" fill="#1f2937"/>
+      <circle cx="152" cy="251" r="12" fill="#374151"/>
+      <circle cx="152" cy="251" r="5"  fill="#4b5563"/>
+      <!-- Luz rota -->
+      <ellipse cx="41" cy="206" rx="5" ry="7" fill="#fca5a5" opacity=".8"/>
+      <!-- Marcas frenada -->
+      <rect x="42"  y="269" width="88" height="5" rx="2" fill="#111827" opacity=".28"/>
+      <!-- Label campero -->
+      <rect x="38" y="150" width="136" height="18" rx="5" fill="#f04e23"/>
+      <text x="106" y="163" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="10" font-weight="700" fill="white">CAMPERO · 1.800 kg</text>
+      <!-- Deformación label -->
+      <text x="42" y="287" font-family="JetBrains Mono,monospace" font-size="9" fill="#b91c1c" font-weight="500">◀ 42 cm deformación</text>
+      <!-- Flecha vel campero -->
+      <line x1="177" y1="222" x2="218" y2="224" stroke="#f04e23" stroke-width="2.5" marker-end="url(#ao)"/>
+      <text x="182" y="214" font-family="JetBrains Mono,monospace" font-size="10" fill="#f04e23" font-weight="600">94 km/h</text>
+
+      <!-- ─── CAMIÓN ─── -->
+      <rect x="298" y="186" width="174" height="66" rx="6" fill="#3b82f6" filter="url(#sh)"/>
+      <!-- Cabina -->
+      <rect x="298" y="170" width="62" height="56" rx="5" fill="#2563eb"/>
+      <rect x="305" y="177" width="49" height="30" rx="3" fill="#bae6fd" opacity=".75"/>
+      <!-- Caja carga -->
+      <rect x="362" y="176" width="110" height="76" rx="3" fill="#1d4ed8"/>
+      <!-- Líneas caja -->
+      <line x1="400" y1="176" x2="400" y2="252" stroke="#2563eb" stroke-width="1" opacity=".5"/>
+      <line x1="435" y1="176" x2="435" y2="252" stroke="#2563eb" stroke-width="1" opacity=".5"/>
+      <!-- Daño costado -->
+      <path d="M 298 210 Q 314 198 308 222 Q 304 237 321 226" stroke="#ef4444" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M 302 205 Q 316 194 311 216" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Ruedas camión -->
+      <circle cx="336" cy="252" r="19" fill="#1f2937"/>
+      <circle cx="336" cy="252" r="12" fill="#374151"/>
+      <circle cx="336" cy="252" r="5"  fill="#4b5563"/>
+      <circle cx="384" cy="252" r="19" fill="#1f2937"/>
+      <circle cx="384" cy="252" r="12" fill="#374151"/>
+      <circle cx="384" cy="252" r="5"  fill="#4b5563"/>
+      <circle cx="445" cy="252" r="19" fill="#1f2937"/>
+      <circle cx="445" cy="252" r="12" fill="#374151"/>
+      <circle cx="445" cy="252" r="5"  fill="#4b5563"/>
+      <!-- Luz camión -->
+      <ellipse cx="301" cy="194" rx="5" ry="7" fill="#fef08a" opacity=".9"/>
+      <!-- Label camión -->
+      <rect x="310" y="150" width="152" height="18" rx="5" fill="#1d4ed8"/>
+      <text x="386" y="163" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="10" font-weight="700" fill="white">CAMIÓN · 3.500 kg</text>
+      <!-- Flecha vel camión -->
+      <line x1="296" y1="222" x2="265" y2="224" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#ab)"/>
+      <text x="302" y="214" font-family="JetBrains Mono,monospace" font-size="10" fill="#1d4ed8" font-weight="600">48 km/h</text>
+
+      <!-- IMPACTO -->
+      <circle cx="248" cy="230" r="30" fill="rgba(185,28,28,.1)" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,4"/>
+      <text x="248" y="237" text-anchor="middle" font-size="22">💥</text>
+
+      <!-- Frenada label campero -->
+      <text x="106" y="295" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="9" fill="#6b7280">← 18 m frenada →</text>
+    </svg>
+  </div>
+</div>
+<div class="sf"><strong>CASO FV-2026-K12-SN</strong><span>Diapositiva 1 de 7 · Física Forense Vial · Colombia</span></div>
+</div>
+
+<!-- ════════════════════════════════════
+     SLIDE 2 — LA ESCENA
+════════════════════════════════════ -->
+<div class="slide" id="s1">
+<div class="sw">
+  <div class="sl-head">
+    <div class="sl-n">02</div>
+    <div class="sl-ht">
+      <h2>La <em>Escena</em> del Accidente</h2>
+      <p>Vista aérea del K12 · Vía Suesca–Nemocón · Estado de la escena antes de mover los vehículos</p>
+    </div>
+  </div>
+  <div class="escena-wrap">
+    <svg viewBox="0 0 820 265" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+      <defs>
+        <marker id="ao2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#f04e23"/></marker>
+        <marker id="ab2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#1d4ed8"/></marker>
+      </defs>
+      <!-- Fondo terreno -->
+      <rect width="820" height="265" fill="#f0fdf4"/>
+      <rect x="0"   y="0"   width="820" height="55"  fill="#bbf7d0" opacity=".6"/>
+      <rect x="0"   y="210" width="820" height="55"  fill="#bbf7d0" opacity=".6"/>
+      <!-- Carretera curva -->
+      <path d="M 20 215 Q 410 195 800 65" fill="none" stroke="#6b7280" stroke-width="72"/>
+      <path d="M 20 215 Q 410 195 800 65" fill="none" stroke="#9ca3af" stroke-width="68"/>
+      <!-- Línea central -->
+      <path d="M 20 215 Q 410 195 800 65" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-dasharray="18,10"/>
+      <!-- Señal 60 km/h -->
+      <circle cx="762" cy="54" r="16" fill="white" stroke="#dc2626" stroke-width="3"/>
+      <text x="762" y="60" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="12" font-weight="800" fill="#111827">60</text>
+      <text x="762" y="78" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="9" fill="#6b7280">km/h</text>
+      <!-- Árboles decorativos -->
+      <ellipse cx="22"  cy="40"  rx="18" ry="14" fill="#16a34a" opacity=".7"/>
+      <ellipse cx="60"  cy="44"  rx="14" ry="11" fill="#15803d" opacity=".7"/>
+      <ellipse cx="760" cy="220" rx="18" ry="14" fill="#16a34a" opacity=".7"/>
+      <ellipse cx="795" cy="224" rx="14" ry="11" fill="#15803d" opacity=".7"/>
+      <!-- Berma -->
+      <path d="M 20 250 Q 410 230 800 100" fill="none" stroke="#d1d5db" stroke-width="14"/>
+
+      <!-- IMPACTO -->
+      <circle cx="408" cy="194" r="22" fill="rgba(220,38,38,.14)" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,3"/>
+      <text x="408" y="200" text-anchor="middle" font-size="16">💥</text>
+      <text x="408" y="183" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#dc2626">IMPACTO</text>
+
+      <!-- CAMPERO antes -->
+      <rect x="55" y="181" width="56" height="26" rx="5" fill="#f04e23"/>
+      <text x="83" y="198" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="9" font-weight="700" fill="white">CAMPERO</text>
+      <line x1="113" y1="194" x2="380" y2="194" stroke="#f04e23" stroke-width="1.5" stroke-dasharray="7,5" marker-end="url(#ao2)"/>
+      <text x="230" y="186" font-family="JetBrains Mono,monospace" font-size="10" fill="#f04e23" font-weight="600">94 km/h →</text>
+
+      <!-- Frenada campero -->
+      <path d="M 288 196 Q 350 195 380 194" fill="none" stroke="#111827" stroke-width="5" opacity=".22" stroke-linecap="round"/>
+      <text x="330" y="214" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="10" fill="#6b7280">18 m frenada</text>
+
+      <!-- CAMPERO posición final -->
+      <rect x="430" y="178" width="56" height="26" rx="5" fill="#f04e23" opacity=".3" stroke="#f04e23" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="458" y="195" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#f04e23">+8 m</text>
+
+      <!-- CAMIÓN antes -->
+      <rect x="688" y="82" width="68" height="28" rx="5" fill="#1d4ed8"/>
+      <text x="722" y="100" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="9" font-weight="700" fill="white">CAMIÓN</text>
+      <line x1="686" y1="96" x2="435" y2="188" stroke="#1d4ed8" stroke-width="1.5" stroke-dasharray="7,5" marker-end="url(#ab2)"/>
+      <text x="592" y="122" font-family="JetBrains Mono,monospace" font-size="10" fill="#1d4ed8" font-weight="600">48 km/h</text>
+
+      <!-- Frenada camión -->
+      <path d="M 508 150 Q 462 172 432 190" fill="none" stroke="#111827" stroke-width="4" opacity=".18" stroke-linecap="round"/>
+      <text x="508" y="144" font-family="Plus Jakarta Sans,sans-serif" font-size="10" fill="#6b7280">4 m</text>
+
+      <!-- CAMIÓN final -->
+      <g transform="translate(416,220) rotate(-42)">
+        <rect x="-34" y="-13" width="68" height="26" rx="5" fill="#1d4ed8" opacity=".3" stroke="#1d4ed8" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="0" y="4" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#1d4ed8">+3 m 45°</text>
+      </g>
+
+      <!-- CUERDA y FLECHA -->
+      <line x1="128" y1="213" x2="698" y2="97" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="5,4"/>
+      <text x="385" y="178" font-family="JetBrains Mono,monospace" font-size="9" fill="#7c3aed">Cuerda C = 38 m</text>
+      <line x1="413" y1="156" x2="413" y2="192" stroke="#dc2626" stroke-width="2" stroke-dasharray="3,3"/>
+      <text x="418" y="170" font-family="JetBrains Mono,monospace" font-size="9" fill="#dc2626">f = 3.1 m</text>
+
+      <!-- Norte -->
+      <text x="796" y="258" font-family="JetBrains Mono,monospace" font-size="12" fill="#9ca3af" font-weight="500">↑ N</text>
+
+      <!-- Leyenda -->
+      <rect x="14" y="68" width="194" height="84" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+      <rect x="24" y="80"  width="12" height="12" rx="3" fill="#f04e23"/>
+      <text x="44" y="90" font-family="Plus Jakarta Sans,sans-serif" font-size="11" fill="#111827">Campero Toyota — 1.800 kg</text>
+      <rect x="24" y="98"  width="12" height="12" rx="3" fill="#1d4ed8"/>
+      <text x="44" y="108" font-family="Plus Jakarta Sans,sans-serif" font-size="11" fill="#111827">Camión — 3.500 kg</text>
+      <rect x="24" y="116" width="12" height="12" rx="3" fill="#7c3aed"/>
+      <text x="44" y="126" font-family="Plus Jakarta Sans,sans-serif" font-size="11" fill="#111827">Cuerda y flecha de curva</text>
+      <circle cx="30" cy="139" r="5" fill="rgba(220,38,38,.18)" stroke="#dc2626" stroke-width="1"/>
+      <text x="44" y="143" font-family="Plus Jakarta Sans,sans-serif" font-size="11" fill="#111827">Punto de impacto</text>
+    </svg>
+  </div>
+  <div class="g2">
+    <div class="card card-t-or">
+      <div class="ch ch-or">🚙 Campero Toyota</div>
+      <div class="dr"><span class="dl">Masa</span><span class="dv">1.800 kg</span></div>
+      <div class="dr"><span class="dl">Marca de frenada</span><span class="dv">18 m</span></div>
+      <div class="dr"><span class="dl">Desplazamiento post-impacto</span><span class="dv">8 m · dirección norte</span></div>
+      <div class="dr"><span class="dl">Posición final</span><span class="dv">Carril contrario</span></div>
+      <div class="dr"><span class="dl">Deformación frontal</span><span class="dv" style="color:var(--red);font-weight:700;">42 cm</span></div>
+    </div>
+    <div class="card card-t-bl">
+      <div class="ch ch-bl">🚛 Camión pequeño</div>
+      <div class="dr"><span class="dl">Masa</span><span class="dv">3.500 kg</span></div>
+      <div class="dr"><span class="dl">Marca de frenada</span><span class="dv">4 m</span></div>
+      <div class="dr"><span class="dl">Desplazamiento post-impacto</span><span class="dv">3 m · 45° hacia berma</span></div>
+      <div class="dr"><span class="dl">Posición final</span><span class="dv">Berma derecha</span></div>
+      <div class="dr"><span class="dl">Deformación costado izq.</span><span class="dv" style="color:var(--red);font-weight:700;">28 cm</span></div>
+    </div>
+  </div>
+</div>
+<div class="sf"><strong>CASO FV-2026-K12-SN</strong><span>Diapositiva 2 de 7 · La Escena</span></div>
+</div>
+
+<!-- ════════════════════════════════════
+     SLIDE 3 — MEDICIONES
+════════════════════════════════════ -->
+<div class="slide" id="s2">
+<div class="sw">
+  <div class="sl-head">
+    <div class="sl-n">03</div>
+    <div class="sl-ht">
+      <h2>Lo que <em>Midió el Agente</em></h2>
+      <p>Primeros 20 minutos · Datos irrecuperables si los vehículos se mueven antes</p>
+    </div>
+  </div>
+  <div class="g3" style="margin-bottom:18px;">
+    <div class="mc or">
+      <span class="mc-ico">📏</span>
+      <span class="mc-val">18<span class="mc-unit"> m</span></span>
+      <div class="mc-name">Frenada — Campero</div>
+      <div class="mc-desc">Cinta métrica sobre el pavimento. Indica que el campero frenó, pero ya venía a alta velocidad. Insumo para calcular v antes del impacto.</div>
+    </div>
+    <div class="mc bl">
+      <span class="mc-ico">📏</span>
+      <span class="mc-val">4<span class="mc-unit"> m</span></span>
+      <div class="mc-name">Frenada — Camión</div>
+      <div class="mc-desc">Frenada muy corta. El camionero apenas alcanzó a reaccionar. Consistente con velocidad baja y reacción tardía al ver el campero invadir el carril.</div>
+    </div>
+    <div class="mc rd">
+      <span class="mc-ico">🔩</span>
+      <span class="mc-val">42<span class="mc-unit"> cm</span></span>
+      <div class="mc-name">Deformación frontal — Campero</div>
+      <div class="mc-desc">Hundimiento del metal medido desde el plano original del capó. Registro físico exacto de la energía cinética absorbida en el impacto.</div>
+    </div>
+    <div class="mc bl">
+      <span class="mc-ico">🔩</span>
+      <span class="mc-val">28<span class="mc-unit"> cm</span></span>
+      <div class="mc-name">Deformación costado — Camión</div>
+      <div class="mc-desc">Menor porque el camión tiene mayor rigidez estructural y la energía se distribuyó en un área más amplia del costado izquierdo.</div>
+    </div>
+    <div class="mc pu">
+      <span class="mc-ico">🔵</span>
+      <span class="mc-val">38<span class="mc-unit"> m</span></span>
+      <div class="mc-name">Cuerda de la curva (C)</div>
+      <div class="mc-desc">Línea recta entre extremos A y B del borde de la calzada, medida con cinta extendida sobre el pavimento.</div>
+    </div>
+    <div class="mc pu" style="--pu:#7c3aed;">
+      <span class="mc-ico">🔴</span>
+      <span class="mc-val">3.1<span class="mc-unit"> m</span></span>
+      <div class="mc-name">Flecha de la curva (f)</div>
+      <div class="mc-desc">Distancia perpendicular del punto medio de la cuerda al arco. Con C = 38 m → Radio real ≈ 60 m. INVIAS exige mínimo 115 m para 60 km/h.</div>
+    </div>
+  </div>
+  <div class="alert rd">
+    <div class="ai">🚨</div>
+    <div>
+      <h4>Falla Geométrica Detectada — Curva no cumple INVIAS</h4>
+      <p>Radio real calculado: <strong>≈ 60 m</strong> &nbsp;·&nbsp; Radio mínimo INVIAS para 60 km/h: <strong>115 m</strong> &nbsp;·&nbsp; La curva tiene el <strong>52% del radio mínimo exigido</strong>. Hay responsabilidad compartida del ente vial.</p>
+    </div>
+  </div>
+</div>
+<div class="sf"><strong>CASO FV-2026-K12-SN</strong><span>Diapositiva 3 de 7 · Mediciones en Escena</span></div>
+</div>
+
+<!-- ════════════════════════════════════
+     SLIDE 4 — CÁLCULOS
+════════════════════════════════════ -->
+<div class="slide" id="s3">
+<div class="sw">
+  <div class="sl-head">
+    <div class="sl-n">04</div>
+    <div class="sl-ht">
+      <h2>Los <em>Cálculos</em> Paso a Paso</h2>
+      <p>Cómo el perito llegó a cada valor usando las medidas del agente</p>
+    </div>
+  </div>
+  <div class="g2" style="gap:24px;align-items:start;">
+    <div>
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--orange);margin-bottom:14px;">🛑 Velocidad del Campero — Por Frenada</div>
+      <div class="fb">
+        <div class="eq">
+          v² = 2 × <span class="hi">μ</span> × g × <span class="hi">d</span><br>
+          v² = 2 × <span class="hi">0.45</span> × 9.81 × <span class="hi">18</span><br>
+          v² = <span class="hi">158.9</span> m²/s²<br>
+          v = √158.9 = <span class="res">12.6 m/s = 45.3 km/h mínimo</span>
+        </div>
+        <div class="note">μ = 0.45 · pavimento húmedo &nbsp;|&nbsp; g = 9.81 m/s² &nbsp;|&nbsp; d = 18 m (frenada medida)<br>Este es el valor al inicio de la frenada. El campero iba más rápido antes de frenar.</div>
+      </div>
+      <div class="pc">
+        <div class="pc-n">1</div>
+        <div>
+          <h4>Distancia de frenada del agente</h4>
+          <p>18 m medidos con cinta. El perito usa μ = 0.45 para pavimento húmedo (INVIAS / AASHTO).</p>
+          <span class="inline">d = <span class="ans">18 m</span> &nbsp;·&nbsp; μ (húmedo) = <span class="ans">0.45</span></span>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-n">2</div>
+        <div>
+          <h4>Velocidad mínima al inicio de frenada</h4>
+          <p>La ecuación cinemática v² = 2·μ·g·d da la velocidad justo cuando comenzó a frenar. Eso es la velocidad mínima.</p>
+          <span class="inline">v = √(2 × 0.45 × 9.81 × 18) = <span class="ans">45.3 km/h mínimo</span></span>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-n">3</div>
+        <div>
+          <h4>Ajuste con deformación — Física Inversa</h4>
+          <p>La deformación de 42 cm representa energía cinética absorbida. Con las tablas EBS del vehículo se calcula la velocidad real al impacto.</p>
+          <span class="inline">E = ½·m·v² &nbsp;→&nbsp; v = √(2E/m) &nbsp;→&nbsp; <span class="ans">v real ≈ 94 km/h</span></span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#7c3aed;margin-bottom:14px;">📐 Radio Real de la Curva</div>
+      <div class="fb" style="border-left-color:#7c3aed;">
+        <div class="eq">
+          R ≈ C² / (8·f) + f/2<br>
+          R ≈ <span class="hi">38²</span> / (8 × <span class="hi">3.1</span>) + 3.1/2<br>
+          R ≈ 1.444 / 24.8 + 1.55<br>
+          R ≈ 58.2 + 1.55 = <span class="res">≈ 60 m</span>
+        </div>
+        <div class="note">C = 38 m (cuerda) &nbsp;·&nbsp; f = 3.1 m (flecha)<br>INVIAS Tabla 3.2: R_min = 115 m para 60 km/h con e = 8%<br>→ Radio real es solo el 52% del mínimo exigido</div>
+      </div>
+
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--blue);margin-bottom:14px;margin-top:20px;">🚛 Velocidad del Camión — Por Frenada</div>
+      <div class="fb" style="border-left-color:var(--blue);">
+        <div class="eq">
+          v² = 2 × <span class="hi">0.45</span> × 9.81 × <span class="hi">4</span><br>
+          v² = 35.3 &nbsp;→&nbsp; v = <span class="res">5.9 m/s = 21.3 km/h mínimo</span>
+        </div>
+        <div class="note">d = 4 m (frenada del camión) &nbsp;·&nbsp; La deformación de 28 cm y la posición final (3 m a 45°) ajustan la velocidad real al impacto a ≈ 48 km/h</div>
+      </div>
+      <div class="pc" style="margin-top:10px;">
+        <div class="pc-n" style="background:var(--green);">✓</div>
+        <div>
+          <h4>Verificación con Conservación del Momentum</h4>
+          <p>El perito verifica: con los desplazamientos post-impacto (8 m campero, 3 m camión a 45°) y las masas, las velocidades de 94 km/h y 48 km/h son matemáticamente consistentes.</p>
+          <span class="inline">(1800 × 26.1) + (3500 × 13.3) → consistente con posiciones finales <span class="ans">✓</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sf"><strong>CASO FV-2026-K12-SN</strong><span>Diapositiva 4 de 7 · Cálculos Detallados</span></div>
+</div>
+
+<!-- ════════════════════════════════════
+     SLIDE 5 — MOMENTUM
+════════════════════════════════════ -->
+<div class="slide" id="s4">
+<div class="sw">
+  <div class="sl-head">
+    <div class="sl-n">05</div>
+    <div class="sl-ht">
+      <h2>Conservación del <em>Momentum</em></h2>
+      <p>La ley que hace del vehículo destruido evidencia matemática — no chatarra</p>
+    </div>
+  </div>
+  <div class="mflow">
+    <div class="mf-col">
+      <h4>Antes del choque</h4>
+      <div class="mfl"><span class="ml">Campero M₁</span><span class="mv">1.800 kg</span></div>
+      <div class="mfl"><span class="ml">Velocidad V₁</span><span class="mv" style="color:var(--red);">94 km/h · 26.1 m/s</span></div>
+      <div class="mfl"><span class="ml">Momentum p₁</span><span class="mv">47.000 kg·m/s</span></div>
+      <div class="mfl"><span class="ml">Camión M₂</span><span class="mv">3.500 kg</span></div>
+      <div class="mfl"><span class="ml">Velocidad V₂</span><span class="mv" style="color:var(--blue);">48 km/h · 13.3 m/s</span></div>
+      <div class="mfl"><span class="ml">Momentum p₂</span><span class="mv">46.600 kg·m/s (opuesto)</span></div>
+    </div>
+    <div class="mf-ico">→</div>
+    <div class="mf-boom">
+      <span class="b">💥</span>
+      <span class="bl">Impacto</span>
+    </div>
+    <div class="mf-ico">→</div>
+    <div class="mf-col">
+      <h4>Después del choque</h4>
+      <div class="mfl"><span class="ml">Campero</span><span class="mv">8 m · dirección norte</span></div>
+      <div class="mfl"><span class="ml">Camión</span><span class="mv">3 m · 45° a berma</span></div>
+      <div class="mfl"><span class="ml">Momentum total</span><span class="mv" style="color:var(--green);">Conservado ✓</span></div>
+      <div class="mfl"><span class="ml">Metal campero</span><span class="mv" style="color:var(--red);">42 cm deformado</span></div>
+      <div class="mfl"><span class="ml">Metal camión</span><span class="mv" style="color:var(--red);">28 cm deformado</span></div>
+      <div class="mfl"><span class="ml">Resto energía</span><span class="mv">Calor + sonido</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:14px;">¿A dónde fue la energía cinética?</div>
+    <div class="ebars">
+      <div class="ebar">
+        <span class="el">🔩 Deformación metal</span>
+        <div class="ebar-t"><div class="ebar-f" style="width:55%;background:var(--red);"></div></div>
+        <span class="ev">55 %</span>
+      </div>
+      <div class="ebar">
+        <span class="el">🚗 Movimiento post-impacto</span>
+        <div class="ebar-t"><div class="ebar-f" style="width:28%;background:var(--orange);"></div></div>
+        <span class="ev">28 %</span>
+      </div>
+      <div class="ebar">
+        <span class="el">🔥 Calor por fricción</span>
+        <div class="ebar-t"><div class="ebar-f" style="width:11%;background:var(--amber);"></div></div>
+        <span class="ev">11 %</span>
+      </div>
+      <div class="ebar">
+        <span class="el">🔊 Onda sonora</span>
+        <div class="ebar-t"><div class="ebar-f" style="width:6%;background:var(--blue);"></div></div>
+        <span class="ev">6 %</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert or">
+    <div class="ai">💡</div>
+    <div>
+      <h4>Clave para entender</h4>
+      <p>Los <strong>42 cm de deformación</strong> representan energía medible. El perito aplica tablas de rigidez EBS (Equivalent Barrier Speed) del modelo de vehículo, calcula la energía absorbida y de ahí obtiene la velocidad al momento del impacto. Es <strong>física inversa</strong>: del resultado (metal aplastado) se calcula la causa (la velocidad).</p>
+    </div>
+  </div>
+</div>
+<div class="sf"><strong>CASO FV-2026-K12-SN</strong><span>Diapositiva 5 de 7 · Conservación del Momentum</span></div>
+</div>
+
+<!-- ════════════════════════════════════
+     SLIDE 6 — RESULTADO
+════════════════════════════════════ -->
+<div class="slide" id="s5">
+<div class="sw">
+  <div class="sl-head">
+    <div class="sl-n">06</div>
+    <div class="sl-ht">
+      <h2>El <em>Veredicto</em> de la Física</h2>
+      <p>Resultado del peritaje · Basado 100% en las mediciones del agente en escena</p>
+    </div>
+  </div>
+  <div class="vels">
+    <div class="vc gr">
+      <div class="vt">🚛 Camión — Velocidad real</div>
+      <span class="vn">48</span>
+      <span class="vu">km/h</span>
+      <div style="margin-top:14px;"><span class="chip chip-gr">✓ Dentro del límite</span></div>
+    </div>
+    <div class="vc am">
+      <div class="vt">⚠ Límite en la curva</div>
+      <span class="vn">60</span>
+      <span class="vu">km/h</span>
+      <div style="margin-top:14px;"><span class="chip chip-am">Velocidad permitida</span></div>
+    </div>
+    <div class="vc rd">
+      <div class="vt">🚙 Campero — Velocidad real</div>
+      <span class="vn">94</span>
+      <span class="vu">km/h</span>
+      <div style="margin-top:14px;"><span class="chip chip-rd">✗ Exceso del 56%</span></div>
+    </div>
+  </div>
+  <div class="concls">
+    <div class="cc ok">
+      <div class="ci">✅</div>
+      <p>El camión circulaba a <strong>48 km/h</strong>, dentro del límite de 60 km/h. Sin responsabilidad por velocidad. Su frenada de 4 m es consistente con reacción tardía a una situación imprevista.</p>
+    </div>
+    <div class="cc rd">
+      <div class="ci">🚨</div>
+      <p>El campero circulaba a <strong>94 km/h</strong> en una curva con límite de <strong>60 km/h</strong>. Exceso del <strong>56%</strong>. Responsabilidad directa por velocidad. Sus 18 m de frenada confirman la alta velocidad inicial.</p>
+    </div>
+    <div class="cc rd">
+      <div class="ci">🏛️</div>
+      <p>Radio real de la curva: <strong>≈ 60 m</strong>. INVIAS exige mínimo <strong>115 m</strong> para 60 km/h. La curva tiene el 52% del radio mínimo. Hay <strong>responsabilidad del ente vial</strong> por falla geométrica.</p>
+    </div>
+    <div class="cc ok">
+      <div class="ci">📋</div>
+      <p>Todo este análisis fue posible porque el agente <strong>midió y documentó en los primeros 20 minutos</strong>. Si los vehículos se hubieran movido primero, este caso se resolvería por versiones — no por física.</p>
+    </div>
+  </div>
+</div>
+<div class="sf"><strong>CASO FV-2026-K12-SN</strong><span>Diapositiva 6 de 7 · Resultado Pericial</span></div>
+</div>
+
+<!-- ════════════════════════════════════
+     SLIDE 7 — LECCIÓN
+════════════════════════════════════ -->
+<div class="slide" id="s6">
+<div class="sw">
+  <div class="sl-head">
+    <div class="sl-n">07</div>
+    <div class="sl-ht">
+      <h2>La <em>Lección</em> para el Agente</h2>
+      <p>El agente no es solo quien llega primero — es quien hace posible la justicia</p>
+    </div>
+  </div>
+  <div class="lc-cols">
+    <div class="lc bad">
+      <h4>✗ Sin fijación correcta</h4>
+      <ul>
+        <li>Vehículos movidos antes de medir posición final</li>
+        <li>No se midieron las marcas de frenada</li>
+        <li>No se registró la deformación en centímetros</li>
+        <li>No se midió la curva (cuerda y flecha)</li>
+        <li>Sin fotos con escala de referencia</li>
+        <li>Resultado: solo hay versiones de conductores</li>
+        <li>Gana quien tenga el mejor abogado</li>
+      </ul>
+    </div>
+    <div class="lc good">
+      <h4>✓ Con fijación correcta</h4>
+      <ul>
+        <li>Posición final documentada con GPS y fotos</li>
+        <li>Marcas de frenada medidas con cinta</li>
+        <li>Deformación en cm con objeto de escala</li>
+        <li>Cuerda y flecha de la curva medidas</li>
+        <li>Fotos desde múltiples ángulos</li>
+        <li>Resultado: la física decide</li>
+        <li>Gana quien tenía la razón</li>
+      </ul>
+    </div>
+  </div>
+  <div class="mt">
+    <div class="mth"><span>Lo que midió el Agente</span><span></span><span>Lo que calculó el Perito</span></div>
+    <div class="mtr"><span class="f">📏 Frenada campero — 18 m</span><span class="a">→</span><span class="t">Velocidad mínima 45 km/h al inicio de frenada</span></div>
+    <div class="mtr"><span class="f">🔩 Deformación campero — 42 cm</span><span class="a">→</span><span class="t">Velocidad real al impacto: 94 km/h</span></div>
+    <div class="mtr"><span class="f">📏 Frenada camión — 4 m</span><span class="a">→</span><span class="t">Velocidad mínima 21 km/h · ajustada a 48 km/h</span></div>
+    <div class="mtr"><span class="f">📍 Posición final — 8 m y 3 m a 45°</span><span class="a">→</span><span class="t">Verificación del momentum y trayectorias</span></div>
+    <div class="mtr"><span class="f">🔵 Cuerda 38 m · Flecha 3.1 m</span><span class="a">→</span><span class="t">Radio real ≈ 60 m vs INVIAS 115 m → falla vial</span></div>
+  </div>
+  <div class="frase">
+    <span class="q">"</span>
+    <p>El vehículo destruido <em>no es chatarra</em>.<br>
+    Es la <em>caja negra del accidente</em>.<br>
+    Cada centímetro de metal aplastado es un dato que la física puede leer.<br>
+    El agente que lo mide <em>hace justicia</em>.</p>
+    <div class="att">Física Forense Vial · INVIAS 2008 · Policía Nacional de Colombia</div>
+  </div>
+</div>
+<div class="sf"><strong>CASO FV-2026-K12-SN</strong><span>Diapositiva 7 de 7 · La Lección del Agente</span></div>
+</div>
+
+<script>
+const tit=['Portada — El Caso','La Escena del Accidente','Mediciones del Agente','Cálculos Paso a Paso','Conservación del Momentum','El Veredicto','La Lección'];
+let c=0;
+function ir(n){
+  document.getElementById('s'+c).classList.remove('on');
+  document.querySelectorAll('.nav-pill')[c].classList.remove('on');
+  c=n;
+  document.getElementById('s'+c).classList.add('on');
+  document.querySelectorAll('.nav-pill')[c].classList.add('on');
+  document.getElementById('nlbl').textContent=tit[c];
+  window.scrollTo(0,0);
+}
+function sig(){if(c<6)ir(c+1);}
+function ant(){if(c>0)ir(c-1);}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')sig();
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')ant();
+});
+</script>
+</body>
+</html>

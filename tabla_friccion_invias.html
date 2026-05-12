@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Índices de Fricción — INVIAS 2008</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg:      #ffffff;
+  --bg2:     #f9fafb;
+  --bg3:     #f3f4f6;
+  --border:  #e5e7eb;
+  --orange:  #f04e23;
+  --orL:     #fff4f1;
+  --dark:    #0f1117;
+  --body:    #374151;
+  --muted:   #6b7280;
+  --faint:   #9ca3af;
+  --green:   #047857;
+  --greenL:  #ecfdf5;
+  --red:     #b91c1c;
+  --redL:    #fef2f2;
+  --amber:   #b45309;
+  --amberL:  #fffbeb;
+  --blue:    #1d4ed8;
+  --blueL:   #eff6ff;
+  --f-body:  'Plus Jakarta Sans', sans-serif;
+  --f-head:  'Fraunces', serif;
+  --f-mono:  'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  background: #f0f1f5;
+  font-family: var(--f-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--dark);
+  padding: 32px 24px 60px;
+}
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  background: var(--bg);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+/* ── HEADER ── */
+.hdr {
+  background: var(--dark);
+  padding: 36px 44px 32px;
+  position: relative; overflow: hidden;
+}
+.hdr::before {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,78,35,.18) 0%, transparent 70%);
+}
+.hdr-eye {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(240,78,35,.15); color: var(--orange);
+  font-family: var(--f-mono); font-size: 10px; font-weight: 500;
+  padding: 4px 13px; border-radius: 20px;
+  border: 1px solid rgba(240,78,35,.25);
+  margin-bottom: 16px; letter-spacing: .3px;
+}
+.hdr h1 {
+  font-family: var(--f-head);
+  font-size: 38px; font-weight: 900;
+  color: #fff; line-height: 1.08;
+  letter-spacing: -1px; margin-bottom: 10px;
+}
+.hdr h1 em { color: var(--orange); font-style: italic; }
+.hdr p {
+  font-size: 14px; color: #9ca3af;
+  max-width: 560px; line-height: 1.65;
+}
+.hdr-badge {
+  position: absolute; top: 36px; right: 44px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px; padding: 12px 18px; text-align: center;
+}
+.hdr-badge .bv {
+  font-family: var(--f-head);
+  font-size: 28px; font-weight: 900;
+  color: var(--orange); display: block; line-height: 1;
+}
+.hdr-badge .bl {
+  font-size: 10px; color: #9ca3af;
+  text-transform: uppercase; letter-spacing: 1px;
+  font-family: var(--f-body); margin-top: 3px;
+}
+
+/* ── CONTENIDO ── */
+.body { padding: 36px 44px 44px; }
+
+/* ── SECCIÓN ── */
+.sec-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--orange);
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 14px;
+}
+.sec-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── TABLA PRINCIPAL ── */
+.tbl-wrap {
+  border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  margin-bottom: 28px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+table {
+  width: 100%; border-collapse: collapse;
+}
+thead tr {
+  background: var(--dark);
+}
+thead th {
+  font-family: var(--f-body);
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .8px;
+  color: #9ca3af;
+  padding: 13px 16px; text-align: center;
+}
+thead th:first-child { text-align: left; padding-left: 20px; }
+thead th.or { color: var(--orange); }
+
+tbody tr { border-bottom: 1px solid var(--border); }
+tbody tr:last-child { border: none; }
+tbody tr:nth-child(even) td { background: var(--bg2); }
+tbody tr:hover td { background: var(--orL); transition: background .15s; }
+
+tbody td {
+  padding: 12px 16px;
+  font-family: var(--f-mono); font-size: 13px;
+  color: var(--dark); text-align: center;
+  font-weight: 400;
+}
+tbody td:first-child {
+  text-align: left; padding-left: 20px;
+  font-family: var(--f-body); font-weight: 600;
+  color: var(--dark); font-size: 13.5px;
+}
+.vel-chip {
+  display: inline-flex; align-items: center;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 6px; padding: 3px 10px;
+  font-family: var(--f-mono); font-size: 13px; font-weight: 600;
+  color: var(--dark);
+}
+
+/* Barra visual de fricción */
+.fbar-wrap { display: flex; align-items: center; gap: 10px; justify-content: center; }
+.fbar { height: 8px; border-radius: 20px; min-width: 4px; }
+.fv { font-family: var(--f-mono); font-size: 13px; font-weight: 600; }
+
+/* Colores por nivel */
+.lv-alto   .fbar { background: #dc2626; }
+.lv-alto   .fv   { color: #dc2626; }
+.lv-medio  .fbar { background: #d97706; }
+.lv-medio  .fv   { color: #d97706; }
+.lv-bajo   .fbar { background: #059669; }
+.lv-bajo   .fv   { color: #059669; }
+
+/* Semáforo de riesgo */
+.riesgo {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 20px;
+  font-family: var(--f-body); font-size: 11px; font-weight: 600;
+}
+.r-bajo  { background: #ecfdf5; color: #047857; border: 1px solid rgba(4,120,87,.2); }
+.r-medio { background: #fffbeb; color: #b45309; border: 1px solid rgba(180,83,9,.2); }
+.r-alto  { background: #fef2f2; color: #b91c1c; border: 1px solid rgba(185,28,28,.2); }
+
+/* Peralte mín col */
+.pmin { font-family: var(--f-mono); font-size: 12.5px; color: var(--muted); }
+
+/* Radio mín col */
+.rmin-8 { color: var(--blue); font-weight: 600; }
+.rmin-6 { color: #7c3aed; font-weight: 600; }
+
+/* ── TABLA FRICCIÓN LONGITUDINAL ── */
+.tbl-long { margin-bottom: 28px; }
+
+/* ── GRIDS ── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 28px; }
+
+/* ── CARD INFO ── */
+.icard {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 20px;
+}
+.icard.or { border-left: 4px solid var(--orange); }
+.icard.gr { border-left: 4px solid var(--green); }
+.icard.rd { border-left: 4px solid var(--red); }
+.icard.bl { border-left: 4px solid var(--blue); }
+.icard h4 {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .7px; margin-bottom: 8px;
+}
+.icard.or h4 { color: var(--orange); }
+.icard.gr h4 { color: var(--green); }
+.icard.rd h4 { color: var(--red); }
+.icard.bl h4 { color: var(--blue); }
+.icard p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.icard p strong { color: var(--dark); font-weight: 600; }
+.icard .mono {
+  font-family: var(--f-mono); font-size: 13px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 8px 12px; margin-top: 10px;
+  color: var(--dark); display: block;
+}
+.icard .mono span { color: var(--orange); font-weight: 600; }
+
+/* ── ESCALA VISUAL ── */
+.escala {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px 24px; margin-bottom: 28px;
+}
+.escala h4 {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .8px; color: var(--muted); margin-bottom: 16px;
+}
+.escala-bar {
+  height: 20px; border-radius: 20px; margin-bottom: 8px;
+  background: linear-gradient(to right, #059669, #d97706, #dc2626);
+  position: relative;
+}
+.escala-ticks {
+  display: flex; justify-content: space-between;
+  font-family: var(--f-mono); font-size: 11px; color: var(--muted);
+}
+.escala-labels {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--muted); margin-top: 8px;
+}
+.escala-labels span { font-weight: 600; }
+.escala-labels .sg { color: var(--green); }
+.escala-labels .sm { color: var(--amber); }
+.escala-labels .sr { color: var(--red); }
+
+/* Marcadores en la barra */
+.tick-line {
+  position: absolute; top: 0; bottom: 0; width: 2px;
+  background: rgba(255,255,255,.7);
+}
+.tick-label {
+  position: absolute; bottom: -20px;
+  font-family: var(--f-mono); font-size: 10px; color: var(--dark);
+  transform: translateX(-50%);
+}
+
+/* ── FORMULA BOX ── */
+.fbox {
+  background: var(--dark); border-radius: 12px;
+  padding: 20px 24px; margin-bottom: 28px;
+}
+.fbox .title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .8px; color: var(--orange); margin-bottom: 14px;
+}
+.fbox .eq {
+  font-family: var(--f-mono); font-size: 15px;
+  color: #f9fafb; line-height: 2; font-weight: 400;
+}
+.fbox .eq .hi  { color: var(--orange); font-weight: 600; }
+.fbox .eq .res { color: #34d399; font-weight: 600; }
+.fbox .note { font-size: 12px; color: #6b7280; margin-top: 10px; line-height: 1.6; }
+
+/* ── FUENTE ── */
+.fuente {
+  background: var(--bg3); border-radius: 10px;
+  padding: 14px 18px; display: flex; gap: 12px; align-items: flex-start;
+  font-size: 12.5px; color: var(--muted);
+}
+.fuente strong { color: var(--dark); font-weight: 600; }
+
+/* PRINT */
+@media print {
+  body { background: white; padding: 0; }
+  .page { box-shadow: none; border-radius: 0; }
+}
+
+/* BTN */
+.btn-print {
+  display: block; width: 100%;
+  background: var(--orange); color: white;
+  font-family: var(--f-body); font-size: 14px; font-weight: 700;
+  border: none; border-radius: 10px; padding: 13px;
+  cursor: pointer; margin-top: 8px; letter-spacing: .3px;
+  transition: background .15s;
+}
+.btn-print:hover { background: #d63e15; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-eye">📘 INVIAS 2008 · Capítulo 3 · Tabla 3.1 y 3.2</div>
+    <h1>Índices de <em>Fricción</em><br>en Carreteras</h1>
+    <p>Coeficientes de fricción transversal y longitudinal para diseño vial y análisis forense de accidentes. Valores oficiales Manual de Diseño Geométrico INVIAS 2008.</p>
+    <div class="hdr-badge">
+      <span class="bv">3.1</span>
+      <span class="bl">Tabla INVIAS</span>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- TABLA 1: FRICCIÓN TRANSVERSAL -->
+    <div class="sec-label">🔵 Fricción Transversal Máxima (f_T_máx) — Tabla 3.1 INVIAS 2008</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Velocidad Específica<br>VCH (km/h)</th>
+            <th class="or">f_T_máx<br>(Fricción Transversal)</th>
+            <th>Visualización<br>de la magnitud</th>
+            <th>Radio Mín.<br>e = 8% (m)</th>
+            <th>Radio Mín.<br>e = 6% (m)</th>
+            <th>Nivel de<br>Riesgo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="lv-alto">
+            <td><span class="vel-chip">20 km/h</span></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:100%;"></div><span class="fv">0.35</span></div></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:100%;max-width:120px;"></div></div></td>
+            <td class="rmin-8">14 m</td>
+            <td class="rmin-6">17 m</td>
+            <td><span class="riesgo r-bajo">● Bajo</span></td>
+          </tr>
+          <tr class="lv-alto">
+            <td><span class="vel-chip">30 km/h</span></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:80%;"></div><span class="fv">0.28</span></div></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:80%;max-width:96px;"></div></div></td>
+            <td class="rmin-8">25 m</td>
+            <td class="rmin-6">30 m</td>
+            <td><span class="riesgo r-bajo">● Bajo</span></td>
+          </tr>
+          <tr class="lv-alto">
+            <td><span class="vel-chip">40 km/h</span></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:65%;"></div><span class="fv">0.23</span></div></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:65%;max-width:78px;"></div></div></td>
+            <td class="rmin-8">45 m</td>
+            <td class="rmin-6">55 m</td>
+            <td><span class="riesgo r-bajo">● Bajo</span></td>
+          </tr>
+          <tr class="lv-medio">
+            <td><span class="vel-chip">50 km/h</span></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:54%;"></div><span class="fv">0.19</span></div></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:54%;max-width:65px;"></div></div></td>
+            <td class="rmin-8">75 m</td>
+            <td class="rmin-6">90 m</td>
+            <td><span class="riesgo r-medio">● Medio</span></td>
+          </tr>
+          <tr class="lv-medio">
+            <td><span class="vel-chip">60 km/h</span></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:49%;"></div><span class="fv">0.17</span></div></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:49%;max-width:59px;"></div></div></td>
+            <td class="rmin-8">115 m</td>
+            <td class="rmin-6">135 m</td>
+            <td><span class="riesgo r-medio">● Medio</span></td>
+          </tr>
+          <tr class="lv-medio">
+            <td><span class="vel-chip">70 km/h</span></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:43%;"></div><span class="fv">0.15</span></div></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:43%;max-width:52px;"></div></div></td>
+            <td class="rmin-8">165 m</td>
+            <td class="rmin-6">195 m</td>
+            <td><span class="riesgo r-medio">● Medio</span></td>
+          </tr>
+          <tr class="lv-bajo">
+            <td><span class="vel-chip">80 km/h</span></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:40%;"></div><span class="fv">0.14</span></div></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:40%;max-width:48px;"></div></div></td>
+            <td class="rmin-8">230 m</td>
+            <td class="rmin-6">270 m</td>
+            <td><span class="riesgo r-alto">● Alto</span></td>
+          </tr>
+          <tr class="lv-bajo">
+            <td><span class="vel-chip">90 km/h</span></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:37%;"></div><span class="fv">0.13</span></div></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:37%;max-width:44px;"></div></div></td>
+            <td class="rmin-8">310 m</td>
+            <td class="rmin-6">365 m</td>
+            <td><span class="riesgo r-alto">● Alto</span></td>
+          </tr>
+          <tr class="lv-bajo">
+            <td><span class="vel-chip">100 km/h</span></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:34%;"></div><span class="fv">0.12</span></div></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:34%;max-width:41px;"></div></div></td>
+            <td class="rmin-8">395 m</td>
+            <td class="rmin-6">465 m</td>
+            <td><span class="riesgo r-alto">● Alto</span></td>
+          </tr>
+          <tr class="lv-bajo">
+            <td><span class="vel-chip">110 km/h</span></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:31%;"></div><span class="fv">0.11</span></div></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:31%;max-width:37px;"></div></div></td>
+            <td class="rmin-8">500 m</td>
+            <td class="rmin-6">585 m</td>
+            <td><span class="riesgo r-alto">● Alto</span></td>
+          </tr>
+          <tr class="lv-bajo">
+            <td><span class="vel-chip">120 km/h</span></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:29%;"></div><span class="fv">0.10</span></div></td>
+            <td><div class="fbar-wrap"><div class="fbar" style="width:29%;max-width:35px;"></div></div></td>
+            <td class="rmin-8">620 m</td>
+            <td class="rmin-6">725 m</td>
+            <td><span class="riesgo r-alto">● Alto</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ESCALA VISUAL -->
+    <div class="escala">
+      <h4>Escala visual del coeficiente — Mayor velocidad = Menor fricción permitida</h4>
+      <div class="escala-bar">
+        <!-- ticks: 0.10, 0.15, 0.20, 0.25, 0.30, 0.35 -->
+        <div class="tick-line" style="left:0%;"></div>
+        <div class="tick-line" style="left:20%;"></div>
+        <div class="tick-line" style="left:40%;"></div>
+        <div class="tick-line" style="left:60%;"></div>
+        <div class="tick-line" style="left:80%;"></div>
+        <div class="tick-line" style="left:100%;"></div>
+      </div>
+      <div class="escala-ticks" style="margin-top:4px;">
+        <span>0.10</span><span>0.15</span><span>0.20</span><span>0.25</span><span>0.30</span><span>0.35</span>
+      </div>
+      <div class="escala-labels">
+        <span class="sr">Alto riesgo (120 km/h)</span>
+        <span class="sm">Riesgo medio (60–70 km/h)</span>
+        <span class="sg">Bajo riesgo (20–40 km/h)</span>
+      </div>
+    </div>
+
+    <!-- TABLA 2: FRICCIÓN LONGITUDINAL (pavimento real) -->
+    <div class="sec-label">🔴 Fricción Longitudinal — Por Condición del Pavimento</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.6;">Estos son los valores reales del coeficiente de fricción longitudinal (μ) según el estado del pavimento. Se usan para calcular distancias de frenada en reconstrucción de accidentes.</p>
+    <div class="tbl-wrap tbl-long">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:left;padding-left:20px;">Condición del Pavimento</th>
+            <th class="or">μ (seco)</th>
+            <th class="or">μ (húmedo)</th>
+            <th class="or">μ (mojado)</th>
+            <th>Uso en Fórmula</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Asfalto nuevo — buen estado</td>
+            <td style="color:var(--green);font-weight:700;">0.70 – 0.80</td>
+            <td style="color:var(--amber);font-weight:700;">0.50 – 0.60</td>
+            <td style="color:var(--red);font-weight:700;">0.35 – 0.45</td>
+            <td><span class="riesgo r-bajo">Usar el menor</span></td>
+          </tr>
+          <tr>
+            <td>Asfalto desgastado</td>
+            <td style="color:var(--amber);font-weight:700;">0.55 – 0.65</td>
+            <td style="color:var(--amber);font-weight:700;">0.40 – 0.50</td>
+            <td style="color:var(--red);font-weight:700;">0.25 – 0.35</td>
+            <td><span class="riesgo r-medio">Usar el menor</span></td>
+          </tr>
+          <tr>
+            <td>Asfalto muy desgastado / pulido</td>
+            <td style="color:var(--amber);font-weight:700;">0.45 – 0.55</td>
+            <td style="color:var(--red);font-weight:700;">0.30 – 0.40</td>
+            <td style="color:var(--red);font-weight:700;">0.20 – 0.28</td>
+            <td><span class="riesgo r-alto">Usar el menor</span></td>
+          </tr>
+          <tr>
+            <td>Asfalto con exudación (liso)</td>
+            <td style="color:var(--red);font-weight:700;">0.35 – 0.45</td>
+            <td style="color:var(--red);font-weight:700;">0.20 – 0.30</td>
+            <td style="color:var(--red);font-weight:700;">0.12 – 0.20</td>
+            <td><span class="riesgo r-alto">⚠ Peligroso</span></td>
+          </tr>
+          <tr>
+            <td>Concreto hidráulico — buen estado</td>
+            <td style="color:var(--green);font-weight:700;">0.75 – 0.85</td>
+            <td style="color:var(--amber);font-weight:700;">0.55 – 0.65</td>
+            <td style="color:var(--amber);font-weight:700;">0.40 – 0.50</td>
+            <td><span class="riesgo r-bajo">Usar el menor</span></td>
+          </tr>
+          <tr>
+            <td>Afirmado (vía terciaria)</td>
+            <td style="color:var(--amber);font-weight:700;">0.40 – 0.55</td>
+            <td style="color:var(--red);font-weight:700;">0.25 – 0.40</td>
+            <td style="color:var(--red);font-weight:700;">0.15 – 0.25</td>
+            <td><span class="riesgo r-medio">Usar el menor</span></td>
+          </tr>
+          <tr>
+            <td>Tierra compactada (vía sin pavimentar)</td>
+            <td style="color:var(--red);font-weight:700;">0.30 – 0.45</td>
+            <td style="color:var(--red);font-weight:700;">0.18 – 0.28</td>
+            <td style="color:var(--red);font-weight:700;">0.08 – 0.15</td>
+            <td><span class="riesgo r-alto">⚠ Muy variable</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FÓRMULA -->
+    <div class="sec-label">🧮 Fórmula de Uso</div>
+    <div class="fbox">
+      <div class="title">Distancia de frenada — Reconstrucción de accidentes</div>
+      <div class="eq">
+        d = <span class="hi">v²</span> / (2 × <span class="hi">μ</span> × g) &nbsp;&nbsp; ó &nbsp;&nbsp; v = √(2 × <span class="hi">μ</span> × g × <span class="hi">d</span>)<br><br>
+        Ejemplo: v=60 km/h (16.7 m/s), μ=0.45 (húmedo)<br>
+        d = 16.7² / (2 × 0.45 × 9.81) = <span class="res">278.9 / 8.83 = 31.6 m</span>
+      </div>
+      <div class="note">d = distancia de frenada (m) &nbsp;·&nbsp; v = velocidad (m/s, ÷3.6 para convertir de km/h) &nbsp;·&nbsp; μ = coeficiente de fricción &nbsp;·&nbsp; g = 9.81 m/s²<br>
+      En reconstrucción de accidentes siempre use el valor MENOR del rango para el estado del pavimento observado → resultado más conservador y favorable al análisis.</div>
+    </div>
+
+    <!-- CARDS EXPLICATIVAS -->
+    <div class="sec-label">📖 ¿Qué significa cada valor?</div>
+    <div class="g2">
+      <div class="icard or">
+        <h4>¿Qué es el coeficiente de fricción?</h4>
+        <p>Es la relación entre la <strong>fuerza de rozamiento</strong> que el pavimento ejerce sobre la llanta y el <strong>peso del vehículo</strong>. A mayor coeficiente, mayor capacidad de frenada o de resistir el deslizamiento lateral en curvas.</p>
+        <span class="mono">μ = Fuerza de rozamiento / Peso del vehículo<br>μ = 0 → sin fricción · μ = 1 → fricción total</span>
+      </div>
+      <div class="icard bl">
+        <h4>Fricción Transversal vs. Longitudinal</h4>
+        <p><strong>Transversal (f_T):</strong> resistencia al deslizamiento lateral — actúa en curvas. La tabla INVIAS 3.1 la usa para calcular el radio mínimo.<br><br>
+        <strong>Longitudinal (μ):</strong> resistencia al deslizamiento de frenada — actúa en línea recta. Se usa para calcular distancias de frenada.</p>
+      </div>
+      <div class="icard rd">
+        <h4>¿Por qué disminuye con la velocidad?</h4>
+        <p>A mayor velocidad, la llanta <strong>no puede deformarse</strong> lo suficientemente rápido para adaptarse a las irregularidades del pavimento. Además, aumenta la tendencia a hidroplanar. Por eso INVIAS permite menos fricción en el diseño a alta velocidad — y exige mayor radio.</p>
+      </div>
+      <div class="icard gr">
+        <h4>¿Qué valor usar como perito o agente?</h4>
+        <p>Siempre use el <strong>valor mínimo del rango</strong> correspondiente al estado del pavimento observado en campo. En caso de duda sobre el estado, use <strong>pavimento húmedo</strong> como referencia conservadora. Documente el estado con fotografías.</p>
+        <span class="mono">Pavimento húmedo estándar: <span>μ = 0.45</span></span>
+      </div>
+    </div>
+
+    <!-- FUENTE -->
+    <div class="fuente">
+      <span style="font-size:20px;">📘</span>
+      <div>
+        <strong>Fuente oficial:</strong> Manual de Diseño Geométrico de Carreteras — INVIAS 2008, Capítulo 3, Tabla 3.1 (fricción transversal) y Capítulo 2, numeral 2.3.1 (fricción longitudinal para distancias de visibilidad de parada). Los valores de pavimento real se complementan con AASHTO Green Book y literatura de reconstrucción forense de accidentes.
+      </div>
+    </div>
+
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+
+  </div>
+</div>
+</body>
+</html>

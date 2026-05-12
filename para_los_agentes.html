@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Así piensan los agentes de tránsito — Diplomado 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--police:#004C2E;--police2:#006B40;--gold:#F5A800;--gold-dk:#B8720A;--paper:#FAFAF8;--paper2:#F2F0EB;--ink:#111;--ink2:#333;--ink3:#555;--red:#C0392B;--blue:#1A5276;--green:#1E8449;--orange:#CA6F1E;--border:#E0DDD6;--shadow:0 2px 12px rgba(0,0,0,.07);--shadow-lg:0 8px 40px rgba(0,0,0,.12);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Nunito',sans-serif;font-size:15px;line-height:1.7;}
+
+/* COVER */
+.cover{background:var(--police);min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:3rem 2rem;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(245,168,0,.08),transparent),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(0,107,64,.3),transparent);}
+.cstripe{position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--police) 33%,var(--gold) 33%,var(--gold) 66%,var(--police) 66%);}
+.ci{position:relative;max-width:700px;}
+.cshield{width:80px;height:80px;background:rgba(255,255,255,.08);border:2px solid rgba(245,168,0,.4);border-radius:16px 16px 32px 32px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 2rem;}
+.ctag{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:1.5rem;}
+.cover h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,6vw,4rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1.5rem;}
+.cover h1 span{color:var(--gold);font-style:italic;}
+.cdesc{color:rgba(255,255,255,.65);font-size:1rem;line-height:1.7;max-width:520px;margin:0 auto 2.5rem;}
+.cstats{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;}
+.cs{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:1rem 1.5rem;text-align:center;}
+.csn{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--gold);line-height:1;}
+.csl{font-size:.72rem;color:rgba(255,255,255,.5);margin-top:3px;}
+.shint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.3);font-size:.75rem;display:flex;flex-direction:column;align-items:center;gap:6px;animation:boun 2s infinite;}
+@keyframes boun{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(6px);}}
+
+/* OPENER */
+.opener{background:var(--police);padding:4rem 2rem;text-align:center;}
+.oi{max-width:680px;margin:0 auto;}
+.opener p{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,3vw,1.6rem);color:rgba(255,255,255,.9);line-height:1.7;font-style:italic;}
+.opener p strong{color:var(--gold);font-style:normal;}
+
+/* SECTION */
+section{padding:4rem 2rem;}
+.si{max-width:840px;margin:0 auto;}
+.alt{background:var(--paper2);}
+.stag{display:inline-flex;align-items:center;gap:8px;font-size:.68rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--police);margin-bottom:.5rem;}
+.stag::before{content:'';width:20px;height:3px;background:var(--gold);border-radius:2px;}
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:.8rem;}
+.ssub{font-size:.95rem;color:var(--ink3);margin-bottom:2.5rem;max-width:600px;}
+
+/* BIG NUMBERS */
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.2rem;margin-bottom:2rem;}
+.rc{background:#fff;border:1px solid var(--border);border-radius:16px;padding:1.8rem 1.4rem;text-align:center;box-shadow:var(--shadow);transition:all .25s;position:relative;overflow:hidden;}
+.rc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.rc.gold::before{background:var(--gold);}
+.rc.red::before{background:var(--red);}
+.rc.blue::before{background:var(--blue);}
+.rc.green::before{background:var(--green);}
+.rc.orange::before{background:var(--orange);}
+.rc.police::before{background:var(--police);}
+.rc:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.ricon{font-size:2.2rem;margin-bottom:.8rem;}
+.rnum{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:900;line-height:1;margin-bottom:.4rem;}
+.rc.gold .rnum{color:var(--gold-dk);}
+.rc.red .rnum{color:var(--red);}
+.rc.blue .rnum{color:var(--blue);}
+.rc.green .rnum{color:var(--green);}
+.rc.orange .rnum{color:var(--orange);}
+.rc.police .rnum{color:var(--police);}
+.rlbl{font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:.4rem;}
+.rnote{font-size:.75rem;color:var(--ink3);line-height:1.4;}
+
+/* SURPRISE */
+.surp{background:var(--police);border-radius:18px;padding:2.5rem;position:relative;overflow:hidden;margin:2rem 0;}
+.surp::before{content:'!';position:absolute;right:-10px;top:-20px;font-family:'Playfair Display',serif;font-size:14rem;font-weight:900;color:rgba(255,255,255,.04);line-height:1;}
+.surtag{font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:1rem;}
+.surp h3{font-family:'Playfair Display',serif;font-size:1.6rem;color:#fff;margin-bottom:1.2rem;line-height:1.3;}
+.suritems{display:flex;flex-direction:column;gap:.9rem;}
+.suri{display:flex;gap:14px;align-items:flex-start;color:rgba(255,255,255,.85);font-size:.9rem;line-height:1.6;}
+.suri strong{color:#fff;}
+.surnum{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--gold);flex-shrink:0;line-height:1.2;min-width:50px;}
+
+/* PATTERN CARDS - análisis de patrones */
+.patterns{display:flex;flex-direction:column;gap:1.5rem;}
+.pat{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);}
+.pat-head{display:flex;align-items:center;gap:16px;padding:1.3rem 1.5rem;border-bottom:1px solid var(--border);}
+.pat-icon{font-size:2rem;flex-shrink:0;}
+.pat-num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;flex-shrink:0;line-height:1;}
+.pat-title{font-weight:800;font-size:1rem;color:var(--ink);}
+.pat-sub{font-size:.75rem;color:var(--ink3);margin-top:1px;}
+.pat-body{padding:1.3rem 1.5rem;}
+.pat-insight{font-size:.88rem;color:var(--ink2);line-height:1.7;margin-bottom:1rem;}
+.pat-insight strong{color:var(--ink);}
+.pat-tag{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:20px;}
+.tag-red{background:#fef2f2;color:var(--red);}
+.tag-blue{background:#eaf0f8;color:var(--blue);}
+.tag-green{background:#eafaf1;color:var(--green);}
+.tag-gold{background:#fff8e6;color:var(--gold-dk);}
+.tag-orange{background:#fef5e7;color:var(--orange);}
+.tag-police{background:#e8f5ee;color:var(--police);}
+
+/* MIND STEPS */
+.steps{display:flex;flex-direction:column;gap:0;}
+.step{display:flex;gap:0;position:relative;}
+.step-left{display:flex;flex-direction:column;align-items:center;width:52px;flex-shrink:0;}
+.step-dot{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;z-index:1;}
+.step-line{width:2px;flex:1;min-height:20px;}
+.step:last-child .step-line{display:none;}
+.step-content{padding:.5rem 0 1.8rem 1rem;flex:1;}
+.step-title{font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:.3rem;}
+.step-body{font-size:.84rem;color:var(--ink3);line-height:1.65;}
+.step-body strong{color:var(--ink);}
+.step-body em{color:var(--red);font-style:normal;font-weight:700;}
+
+/* COMMON */
+.common{background:linear-gradient(135deg,#fffbf0,#f0faf5);border:1.5px solid var(--border);border-radius:16px;padding:2rem;margin:1.5rem 0;}
+.common h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--ink);margin-bottom:1.2rem;}
+.clist{list-style:none;display:flex;flex-direction:column;gap:.8rem;}
+.cli{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;line-height:1.6;color:var(--ink2);}
+.chk{color:var(--police);font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+
+/* WHAT THEY WANT */
+.wg{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.wc{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.5rem;box-shadow:var(--shadow);transition:all .2s;}
+.wc:hover{border-color:var(--gold);transform:translateY(-3px);}
+.wicon{font-size:2rem;margin-bottom:.8rem;}
+.wtitle{font-weight:800;font-size:1rem;color:var(--ink);margin-bottom:.5rem;}
+.wdesc{font-size:.83rem;color:var(--ink3);line-height:1.65;}
+.wpct{display:inline-block;margin-top:.8rem;font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--police);}
+.wpct span{font-size:.7rem;font-family:'Nunito',sans-serif;color:var(--ink3);margin-left:4px;}
+
+/* ANSWER */
+.answ{background:linear-gradient(135deg,var(--police),var(--police2));border-radius:18px;padding:2.5rem;text-align:center;margin:2rem 0;}
+.answ h3{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);margin-bottom:1rem;}
+.answ p{color:rgba(255,255,255,.8);font-size:.92rem;max-width:520px;margin:0 auto 1.5rem;line-height:1.7;}
+.atools{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+.atool{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:8px 16px;border-radius:20px;font-size:.82rem;font-weight:700;}
+
+/* REGIONAL */
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem;}
+.reg-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.2rem;box-shadow:var(--shadow);}
+.reg-title{font-weight:800;font-size:.88rem;margin-bottom:.5rem;display:flex;align-items:center;gap:8px;}
+.reg-desc{font-size:.8rem;color:var(--ink3);line-height:1.6;}
+
+/* CLOSING */
+.closing{background:var(--police);padding:5rem 2rem;text-align:center;position:relative;overflow:hidden;}
+.closing::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(245,168,0,.06),transparent);}
+.closi{position:relative;max-width:600px;margin:0 auto;}
+.closing h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;margin-bottom:1rem;}
+.closing h2 em{color:var(--gold);}
+.closing p{color:rgba(255,255,255,.65);font-size:.95rem;line-height:1.8;}
+
+footer{background:#0a0a0a;color:rgba(255,255,255,.35);text-align:center;padding:1.4rem;font-size:.73rem;}
+footer strong{color:var(--gold);}
+
+@media(max-width:650px){
+  .wg{grid-template-columns:1fr;}
+  .rg{grid-template-columns:1fr 1fr;}
+  .reg-grid{grid-template-columns:1fr;}
+  .pat-head{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="cstripe"></div>
+  <div class="ci">
+    <div class="cshield">🛡️</div>
+    <div class="ctag">Policía Nacional · Diplomado Tránsito & IA · 2026</div>
+    <h1>Así piensan<br>los agentes de<br><span>tránsito en Colombia</span></h1>
+    <p class="cdesc">Les preguntamos. Respondieron con honestidad.<br>Esto es lo que encontramos — y lo que <strong style="color:var(--gold);font-style:normal;">todos tienen en común</strong>.</p>
+    <div class="cstats">
+      <div class="cs"><div class="csn">36</div><div class="csl">Agentes encuestados</div></div>
+      <div class="cs"><div class="csn">20</div><div class="csl">Departamentos del país</div></div>
+      <div class="cs"><div class="csn">100%</div><div class="csl">Respuestas honestas</div></div>
+    </div>
+  </div>
+  <div class="shint"><span>Desliza para descubrir</span><span style="font-size:1.2rem;">↓</span></div>
+</div>
+
+<!-- OPENER -->
+<div class="opener">
+  <div class="oi">
+    <p>Antes de empezar este diplomado, les hicimos unas preguntas.<br>Sin respuestas correctas ni incorrectas.<br>Solo la <strong>verdad de lo que viven en la calle</strong> cada día.<br><br>Lo que encontramos <strong>nos sorprendió</strong>.<br>Y creemos que a ustedes también.</p>
+  </div>
+</div>
+
+<!-- LO QUE LOS UNE -->
+<section>
+  <div class="si">
+    <div class="stag">Lo que los une</div>
+    <h2>Los números que nadie esperaba</h2>
+    <p class="ssub">Sin importar el rango, los años ni el departamento — estos patrones aparecen una y otra vez.</p>
+
+    <div class="rg">
+      <div class="rc gold">
+        <div class="ricon">📱</div>
+        <div class="rnum">32%</div>
+        <div class="rlbl">Pide tecnología o IA</div>
+        <div class="rnote">La necesidad #1 del formulario. La pidieron veteranos con 7+ años igual que los novatos.</div>
+      </div>
+      <div class="rc red">
+        <div class="ricon">❓</div>
+        <div class="rnum">29%</div>
+        <div class="rlbl">Dice "no sé cómo peritar"</div>
+        <div class="rnote">En sus palabras: "no tengo conocimiento", "no sé qué datos tomar", "no estoy capacitado".</div>
+      </div>
+      <div class="rc blue">
+        <div class="ricon">🚨</div>
+        <div class="rnum">34%</div>
+        <div class="rlbl">Las víctimas bloquean lo técnico</div>
+        <div class="rnote">Al llegar, lo primero son los heridos. Mientras tanto la evidencia espera — y a veces desaparece.</div>
+      </div>
+      <div class="rc green">
+        <div class="ricon">🎯</div>
+        <div class="rnum">23%</div>
+        <div class="rlbl">Quiere saber el punto de impacto</div>
+        <div class="rnote">La pregunta más frecuente al ver un accidente: ¿dónde chocaron exactamente?</div>
+      </div>
+      <div class="rc orange">
+        <div class="ricon">🔄</div>
+        <div class="rnum">18%</div>
+        <div class="rlbl">El volcamiento es el más difícil</div>
+        <div class="rnote">Empata con choque genérico. Muchos dijeron que reconstruir un volcamiento es lo que más les cuesta.</div>
+      </div>
+      <div class="rc police">
+        <div class="ricon">💬</div>
+        <div class="rnum">12%</div>
+        <div class="rlbl">Quiere saber si el conductor miente</div>
+        <div class="rnote">La palabra "hipótesis" apareció en múltiples respuestas. ¿Cómo saber quién dice la verdad?</div>
+      </div>
+    </div>
+
+    <div class="surp">
+      <div class="surtag">// El dato que más sorprende</div>
+      <h3>La experiencia no resuelve el problema técnico</h3>
+      <div class="suritems">
+        <div class="suri">
+          <span class="surnum">58%</span>
+          <div>tiene <strong>más de 7 años</strong> atendiendo accidentes. Y aun así, reportan exactamente las mismas brechas que los que llevan menos de 1 año. El problema no es la inexperiencia — <strong>es que nunca nadie les enseñó estas herramientas.</strong></div>
+        </div>
+        <div class="suri">
+          <span class="surnum">83%</span>
+          <div>son <strong>oficiales y suboficiales</strong> — no patrulleros novatos. Son los de mayor rango quienes también dicen: "no sé cómo peritar", "no tengo conocimiento técnico". <strong>No es vergüenza admitirlo — es inteligencia reconocer que falta formación.</strong></div>
+        </div>
+        <div class="suri">
+          <span class="surnum">20</span>
+          <div><strong>departamentos diferentes</strong> — desde Bogotá hasta el Guaviare, desde La Guajira hasta el Chocó. Y todos, sin excepción, tienen los mismos vacíos. No es regional. <strong>Es un patrón nacional.</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANÁLISIS DE PATRONES -->
+<section class="alt">
+  <div class="si">
+    <div class="stag">Análisis de patrones</div>
+    <h2>Cómo piensan en la escena</h2>
+    <p class="ssub">Detrás de cada respuesta hay un patrón cognitivo. Esto es lo que los datos revelan sobre cómo funciona la mente de un agente en campo.</p>
+
+    <div class="patterns">
+
+      <div class="pat">
+        <div class="pat-head">
+          <div class="pat-icon">🚨</div>
+          <div class="pat-num" style="color:var(--red);">1°</div>
+          <div>
+            <div class="pat-title">El modo emergencia desactiva el modo técnico</div>
+            <div class="pat-sub">El patrón más frecuente — 34% lo describe</div>
+          </div>
+        </div>
+        <div class="pat-body">
+          <div class="pat-insight">
+            Cuando llegan a una escena con heridos, el cerebro entra en <strong>modo rescate</strong>. Es correcto — las víctimas son la prioridad. Pero en ese momento, la recolección de evidencia queda suspendida. El problema es que <strong>nadie le enseñó cómo hacer las dos cosas al mismo tiempo</strong>: atender a los heridos Y preservar la escena.<br><br>
+            El resultado: cuando llega el momento de reconstruir qué pasó, la evidencia ya fue alterada, los vehículos fueron movidos, los testigos se fueron. El agente tiene que reconstruir el accidente <strong>con piezas faltantes</strong>.
+          </div>
+          <span class="pat-tag tag-red">⚡ Solución: protocolo de dos fases simultáneas</span>
+        </div>
+      </div>
+
+      <div class="pat">
+        <div class="pat-head">
+          <div class="pat-icon">📐</div>
+          <div class="pat-num" style="color:var(--orange);">2°</div>
+          <div>
+            <div class="pat-title">El punto de referencia: el primer bloqueo técnico</div>
+            <div class="pat-sub">14% lo menciona directamente — y muchos más lo viven sin nombrarlo</div>
+          </div>
+        </div>
+        <div class="pat-body">
+          <div class="pat-insight">
+            "No sé de dónde voy a empezar a medir." Esta frase resume un bloqueo que va más allá de la medición. El punto de referencia es el <strong>ancla de todo el procedimiento</strong>: sin él, el croquis falla, las medidas son relativas, y el informe queda débil.<br><br>
+            Lo interesante: agentes con 7 años de experiencia también reportan este bloqueo. Porque <strong>nadie definió un criterio claro</strong> de cómo elegirlo. Cada uno improvisa con lo que aprendió solo en la calle.
+          </div>
+          <span class="pat-tag tag-orange">⚡ Solución: regla de los 3 criterios para el punto de referencia</span>
+        </div>
+      </div>
+
+      <div class="pat">
+        <div class="pat-head">
+          <div class="pat-icon">🔍</div>
+          <div class="pat-num" style="color:var(--blue);">3°</div>
+          <div>
+            <div class="pat-title">Buscan el dónde antes del por qué</div>
+            <div class="pat-sub">23% quiere el punto de impacto — el dato más demandado del vehículo</div>
+          </div>
+        </div>
+        <div class="pat-body">
+          <div class="pat-insight">
+            La pregunta instintiva del agente no es "¿por qué chocaron?" — es <strong>"¿dónde chocaron exactamente?"</strong> El punto de impacto. La trayectoria. El lugar preciso del encuentro entre los vehículos.<br><br>
+            Esto revela algo importante: el agente tiene el instinto correcto. El punto de impacto <strong>es la clave</strong> para reconstruir el accidente. Pero no tiene el método para leerlo desde la deformación del vehículo. Sabe qué necesita — le falta cómo obtenerlo.
+          </div>
+          <span class="pat-tag tag-blue">⚡ Solución: leer deformaciones para determinar punto de impacto</span>
+        </div>
+      </div>
+
+      <div class="pat">
+        <div class="pat-head">
+          <div class="pat-icon">💬</div>
+          <div class="pat-num" style="color:var(--green);">4°</div>
+          <div>
+            <div class="pat-title">La hipótesis: el concepto que todos buscan sin saber su nombre</div>
+            <div class="pat-sub">4 agentes lo nombraron exactamente — muchos más lo viven</div>
+          </div>
+        </div>
+        <div class="pat-body">
+          <div class="pat-insight">
+            "¿Cómo saber si lo que me dicen los conductores es verdad o se están acomodando?" Esta pregunta la hizo un oficial con más de 7 años. Y es exactamente la pregunta más importante de la reconstrucción de accidentes.<br><br>
+            En física forense se llama <strong>validación de hipótesis</strong>: comparar la versión declarada con la evidencia física. Si la historia del conductor es inconsistente con las huellas, la deformación y la posición final de los vehículos — <strong>la evidencia habla más que las palabras</strong>. El agente necesita ese método.
+          </div>
+          <span class="pat-tag tag-green">⚡ Solución: física inversa como herramienta de validación</span>
+        </div>
+      </div>
+
+      <div class="pat">
+        <div class="pat-head">
+          <div class="pat-icon">😰</div>
+          <div class="pat-num" style="color:var(--police);">5°</div>
+          <div>
+            <div class="pat-title">El miedo a equivocarse paraliza más que la ignorancia</div>
+            <div class="pat-sub">Un patrón transversal — aparece en todas las preguntas</div>
+          </div>
+        </div>
+        <div class="pat-body">
+          <div class="pat-insight">
+            No es solo no saber — es <strong>saber que no se sabe y tener que actuar igual</strong>. Esa combinación genera un estrés silencioso que los agentes rara vez nombran pero que aparece entre líneas en casi todas las respuestas.<br><br>
+            "No conozco los carros y siento que me voy a equivocar." "No sé qué datos tomar." "Saber cómo hacerlo y que salga bien." Hay una <strong>presión de rendimiento</strong> que el agente carga solo, sin herramientas que lo respalden.<br><br>
+            El impacto de tener <strong>un sistema de respaldo técnico</strong> — una calculadora, un checklist, un prompt de IA — no es solo operativo. Es psicológico. Le devuelve la confianza al agente para actuar con certeza.
+          </div>
+          <span class="pat-tag tag-police">⚡ Solución: herramientas que dan respaldo, no solo información</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAS REGIONALES -->
+<section>
+  <div class="si">
+    <div class="stag">El país es diverso</div>
+    <h2>El mismo problema,<br>contextos distintos</h2>
+    <p class="ssub">Los agentes de 20 departamentos comparten las mismas brechas — pero sus escenarios operativos son completamente diferentes.</p>
+
+    <div class="reg-grid">
+      <div class="reg-card">
+        <div class="reg-title" style="color:var(--police);">🏙️ Agente urbano</div>
+        <div class="reg-desc">Su mayor reto es la multitud. Ciudadanos que no colaboran, que contaminan la escena, que no entienden los procedimientos. La presión es social y de tiempo — el tráfico no puede detenerse mucho. El accidente es visible, pero la evidencia desaparece rápido.</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-title" style="color:var(--blue);">🛣️ Agente en vía nacional</div>
+        <div class="reg-desc">Volcamientos de tractocamiones, vehículos que se van al abismo, accidentes en curvas sin visibilidad. A veces sin grúa, sin patio, sin cámaras cercanas. La escena es más grande, más compleja — y está solo.</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-title" style="color:var(--orange);">🌿 Agente en zona rural</div>
+        <div class="reg-desc">Sin infraestructura de apoyo. La ambulancia tarda. Las cámaras no existen. Los registros fílmicos son escasos. Tiene que reconstruir el accidente con lo que tiene a mano — y lo que tiene a mano es su propio criterio.</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-title" style="color:var(--red);">🚛 Agente con tractocamiones</div>
+        <div class="reg-desc">El accidente de mayor complejidad técnica. Diferencia de masa extrema, deformaciones masivas, múltiples puntos de impacto. La reconstrucción requiere conocimiento específico que hoy no tienen sistematizado.</div>
+      </div>
+    </div>
+
+    <div class="common" style="margin-top:1.5rem;">
+      <h3>🤝 Lo que los conecta a todos — sin importar el contexto</h3>
+      <ul class="clist">
+        <li class="cli"><span class="chk">✅</span><div>Todos quieren hacer mejor su trabajo. No uno, no la mayoría — <strong>todos</strong>.</div></li>
+        <li class="cli"><span class="chk">✅</span><div>Todos sienten que falta formación técnica que nunca recibieron — y lo admiten con honestidad.</div></li>
+        <li class="cli"><span class="chk">✅</span><div>Todos toman decisiones bajo presión, con información incompleta, en tiempo real.</div></li>
+        <li class="cli"><span class="chk">✅</span><div>Todos buscan un respaldo técnico que les diga: <strong>"estás en lo correcto"</strong>.</div></li>
+        <li class="cli"><span class="chk">✅</span><div>Todos llevan la carga de representar a la Policía Nacional en los peores momentos de las personas.</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- LO QUE QUIEREN -->
+<section class="alt">
+  <div class="si">
+    <div class="stag">Lo que quieren</div>
+    <h2>Las 5 cosas que<br>los agentes pidieron</h2>
+    <p class="ssub">No lo inventamos. Está en las respuestas. Esto es lo que Colombia necesita para sus agentes de tránsito.</p>
+
+    <div class="wg">
+      <div class="wc">
+        <div class="wicon">📱</div>
+        <div class="wtitle">Una herramienta tecnológica práctica</div>
+        <div class="wdesc">Algo que puedan usar en el celular en la escena. No un manual de 200 páginas. Una herramienta que responda en segundos cuando más lo necesitan. Que sea práctica, accesible y funcione sin internet.</div>
+        <div class="wpct">32% <span>lo pidió directamente</span></div>
+      </div>
+      <div class="wc">
+        <div class="wicon">🔬</div>
+        <div class="wtitle">Entender cómo se originó el accidente</div>
+        <div class="wdesc">No solo documentar lo que ven. Entender qué pasó antes del impacto. La física que la escena les está contando — y que hoy nadie les enseñó a leer sistemáticamente.</div>
+        <div class="wpct">100% <span>lo necesita, pocos tienen el método</span></div>
+      </div>
+      <div class="wc">
+        <div class="wicon">📋</div>
+        <div class="wtitle">Un protocolo claro de peritaje</div>
+        <div class="wdesc">Qué datos tomar, en qué orden, sin olvidar nada. No improvisar cada vez. Tener una lista clara que los proteja a ellos y proteja el informe ante cualquier impugnación.</div>
+        <div class="wpct">29% <span>admite no tener un protocolo</span></div>
+      </div>
+      <div class="wc">
+        <div class="wicon">🎯</div>
+        <div class="wtitle">Contrastar versiones con evidencia física</div>
+        <div class="wdesc">Saber si el conductor dice la verdad. Tener un argumento técnico objetivo, no solo intuición. Un método que convierta la evidencia física en respuesta clara.</div>
+        <div class="wpct">4 <span>lo nombraron textualmente como "hipótesis"</span></div>
+      </div>
+      <div class="wc">
+        <div class="wicon">🚀</div>
+        <div class="wtitle">Actuar con más confianza y menos miedo</div>
+        <div class="wdesc">No es inseguridad — es que nadie les dio las herramientas. Con el protocolo correcto y el respaldo técnico, cada procedimiento puede ser más sólido, más rápido y más defendible.</div>
+        <div class="wpct">83% <span>de oficiales lo admite — eso es valentía</span></div>
+      </div>
+      <div class="wc">
+        <div class="wicon">⚡</div>
+        <div class="wtitle">Resolver más rápido para despejar la vía</div>
+        <div class="wdesc">El tiempo importa. Cada minuto en escena es tráfico represado, ciudadanos impacientes, presión institucional. Un método claro no solo mejora la calidad del informe — también reduce el tiempo.</div>
+        <div class="wpct">Todos <span>lo viven aunque pocos lo nombraron así</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LA RESPUESTA -->
+<section>
+  <div class="si">
+    <div class="stag">Por qué estamos aquí</div>
+    <h2>Lo que este diplomado<br>vino a resolver</h2>
+    <p class="ssub">No es casualidad. Cada módulo fue construido a partir de lo que ustedes necesitan.</p>
+
+    <div class="answ">
+      <h3>Todo lo que pidieron está aquí.</h3>
+      <p>Herramientas tecnológicas para la escena. Física para entender el origen del accidente. Protocolo de peritaje paso a paso. Método para contrastar versiones. Y el respaldo técnico que siempre buscaron — ahora en el bolsillo.</p>
+      <div class="atools">
+        <span class="atool">📋 Checklist de escena</span>
+        <span class="atool">🧮 Calculadoras técnicas</span>
+        <span class="atool">🤖 Prompts IA expertos</span>
+        <span class="atool">🔬 Física inversa</span>
+        <span class="atool">📸 Protocolo fotográfico</span>
+        <span class="atool">⚖️ Ley 769 · Ley 2251</span>
+      </div>
+    </div>
+
+    <div class="wg" style="margin-top:1.5rem;">
+      <div class="wc" style="border-left:3px solid var(--police);">
+        <div class="wicon">🏎️</div>
+        <div class="wtitle">Para el que quiere la velocidad</div>
+        <div class="wdesc">Calculadora de velocidad por huellas de frenado. Los metros de la huella + el tipo de pavimento = velocidad de impacto en segundos. Con respaldo normativo INVIAS.</div>
+      </div>
+      <div class="wc" style="border-left:3px solid var(--red);">
+        <div class="wicon">💬</div>
+        <div class="wtitle">Para el que quiere saber si le mienten</div>
+        <div class="wdesc">Un prompt de IA que compara la versión del conductor con la evidencia física de las fotos. Argumento técnico objetivo para el informe — en menos de un minuto.</div>
+      </div>
+      <div class="wc" style="border-left:3px solid var(--blue);">
+        <div class="wicon">📐</div>
+        <div class="wtitle">Para el que no sabe qué datos tomar</div>
+        <div class="wdesc">El checklist de 12 pasos mínimos. Se guarda en el celular. No se olvida nada, no se improvisa nada. El informe queda blindado.</div>
+      </div>
+      <div class="wc" style="border-left:3px solid var(--green);">
+        <div class="wicon">🤖</div>
+        <div class="wtitle">Para el que quiere asesoría rápida</div>
+        <div class="wdesc">5 prompts diseñados para este trabajo. Fotos del accidente + prompt = análisis de perito experto en 30 segundos. Sin costo, sin internet especial, en cualquier IA gratuita.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE -->
+<div class="closing">
+  <div class="closi">
+    <h2>Ustedes ya sabían<br>lo que <em>necesitaban</em>.</h2>
+    <p style="margin-top:1rem;">Solo faltaban las herramientas.<br><br>Este diplomado no está aquí para decirles cómo hacer su trabajo.<br>Está aquí para darles lo que siempre debieron tener.<br><br><strong style="color:var(--gold);">Bienvenidos.</strong></p>
+  </div>
+</div>
+
+<footer>
+  Basado en respuestas reales de <strong>36 agentes activos</strong> de la Policía Nacional de Colombia · Diplomado Tránsito & IA · Mayo 2026
+</footer>
+</body>
+</html>

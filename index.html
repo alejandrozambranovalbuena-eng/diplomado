@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#004C2E">
+<title>VIALAPP</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--green:#004C2E;--green2:#006B40;--gold:#F5A800;--gold2:#E09000;--red:#D32F2F;--blue:#1565C0;--orange:#E65100;--purple:#6A1B9A;--bg:#F5F6F8;--white:#FFFFFF;--text:#0D1117;--text2:#4A5568;--text3:#9AA5B4;--border:#E2E6ED;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.05);--mono:'DM Mono',monospace;--sans:'Plus Jakarta Sans',sans-serif;--r:14px;--r-sm:10px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;min-height:100vh;padding-bottom:80px;}
+.topbar{background:var(--green);padding:env(safe-area-inset-top) 16px 0;position:sticky;top:0;z-index:100;}
+.topbar-inner{height:54px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-size:1.5rem;font-weight:800;color:#fff;letter-spacing:2px;display:flex;align-items:center;gap:8px;}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);}
+.topbar-badge{font-family:var(--mono);font-size:.6rem;background:rgba(245,168,0,.2);border:1px solid rgba(245,168,0,.4);color:var(--gold);padding:3px 8px;border-radius:6px;letter-spacing:1.5px;}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--white);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -4px 20px rgba(0,0,0,.08);}
+.bnav-item{display:flex;flex-direction:column;align-items:center;padding:8px 4px;cursor:pointer;transition:all .2s;border:none;background:none;font-family:var(--sans);}
+.bnav-icon{font-size:1.4rem;margin-bottom:2px;}
+.bnav-label{font-size:.6rem;font-weight:600;color:var(--text3);letter-spacing:.3px;}
+.bnav-item.active .bnav-label{color:var(--green);}
+.bnav-item.active .bnav-icon{transform:translateY(-2px);}
+.page{display:none;padding:0 0 16px;}
+.page.active{display:block;}
+.hero-card{background:linear-gradient(135deg,var(--green),var(--green2));padding:20px 16px 24px;position:relative;overflow:hidden;}
+.hero-card::before{content:'';position:absolute;right:-30px;top:-30px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.04);}
+.hero-title{font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:4px;}
+.hero-sub{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:16px;}
+.hero-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.hero-chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);font-size:.65rem;font-weight:600;padding:4px 10px;border-radius:20px;}
+.section{padding:16px 16px 0;}
+.section-title{font-size:.7rem;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.menu-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:all .2s;box-shadow:var(--shadow);border:none;font-family:var(--sans);text-align:left;}
+.menu-card:active{transform:scale(.97);}
+.menu-card.full{grid-column:span 2;flex-direction:row;align-items:center;}
+.menu-icon{font-size:1.8rem;}
+.menu-name{font-size:.88rem;font-weight:700;color:var(--text);line-height:1.2;}
+.menu-desc{font-size:.72rem;color:var(--text2);line-height:1.4;}
+.menu-arrow{margin-left:auto;font-size:1.1rem;color:var(--text3);}
+.menu-card.primary{background:var(--green);border-color:var(--green);}
+.menu-card.primary .menu-name{color:#fff;}
+.menu-card.primary .menu-desc{color:rgba(255,255,255,.7);}
+.menu-card.primary .menu-arrow{color:var(--gold);}
+.card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:12px;}
+.card-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.card-head-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.card-head-title{font-weight:700;font-size:.9rem;}
+.card-body{padding:14px 16px;}
+.field{margin-bottom:12px;}
+.field:last-child{margin-bottom:0;}
+.field label{display:block;font-size:.72rem;font-weight:700;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px;}
+.field input,.field select{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);color:var(--text);padding:12px 14px;font-family:var(--sans);font-size:.95rem;transition:all .2s;-webkit-appearance:none;appearance:none;}
+.field input:focus,.field select:focus{outline:none;border-color:var(--green);background:var(--white);box-shadow:0 0 0 3px rgba(0,76,46,.08);}
+.field-note{font-size:.68rem;color:var(--text3);margin-top:4px;}
+.fields-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.surface-scroll{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none;}
+.surface-scroll::-webkit-scrollbar{display:none;}
+.surf-pill{flex-shrink:0;background:var(--bg);border:1.5px solid var(--border);border-radius:20px;padding:6px 12px;display:flex;align-items:center;gap:5px;cursor:pointer;transition:all .2s;font-size:.75rem;font-weight:600;color:var(--text2);white-space:nowrap;}
+.surf-pill.sel{background:rgba(0,76,46,.08);border-color:var(--green);color:var(--green);}
+.surf-mu{font-family:var(--mono);font-size:.62rem;background:var(--border);padding:1px 5px;border-radius:4px;color:var(--text3);}
+.surf-pill.sel .surf-mu{background:rgba(0,76,46,.12);color:var(--green);}
+.tipo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.tipo-btn{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:10px 6px;text-align:center;cursor:pointer;transition:all .2s;}
+.tipo-btn.sel{background:rgba(245,168,0,.08);border-color:var(--gold);}
+.tipo-icon{font-size:1.4rem;display:block;margin-bottom:3px;}
+.tipo-name{font-size:.7rem;font-weight:700;color:var(--text);line-height:1.2;}
+.tipo-btn.sel .tipo-name{color:var(--gold2);}
+.veh-tabs{display:flex;gap:0;margin-bottom:12px;border-radius:var(--r-sm);overflow:hidden;border:1.5px solid var(--border);}
+.veh-tab{flex:1;padding:10px;text-align:center;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;background:var(--bg);color:var(--text2);}
+.veh-tab.active{background:var(--green);color:#fff;}
+.steps-bar{display:flex;gap:4px;padding:12px 16px;background:var(--white);border-bottom:1px solid var(--border);}
+.step-dot{height:4px;flex:1;border-radius:2px;background:var(--border);transition:background .3s;}
+.step-dot.active{background:var(--gold);}
+.step-dot.done{background:var(--green);}
+.step-label{font-size:.68rem;color:var(--text3);font-weight:600;text-align:center;padding:6px 16px 0;}
+.step-content{padding:12px 16px;}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.result-card{background:var(--white);border-radius:var(--r-sm);border:1.5px solid var(--border);padding:12px;box-shadow:var(--shadow);}
+.result-label{font-family:var(--mono);font-size:.58rem;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;display:block;margin-bottom:4px;}
+.result-value{font-size:1.7rem;font-weight:800;color:var(--green);line-height:1;display:block;}
+.result-unit{font-size:.65rem;color:var(--text3);margin-top:2px;display:block;}
+.result-card.full{grid-column:span 2;}
+.result-card.highlight{border-color:var(--green);background:rgba(0,76,46,.04);}
+.result-card.highlight .result-value{color:var(--green);}
+.result-card.warn{border-color:var(--gold);background:rgba(245,168,0,.05);}
+.result-card.warn .result-value{color:var(--gold2);}
+.result-card.danger{border-color:var(--red);background:rgba(211,47,47,.05);}
+.result-card.danger .result-value{color:var(--red);}
+.diagnosis-card{border-radius:var(--r);padding:16px;margin-bottom:12px;color:#fff;}
+.diag-label{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.5);letter-spacing:2px;margin-bottom:6px;}
+.diag-title{font-size:1rem;font-weight:800;color:var(--gold);margin-bottom:6px;}
+.diag-body{font-size:.8rem;color:rgba(255,255,255,.8);line-height:1.6;}
+.diag-limit{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.15);font-size:.75rem;color:rgba(255,255,255,.7);}
+.informe{background:var(--white);border-radius:var(--r);border:1.5px solid var(--border);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow);}
+.informe-head{background:var(--green);padding:14px 16px;display:flex;align-items:center;gap:10px;}
+.informe-head-title{font-size:.9rem;font-weight:700;color:#fff;}
+.informe-head-sub{font-size:.7rem;color:rgba(255,255,255,.6);}
+.informe-body{padding:14px 16px;}
+.informe-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--bg);font-size:.82rem;gap:8px;}
+.informe-row:last-child{border:none;}
+.informe-key{color:var(--text2);flex-shrink:0;}
+.informe-val{font-weight:700;color:var(--text);text-align:right;}
+.informe-val.ok{color:var(--green);}
+.informe-val.bad{color:var(--red);}
+.informe-val.warn{color:var(--gold2);}
+.informe-section-title{font-family:var(--mono);font-size:.6rem;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin:12px 0 6px;padding-top:12px;border-top:1px solid var(--border);}
+.action-row{display:flex;gap:8px;padding:12px 16px;background:var(--bg);}
+.btn{flex:1;padding:14px;border-radius:var(--r-sm);border:none;font-family:var(--sans);font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--green);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--green);}
+.btn-ghost{background:var(--white);color:var(--text2);border:1.5px solid var(--border);}
+.calc-card{background:var(--white);border-radius:var(--r);border:1.5px solid var(--border);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow);}
+.calc-head{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--bg);}
+.calc-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.calc-title{font-size:.85rem;font-weight:700;}
+.calc-formula{font-family:var(--mono);font-size:.6rem;color:var(--text3);margin-top:1px;}
+.calc-body{padding:12px 14px;}
+.calc-result{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;margin-top:10px;}
+.calc-result-label{font-family:var(--mono);font-size:.58rem;color:var(--text3);letter-spacing:.8px;display:block;margin-bottom:2px;}
+.calc-result-value{font-size:1.4rem;font-weight:800;color:var(--green);}
+.calc-result-note{font-size:.68rem;color:var(--text3);margin-top:3px;}
+.module-list{display:flex;flex-direction:column;gap:10px;}
+.module-item{background:var(--white);border-radius:var(--r);border:1.5px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;box-shadow:var(--shadow);transition:all .2s;}
+.module-item:active{transform:scale(.98);}
+.module-icon{font-size:1.6rem;flex-shrink:0;}
+.module-name{font-size:.88rem;font-weight:700;color:var(--text);}
+.module-desc{font-size:.72rem;color:var(--text2);margin-top:1px;}
+.module-arrow{margin-left:auto;color:var(--text3);flex-shrink:0;}
+.norma-item{background:var(--white);border-radius:var(--r);border:1.5px solid var(--border);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow);}
+.norma-badge{display:inline-block;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:6px;margin-bottom:6px;font-family:var(--mono);letter-spacing:.5px;}
+.norma-name{font-size:.9rem;font-weight:700;margin-bottom:4px;}
+.norma-desc{font-size:.78rem;color:var(--text2);line-height:1.5;}
+.norma-link{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:.72rem;font-weight:600;color:var(--green);text-decoration:none;}
+.alert-box{background:rgba(245,168,0,.08);border:1px solid rgba(245,168,0,.3);border-radius:var(--r-sm);padding:10px 12px;font-size:.75rem;color:var(--text2);margin-bottom:12px;display:flex;gap:8px;align-items:flex-start;}
+.alert-box strong{color:var(--gold2);}
+@media print{.topbar,.bottom-nav,.action-row,.btn{display:none!important;}.page{display:block!important;}body{padding:0;background:white;}.informe{box-shadow:none;border:1px solid #ccc;}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="logo"><div class="logo-dot"></div>VIALAPP</div>
+    <span class="topbar-badge">COLOMBIA &#127464;&#127476;</span>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero-card">
+    <div class="hero-title">Reconstrucción Vial Inteligente</div>
+    <div class="hero-sub">Para agentes de tránsito · Policía Nacional de Colombia</div>
+    <div class="hero-chips">
+      <span class="hero-chip">&#9878;&#65039; Ley 769/2002</span>
+      <span class="hero-chip">&#128737;&#65039; Ley 2251/2022</span>
+      <span class="hero-chip">&#128208; INVIAS 2008</span>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Acceso rápido</div>
+    <div class="menu-grid">
+      <button class="menu-card primary full" onclick="goPage('calc')">
+        <div><div class="menu-icon">&#128165;</div><div class="menu-name">Calcular Accidente</div><div class="menu-desc">Ingresa datos y obtén informe completo listo para imprimir</div></div>
+        <div class="menu-arrow">&#8594;</div>
+      </button>
+      <button class="menu-card" onclick="goPage('formulas')">
+        <div class="menu-icon">&#129518;</div>
+        <div class="menu-name">Fórmulas Rápidas</div>
+        <div class="menu-desc">Velocidad, curvas, peatón, ciclista, video</div>
+      </button>
+      <button class="menu-card" onclick="goPage('modulos')">
+        <div class="menu-icon">&#128218;</div>
+        <div class="menu-name">Módulos de Campo</div>
+        <div class="menu-desc">Fotos, kit operativo, protocolos</div>
+      </button>
+      <button class="menu-card" onclick="goPage('normativa')">
+        <div class="menu-icon">&#9878;&#65039;</div>
+        <div class="menu-name">Normativa</div>
+        <div class="menu-desc">Leyes y manuales oficiales</div>
+      </button>
+      <button class="menu-card" onclick="goPage('calc');goLastInforme()">
+        <div class="menu-icon">&#128196;</div>
+        <div class="menu-name">Último Informe</div>
+        <div class="menu-desc">Ver e imprimir el último cálculo</div>
+      </button>
+    </div>
+  </div>
+  <div class="section" style="padding-top:14px;">
+    <div class="section-title">Abrir IA directamente</div>
+    <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;">
+      <a href="https://claude.ai/new" target="_blank" style="flex-shrink:0;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;text-decoration:none;display:flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600;color:var(--text2);box-shadow:var(--shadow);">&#9889; Claude.ai</a>
+      <a href="https://chatgpt.com" target="_blank" style="flex-shrink:0;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;text-decoration:none;display:flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600;color:var(--text2);box-shadow:var(--shadow);">&#129001; ChatGPT</a>
+      <a href="https://gemini.google.com" target="_blank" style="flex-shrink:0;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;text-decoration:none;display:flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600;color:var(--text2);box-shadow:var(--shadow);">&#10024; Gemini</a>
+      <a href="https://grok.com" target="_blank" style="flex-shrink:0;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;text-decoration:none;display:flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600;color:var(--text2);box-shadow:var(--shadow);">X Grok</a>
+    </div>
+  </div>
+</div>
+
+<!-- CALCULADORA -->
+<div class="page" id="page-calc">
+  <div class="steps-bar">
+    <div class="step-dot active" id="sd0"></div>
+    <div class="step-dot" id="sd1"></div>
+    <div class="step-dot" id="sd2"></div>
+    <div class="step-dot" id="sd3"></div>
+    <div class="step-dot" id="sd4"></div>
+  </div>
+  <div class="step-label" id="step-label">PASO 1: ESCENA Y VÍA</div>
+
+  <!-- S0 -->
+  <div class="step-content" id="sc0">
+    <div class="card">
+      <div class="card-head"><div class="card-head-icon" style="background:#e8f5ee;color:var(--green);">&#127758;</div><div><div class="card-head-title">Condiciones de la vía</div></div></div>
+      <div class="card-body">
+        <div class="fields-row">
+          <div class="field"><label>Fecha</label><input type="date" id="c_fecha"></div>
+          <div class="field"><label>Hora</label><input type="time" id="c_hora"></div>
+        </div>
+        <div class="field"><label>Condición climática</label>
+          <select id="c_clima"><option value="seco">&#9728;&#65039; Despejado</option><option value="lluvia">&#127783;&#65039; Lluvia</option><option value="neblina">&#127783;&#65039; Neblina</option><option value="noche">&#127761; Noche</option></select>
+        </div>
+        <div class="fields-row">
+          <div class="field"><label>Tipo de vía</label>
+            <select id="c_via"><option value="urbana">Urbana</option><option value="secundaria">Secundaria</option><option value="nacional">Nacional</option></select>
+          </div>
+          <div class="field"><label>Límite veloc. (km/h)</label><input type="number" id="c_limite" placeholder="km/h" value="60"></div>
+        </div>
+        <div class="field"><label>Pendiente</label>
+          <select id="c_pendiente">
+            <option value="0">Plana (0%)</option>
+            <option value="up3">Subida leve (3%)</option>
+            <option value="up5">Subida moderada (5%)</option>
+            <option value="up8">Subida pronunciada (8%)</option>
+            <option value="down3">Bajada leve (3%)</option>
+            <option value="down5">Bajada moderada (5%)</option>
+            <option value="down8">Bajada pronunciada (8%)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-head-icon" style="background:#e8f5ee;color:var(--green);">&#128739;&#65039;</div><div><div class="card-head-title">Superficie del pavimento</div></div></div>
+      <div class="card-body" style="padding-bottom:6px;">
+        <div class="surface-scroll" id="surfaceScroll"></div>
+        <div style="font-family:var(--mono);font-size:.65rem;color:var(--text3);margin-top:4px;">u seleccionado: <strong id="muDisplay" style="color:var(--green);">0.75</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S1 -->
+  <div class="step-content" id="sc1" style="display:none;">
+    <div class="card">
+      <div class="card-head"><div class="card-head-icon" style="background:#fff8e6;color:var(--gold2);">&#128165;</div><div><div class="card-head-title">Tipo de colisión</div></div></div>
+      <div class="card-body"><div class="tipo-grid" id="tipoGrid"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-head-icon" style="background:#e3f2fd;color:var(--blue);">&#128208;</div><div><div class="card-head-title">Huellas ANTES del impacto (frenado previo)</div></div></div>
+      <div class="card-body">
+        <div class="alert-box"><span>&#8505;&#65039;</span><div>Distancia desde que empieza la huella de frenado hasta el punto de impacto. 0 si no hay huellas previas.</div></div>
+        <div class="fields-row">
+          <div class="field"><label>Huella pre V1 (m)</label><input type="number" id="c_pre1" placeholder="0" min="0" step="0.1" value="0"></div>
+          <div class="field"><label>Huella pre V2 (m)</label><input type="number" id="c_pre2" placeholder="0" min="0" step="0.1" value="0"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="step-content" id="sc2" style="display:none;">
+    <div class="veh-tabs">
+      <div class="veh-tab active" id="vtab1" onclick="switchVehTab(1)">&#9312; Vehículo 1</div>
+      <div class="veh-tab" id="vtab2" onclick="switchVehTab(2)">&#9313; Vehículo 2</div>
+    </div>
+    <div id="vpanel1">
+      <div class="card">
+        <div class="card-head"><div class="card-head-icon" style="background:#e8f5ee;color:var(--green);font-weight:800;">1</div><div><div class="card-head-title" style="color:var(--green);">Vehículo 1 — El que impacta</div></div></div>
+        <div class="card-body">
+          <div class="field"><label>Tipo</label>
+            <select id="c_tipo1" onchange="syncM(1)">
+              <option value="150">&#127949;&#65039; Motocicleta (~150 kg)</option>
+              <option value="350">&#128756; Moto grande (~350 kg)</option>
+              <option value="1200" selected>&#128663; Automóvil (~1.200 kg)</option>
+              <option value="1800">&#128665; Camioneta (~1.800 kg)</option>
+              <option value="3500">&#128662; Microbús (~3.500 kg)</option>
+              <option value="5000">&#128667; Camión (~5.000 kg)</option>
+              <option value="15000">&#128668; Tractocamión (~15.000 kg)</option>
+              <option value="custom">&#9999;&#65039; Personalizar</option>
+            </select>
+          </div>
+          <div class="field"><label>Masa vacío (kg)</label><input type="number" id="c_m1" value="1200" min="50"></div>
+          <div class="fields-row">
+            <div class="field"><label>N° de ocupantes</label><input type="number" id="c_ocu1" value="1" min="0" max="30"><div class="field-note">~75 kg c/u</div></div>
+            <div class="field"><label>Carga adicional (kg)</label><input type="number" id="c_carga1" value="0" min="0"></div>
+          </div>
+          <div class="field"><label>Huella POST-impacto V1 (m)</label><input type="number" id="c_d1" placeholder="Metros que rodó DESPUÉS del choque" min="0" step="0.1"></div>
+        </div>
+      </div>
+    </div>
+    <div id="vpanel2" style="display:none;">
+      <div class="card">
+        <div class="card-head"><div class="card-head-icon" style="background:#fde8e8;color:var(--red);font-weight:800;">2</div><div><div class="card-head-title" style="color:var(--red);">Vehículo 2 — El impactado</div></div></div>
+        <div class="card-body">
+          <div class="field"><label>Tipo</label>
+            <select id="c_tipo2" onchange="syncM(2)">
+              <option value="150">&#127949;&#65039; Motocicleta (~150 kg)</option>
+              <option value="350">&#128756; Moto grande (~350 kg)</option>
+              <option value="1200" selected>&#128663; Automóvil (~1.200 kg)</option>
+              <option value="1800">&#128665; Camioneta (~1.800 kg)</option>
+              <option value="3500">&#128662; Microbús (~3.500 kg)</option>
+              <option value="5000">&#128667; Camión (~5.000 kg)</option>
+              <option value="15000">&#128668; Tractocamión (~15.000 kg)</option>
+              <option value="custom">&#9999;&#65039; Personalizar</option>
+            </select>
+          </div>
+          <div class="field"><label>Masa vacío (kg)</label><input type="number" id="c_m2" value="1200" min="50"></div>
+          <div class="fields-row">
+            <div class="field"><label>N° de ocupantes</label><input type="number" id="c_ocu2" value="1" min="0" max="30"><div class="field-note">~75 kg c/u</div></div>
+            <div class="field"><label>Carga adicional (kg)</label><input type="number" id="c_carga2" value="0" min="0"></div>
+          </div>
+          <div class="field"><label>Huella POST-impacto V2 (m)</label><input type="number" id="c_d2" placeholder="Metros que rodó DESPUÉS del choque" min="0" step="0.1"></div>
+          <div class="field" id="v2vel-field"><label>Velocidad de V2 antes del choque (km/h)</label><input type="number" id="c_v2k" value="0" min="0" placeholder="0 si estaba parado"><div class="field-note">Solo si V2 estaba en movimiento</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3 RESUMEN -->
+  <div class="step-content" id="sc3" style="display:none;">
+    <div class="alert-box"><span>&#9989;</span><div>Revisa los datos. Si algo está mal, regresa. Luego presiona <strong>CALCULAR</strong>.</div></div>
+    <div class="informe"><div class="informe-head"><div><div class="informe-head-title">&#128203; Resumen antes de calcular</div></div></div><div class="informe-body" id="resumen-body"></div></div>
+  </div>
+
+  <!-- S4 RESULTADOS -->
+  <div class="step-content" id="sc4" style="display:none;">
+    <div id="results-area"><div style="text-align:center;padding:40px;color:var(--text3);">&#9881;&#65039; Calculando...</div></div>
+  </div>
+
+  <div class="action-row" id="calc-actions">
+    <button class="btn btn-ghost" id="btn-back" onclick="stepBack()" style="display:none;">&#8592; Atrás</button>
+    <button class="btn btn-primary" id="btn-next" onclick="stepNext()">Continuar &#8594;</button>
+    <button class="btn btn-gold" id="btn-calc" onclick="doCalc()" style="display:none;">&#9889; CALCULAR</button>
+    <button class="btn btn-ghost" id="btn-new" onclick="resetCalc()" style="display:none;">&#128260; Nuevo</button>
+    <button class="btn btn-primary" id="btn-print" onclick="window.print()" style="display:none;">&#128424;&#65039; Imprimir</button>
+  </div>
+</div>
+
+<!-- FÓRMULAS -->
+<div class="page" id="page-formulas">
+  <div style="padding:16px 16px 0;"><div class="section-title">Calculadoras técnicas</div></div>
+  <div style="padding:0 16px;" id="formulas-container"></div>
+</div>
+
+<!-- MÓDULOS -->
+<div class="page" id="page-modulos">
+  <div style="padding:16px;"><div class="section-title">Módulos de campo</div><div class="module-list" id="modules-list"></div></div>
+</div>
+
+<!-- NORMATIVA -->
+<div class="page" id="page-normativa">
+  <div style="padding:16px;"><div class="section-title">Normativa colombiana</div><div id="normas-list"></div></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="bnav-item active" id="bnav-home" onclick="goPage('home')"><span class="bnav-icon">&#127968;</span><span class="bnav-label">Inicio</span></button>
+  <button class="bnav-item" id="bnav-calc" onclick="goPage('calc')"><span class="bnav-icon">&#128165;</span><span class="bnav-label">Calcular</span></button>
+  <button class="bnav-item" id="bnav-formulas" onclick="goPage('formulas')"><span class="bnav-icon">&#129518;</span><span class="bnav-label">Fórmulas</span></button>
+  <button class="bnav-item" id="bnav-modulos" onclick="goPage('modulos')"><span class="bnav-icon">&#128218;</span><span class="bnav-label">Módulos</span></button>
+</div>
+
+<script>
+const G=9.81;
+const SURFS=[
+  {id:'as',icon:'&#9726;',name:'Asfalto seco',mu:0.75},{id:'ah',icon:'&#128167;',name:'Asfalto húmedo',mu:0.50},{id:'am',icon:'&#127783;',name:'Asfalto mojado',mu:0.35},
+  {id:'cs',icon:'&#11036;',name:'Concreto seco',mu:0.80},{id:'ch',icon:'&#128166;',name:'Concreto húmedo',mu:0.55},
+  {id:'ds',icon:'&#129521;',name:'Adoquín seco',mu:0.65},{id:'dh',icon:'&#129543;',name:'Adoquín húmedo',mu:0.40},
+  {id:'t',icon:'&#9641;',name:'Tierra',mu:0.30},{id:'b',icon:'&#129680;',name:'Barro',mu:0.20},{id:'g',icon:'&#129704;',name:'Gravilla',mu:0.22},
+];
+let selSurf=SURFS[0];
+const TIPOS=[
+  {id:'parado',icon:'&#128721;',name:'V2 parado',desc:'El otro estaba detenido'},
+  {id:'movim',icon:'&#128663;',name:'Mismo sentido',desc:'Ambos en movimiento'},
+  {id:'frontal',icon:'&#11013;&#10145;',name:'Choque frontal',desc:'Cara a cara'},
+];
+let selTipo='parado';
+
+function getPend(){const v=document.getElementById('c_pendiente').value;if(v==='0')return 0;const s=v.startsWith('up')?1:-1;const p=parseInt(v.replace('up','').replace('down',''));return s*p/100;}
+function muEff(mu,e){if(e===0)return mu;const n=mu+Math.abs(e),d=Math.sqrt(e*e+1);return e>0?n/d:(mu-Math.abs(e))/d;}
+function getMasa(v){const m=parseFloat(document.getElementById('c_m'+v).value)||0;const o=parseFloat(document.getElementById('c_ocu'+v).value)||0;const c=parseFloat(document.getElementById('c_carga'+v).value)||0;return m+o*75+c;}
+function fv(id){const el=document.getElementById(id);return el?el.value:'—';}
+
+function goPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+n).classList.add('active');
+  document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
+  const nb=document.getElementById('bnav-'+n);if(nb)nb.classList.add('active');
+  window.scrollTo(0,0);
+}
+function goLastInforme(){setTimeout(()=>{currentStep=4;updateStepUI();},100);}
+
+function renderSurfs(){
+  const el=document.getElementById('surfaceScroll');
+  el.innerHTML=SURFS.map(s=>`<div class="surf-pill ${s.id===selSurf.id?'sel':''}" onclick="pickSurf('${s.id}')">${s.icon} ${s.name}<span class="surf-mu">u${s.mu}</span></div>`).join('');
+  document.getElementById('muDisplay').textContent=selSurf.mu;
+}
+function pickSurf(id){selSurf=SURFS.find(s=>s.id===id);renderSurfs();}
+
+function renderTipos(){
+  document.getElementById('tipoGrid').innerHTML=TIPOS.map(t=>`<div class="tipo-btn ${t.id===selTipo?'sel':''}" onclick="pickTipo('${t.id}')"><span class="tipo-icon">${t.icon}</span><span class="tipo-name">${t.name}</span><span style="font-size:.62rem;color:var(--text3);display:block;margin-top:2px;">${t.desc}</span></div>`).join('');
+  const f=document.getElementById('v2vel-field');
+  if(f)f.style.opacity=selTipo==='parado'?'0.4':'1';
+  const v2k=document.getElementById('c_v2k');
+  if(v2k){v2k.disabled=selTipo==='parado';if(selTipo==='parado')v2k.value='0';}
+}
+function pickTipo(id){selTipo=id;renderTipos();}
+function syncM(v){const s=document.getElementById('c_tipo'+v);const m=document.getElementById('c_m'+v);if(s.value!=='custom'&&m)m.value=s.value;}
+function switchVehTab(n){
+  document.getElementById('vtab1').classList.toggle('active',n===1);
+  document.getElementById('vtab2').classList.toggle('active',n===2);
+  document.getElementById('vpanel1').style.display=n===1?'block':'none';
+  document.getElementById('vpanel2').style.display=n===2?'block':'none';
+}
+
+let currentStep=0;
+const SLABELS=['PASO 1: ESCENA Y VÍA','PASO 2: TIPO DE CHOQUE','PASO 3: VEHÍCULOS','PASO 4: REVISAR DATOS','PASO 5: RESULTADOS'];
+function updateStepUI(){
+  for(let i=0;i<5;i++){
+    const sc=document.getElementById('sc'+i);
+    const sd=document.getElementById('sd'+i);
+    if(sc)sc.style.display=i===currentStep?'block':'none';
+    if(sd){sd.classList.remove('active','done');if(i<currentStep)sd.classList.add('done');else if(i===currentStep)sd.classList.add('active');}
+  }
+  const lbl=document.getElementById('step-label');if(lbl)lbl.textContent=SLABELS[currentStep]||'';
+  document.getElementById('btn-back').style.display=currentStep>0&&currentStep<4?'block':'none';
+  document.getElementById('btn-next').style.display=currentStep<3?'block':'none';
+  document.getElementById('btn-calc').style.display=currentStep===3?'block':'none';
+  document.getElementById('btn-new').style.display=currentStep===4?'block':'none';
+  document.getElementById('btn-print').style.display=currentStep===4?'block':'none';
+}
+function stepNext(){if(currentStep===2)buildResumen();if(currentStep<3){currentStep++;updateStepUI();window.scrollTo(0,0);}}
+function stepBack(){if(currentStep>0&&currentStep<4){currentStep--;updateStepUI();window.scrollTo(0,0);}}
+function resetCalc(){currentStep=0;updateStepUI();document.getElementById('results-area').innerHTML='<div style="text-align:center;padding:40px;color:var(--text3);">Calculando...</div>';window.scrollTo(0,0);}
+
+function buildResumen(){
+  const m1=getMasa(1),m2=getMasa(2);
+  const rows=[
+    ['Fecha / hora',fv('c_fecha')+' '+fv('c_hora')],
+    ['Clima',fv('c_clima')],
+    ['Vía / límite',fv('c_via')+' · '+fv('c_limite')+' km/h'],
+    ['Pendiente',fv('c_pendiente')],
+    ['Superficie (u)',selSurf.name+' (u='+selSurf.mu+')'],
+    ['Tipo de colisión',TIPOS.find(t=>t.id===selTipo)?.name],
+    ['Huella pre V1 / V2',fv('c_pre1')+'m / '+fv('c_pre2')+'m'],
+    ['Masa total V1',m1.toFixed(0)+' kg'],
+    ['Huella post V1',fv('c_d1')+' m'],
+    ['Masa total V2',m2.toFixed(0)+' kg'],
+    ['Huella post V2',fv('c_d2')+' m'],
+    ['V2 vel. conocida',selTipo==='parado'?'Parado (0 km/h)':fv('c_v2k')+' km/h'],
+  ];
+  document.getElementById('resumen-body').innerHTML=rows.map(([k,v])=>`<div class="informe-row"><span class="informe-key">${k}</span><span class="informe-val">${v}</span></div>`).join('');
+}
+
+function doCalc(){
+  currentStep=4;updateStepUI();window.scrollTo(0,0);
+  const mu=selSurf.mu,e=getPend(),mue=muEff(mu,e);
+  const m1=getMasa(1),m2=getMasa(2);
+  const d1=parseFloat(document.getElementById('c_d1').value)||0;
+  const d2=parseFloat(document.getElementById('c_d2').value)||0;
+  const pre1=parseFloat(document.getElementById('c_pre1').value)||0;
+  const v2k=selTipo==='parado'?0:(parseFloat(document.getElementById('c_v2k').value)||0);
+  const lim=parseFloat(document.getElementById('c_limite').value)||60;
+  const vf1=d1>0?Math.sqrt(2*mue*G*d1):0;
+  const vf2=d2>0?Math.sqrt(2*mue*G*d2):0;
+  const v2=v2k/3.6;
+  let v1=selTipo==='frontal'?(m1*vf1+m2*vf2+m2*v2)/m1:(m1*vf1+m2*vf2-m2*v2)/m1;
+  if(v1<0)v1=Math.abs(v1);
+  const v1pre=pre1>0?Math.sqrt(v1*v1+2*mue*G*pre1):v1;
+  const v1kh=v1*3.6,v1pre_kh=v1pre*3.6,vf1kh=vf1*3.6,vf2kh=vf2*3.6;
+  const dstop=v1>0?v1*v1/(2*mue*G):0;
+  const Fkn=Math.abs(m1*v1-m1*vf1)/(0.1*1000);
+  const Ec_pre=0.5*m1*v1*v1+0.5*m2*v2*v2,Ec_post=0.5*m1*vf1*vf1+0.5*m2*vf2*vf2;
+  const dEkJ=Math.max(0,Ec_pre-Ec_post)/1000;
+  const ecoef=(Math.abs(v1-v2)>0.01)?Math.min(1,Math.max(0,Math.abs(vf2-vf1)/Math.abs(v1-v2))):0;
+  const excess=v1pre_kh-lim;
+  let tipo,desc;
+  if(ecoef<0.2){tipo='INELASTICO SEVERO';desc='Gran deformacion de carroceria. Alta absorcion de energia en daños estructurales.';}
+  else if(ecoef<0.5){tipo='PARCIALMENTE INELASTICO';desc='Deformacion significativa con algo de rebote. Daños moderados a severos.';}
+  else if(ecoef<0.8){tipo='PARCIALMENTE ELASTICO';desc='Los vehiculos se separaron con velocidad. Tipico de choques laterales.';}
+  else{tipo='CASI ELASTICO';desc='Poco dano estructural. Colision leve o tangencial.';}
+  const cv1=excess>10?'danger':excess>0?'warn':'highlight';
+  const limMsg=excess>0?'EXCESO: +'+excess.toFixed(1)+' km/h sobre limite de '+lim+' km/h':'Dentro del limite ('+lim+' km/h)';
+  const fMsg=Fkn>500?'IMPACTO MUY SEVERO':Fkn>200?'IMPACTO MODERADO':'IMPACTO LEVE';
+
+  document.getElementById('results-area').innerHTML=`
+    <div>
+      <div style="font-family:var(--mono);font-size:.6rem;color:var(--text3);letter-spacing:2px;padding:4px 0 10px;border-bottom:1px solid var(--border);margin-bottom:12px;">// VELOCIDADES ESTIMADAS</div>
+      <div class="result-grid">
+        <div class="result-card ${cv1} full">
+          <span class="result-label">VELOCIDAD V1 ANTES DE FRENAR</span>
+          <span class="result-value" style="font-size:2.4rem;">${v1pre_kh.toFixed(1)}</span>
+          <span class="result-unit">km/h · ${limMsg}</span>
+        </div>
+        <div class="result-card"><span class="result-label">V1 al impactar</span><span class="result-value">${v1kh.toFixed(1)}</span><span class="result-unit">km/h</span></div>
+        <div class="result-card"><span class="result-label">V1 tras el choque</span><span class="result-value">${vf1kh.toFixed(1)}</span><span class="result-unit">km/h</span></div>
+        <div class="result-card"><span class="result-label">V2 antes del choque</span><span class="result-value">${v2k.toFixed(1)}</span><span class="result-unit">km/h</span></div>
+        <div class="result-card"><span class="result-label">V2 tras el choque</span><span class="result-value">${vf2kh.toFixed(1)}</span><span class="result-unit">km/h</span></div>
+      </div>
+      <div style="font-family:var(--mono);font-size:.6rem;color:var(--text3);letter-spacing:2px;padding:12px 0 8px;border-top:1px solid var(--border);">// DINAMICA</div>
+      <div class="result-grid">
+        <div class="result-card"><span class="result-label">Masa total V1</span><span class="result-value">${m1.toFixed(0)}</span><span class="result-unit">kg con carga y ocupantes</span></div>
+        <div class="result-card"><span class="result-label">Masa total V2</span><span class="result-value">${m2.toFixed(0)}</span><span class="result-unit">kg con carga y ocupantes</span></div>
+        <div class="result-card ${Fkn>500?'danger':Fkn>200?'warn':'highlight'}"><span class="result-label">Fuerza impacto</span><span class="result-value">${Fkn.toFixed(0)}</span><span class="result-unit">kN · ${fMsg}</span></div>
+        <div class="result-card"><span class="result-label">Energia en daños</span><span class="result-value">${dEkJ.toFixed(1)}</span><span class="result-unit">kJ disipados</span></div>
+        <div class="result-card"><span class="result-label">Coef. restitucion</span><span class="result-value">${ecoef.toFixed(2)}</span><span class="result-unit">0=destruccion 1=rebote</span></div>
+        <div class="result-card"><span class="result-label">Dist. parada V1</span><span class="result-value">${dstop.toFixed(1)}</span><span class="result-unit">metros</span></div>
+      </div>
+      <div class="diagnosis-card" style="background:${ecoef<0.3?'var(--red)':ecoef<0.6?'var(--gold2)':'var(--green)'}">
+        <div class="diag-label">TIPO DE CHOQUE</div>
+        <div class="diag-title">${tipo}</div>
+        <div class="diag-body">${desc}</div>
+        <div class="diag-limit">${limMsg} | ${fMsg}</div>
+      </div>
+      <div class="informe">
+        <div class="informe-head"><div style="font-size:1.3rem;margin-right:6px;">&#128196;</div><div><div class="informe-head-title">Informe técnico de reconstruccion</div><div class="informe-head-sub">Listo para copiar a IA o imprimir</div></div></div>
+        <div class="informe-body">
+          <div class="informe-section-title">ESCENA</div>
+          <div class="informe-row"><span class="informe-key">Superficie</span><span class="informe-val">${selSurf.name} (u=${selSurf.mu})</span></div>
+          <div class="informe-row"><span class="informe-key">u efectiva c/pendiente</span><span class="informe-val">${mue.toFixed(3)}</span></div>
+          <div class="informe-row"><span class="informe-key">Tipo colision</span><span class="informe-val">${TIPOS.find(t=>t.id===selTipo)?.name}</span></div>
+          <div class="informe-row"><span class="informe-key">Limite velocidad</span><span class="informe-val">${lim} km/h</span></div>
+          <div class="informe-section-title">VEHICULO 1</div>
+          <div class="informe-row"><span class="informe-key">Masa total V1</span><span class="informe-val">${m1.toFixed(0)} kg</span></div>
+          <div class="informe-row"><span class="informe-key">Huella pre-impacto</span><span class="informe-val">${fv('c_pre1')} m</span></div>
+          <div class="informe-row"><span class="informe-key">Huella post-impacto</span><span class="informe-val">${fv('c_d1')} m</span></div>
+          <div class="informe-row"><span class="informe-key">Vel. antes de frenar</span><span class="informe-val ${cv1}">${v1pre_kh.toFixed(1)} km/h</span></div>
+          <div class="informe-row"><span class="informe-key">Vel. al impactar</span><span class="informe-val">${v1kh.toFixed(1)} km/h</span></div>
+          <div class="informe-row"><span class="informe-key">Vel. post-choque</span><span class="informe-val">${vf1kh.toFixed(1)} km/h</span></div>
+          <div class="informe-section-title">VEHICULO 2</div>
+          <div class="informe-row"><span class="informe-key">Masa total V2</span><span class="informe-val">${m2.toFixed(0)} kg</span></div>
+          <div class="informe-row"><span class="informe-key">Huella post-impacto</span><span class="informe-val">${fv('c_d2')} m</span></div>
+          <div class="informe-row"><span class="informe-key">Vel. pre-impacto</span><span class="informe-val">${v2k.toFixed(1)} km/h</span></div>
+          <div class="informe-row"><span class="informe-key">Vel. post-choque</span><span class="informe-val">${vf2kh.toFixed(1)} km/h</span></div>
+          <div class="informe-section-title">ANALISIS</div>
+          <div class="informe-row"><span class="informe-key">Fuerza impacto</span><span class="informe-val">${Fkn.toFixed(0)} kN</span></div>
+          <div class="informe-row"><span class="informe-key">Energia disipada</span><span class="informe-val">${dEkJ.toFixed(1)} kJ</span></div>
+          <div class="informe-row"><span class="informe-key">Coef. restitucion (e)</span><span class="informe-val">${ecoef.toFixed(3)}</span></div>
+          <div class="informe-row"><span class="informe-key">Clasificacion choque</span><span class="informe-val">${tipo}</span></div>
+          <div class="informe-row"><span class="informe-key">Exceso velocidad V1</span><span class="informe-val ${excess>0?'bad':'ok'}">${excess>0?'+'+excess.toFixed(1)+' km/h EXCESO':'Sin exceso'}</span></div>
+          <div class="informe-section-title">NORMAS</div>
+          <div class="informe-row"><span class="informe-key">Coef. friccion</span><span class="informe-val">Manual INVIAS 2008</span></div>
+          <div class="informe-row"><span class="informe-key">Clasificacion</span><span class="informe-val">Ley 769/2002 Art.143</span></div>
+          <div class="informe-row"><span class="informe-key">Sistema Seguro</span><span class="informe-val">Ley 2251/2022</span></div>
+        </div>
+      </div>
+      <div class="alert-box" style="background:rgba(0,76,46,.06);border-color:rgba(0,76,46,.2);">
+        <span>&#128161;</span><div style="font-size:.72rem;"><strong style="color:var(--green);">Copia este informe a tu IA favorita</strong> para verificar calculos, identificar factores adicionales y generar el dictamen pericial completo.</div>
+      </div>
+    </div>`;
+}
+
+const FORMULAS=[
+  {id:'f0',icon:'&#127950;',color:'var(--green)',bg:'#e8f5ee',title:'Velocidad por huellas (plano)',formula:'V = raiz(2*g*u*d)',fields:[{id:'f0_d',label:'Huella de frenado (m)',ph:'Ej: 25'},{id:'f0_mu',label:'Superficie (u)',type:'surf'}],unit:'km/h',fn:()=>{const d=parseFloat(document.getElementById('f0_d')?.value)||0;const mu=parseFloat(document.getElementById('f0_mu_v')?.value)||0.75;if(d<=0)return null;return{val:(Math.sqrt(2*G*mu*d)*3.6).toFixed(1),note:'u='+mu+' · Margen +/-15%'};}},
+  {id:'f1',icon:'&#11014;&#65039;',color:'var(--gold2)',bg:'#fff8e6',title:'Velocidad cuesta ARRIBA',formula:'V = raiz(2g*((u+e)/raiz(e2+1))*d)',fields:[{id:'f1_d',label:'Huella frenado (m)',ph:'Ej: 20'},{id:'f1_mu',label:'Superficie',type:'surf'},{id:'f1_e',label:'Pendiente subida (ej: 5%=0.05)',ph:'0.05'}],unit:'km/h',fn:()=>{const d=parseFloat(document.getElementById('f1_d')?.value)||0;const mu=parseFloat(document.getElementById('f1_mu_v')?.value)||0.75;const e=parseFloat(document.getElementById('f1_e')?.value)||0;if(d<=0)return null;const mue=(mu+e)/Math.sqrt(e*e+1);return{val:(Math.sqrt(2*G*mue*d)*3.6).toFixed(1),note:'Al subir, vel menor que en plano'};}},
+  {id:'f2',icon:'&#11015;&#65039;',color:'var(--blue)',bg:'#e3f2fd',title:'Velocidad cuesta ABAJO',formula:'V = raiz(2g*((u-e)/raiz(e2+1))*d)',fields:[{id:'f2_d',label:'Huella frenado (m)',ph:'Ej: 20'},{id:'f2_mu',label:'Superficie',type:'surf'},{id:'f2_e',label:'Pendiente bajada (ej: 5%=0.05)',ph:'0.05'}],unit:'km/h',fn:()=>{const d=parseFloat(document.getElementById('f2_d')?.value)||0;const mu=parseFloat(document.getElementById('f2_mu_v')?.value)||0.75;const e=parseFloat(document.getElementById('f2_e')?.value)||0;if(d<=0)return null;if(mu<=e)return{val:'Error',note:'u debe ser mayor que la pendiente'};const mue=(mu-e)/Math.sqrt(e*e+1);return{val:(Math.sqrt(2*G*mue*d)*3.6).toFixed(1),note:'Al bajar, vel mayor que en plano'};}},
+  {id:'f3',icon:'&#128694;',color:'var(--red)',bg:'#fde8e8',title:'Atropello peaton - Searle',formula:'V = raiz((2g*u*d)/(1+u2))',fields:[{id:'f3_d',label:'Distancia proyeccion peaton (m)',ph:'Desde punto impacto'},{id:'f3_mu',label:'Superficie donde deslizo',type:'surf'}],unit:'km/h (velocidad MINIMA)',fn:()=>{const d=parseFloat(document.getElementById('f3_d')?.value)||0;const mu=parseFloat(document.getElementById('f3_mu_v')?.value)||0.75;if(d<=0)return null;return{val:(Math.sqrt((2*G*mu*d)/(1+mu*mu))*3.6).toFixed(1),note:'Velocidad minima del vehiculo al impactar'};}},
+  {id:'f4',icon:'&#128690;',color:'var(--purple)',bg:'#f3e5f5',title:'Atropello ciclista - SAE 900368',formula:'V = 0.8351 x d + 21.152',fields:[{id:'f4_d',label:'Distancia proyeccion ciclista (m)',ph:'Desde punto impacto'}],unit:'km/h',fn:()=>{const d=parseFloat(document.getElementById('f4_d')?.value);if(d==null||isNaN(d)||d<0)return null;return{val:(0.8351*d+21.152).toFixed(1),note:'Modelo SAE 900368 R2=0.806'};}},
+  {id:'f5',icon:'&#128249;',color:'var(--blue)',bg:'#e3f2fd',title:'Velocidad por video / camara',formula:'V = d / t',fields:[{id:'f5_d',label:'Distancia real en via (m)',ph:'Entre dos puntos conocidos'},{id:'f5_t',label:'Tiempo en video (segundos)',ph:'Cuadro a cuadro'}],unit:'km/h',fn:()=>{const d=parseFloat(document.getElementById('f5_d')?.value)||0;const t=parseFloat(document.getElementById('f5_t')?.value)||0;if(d<=0||t<=0)return null;return{val:((d/t)*3.6).toFixed(1),note:'Requiere correccion por perspectiva de camara'};}},
+  {id:'f6',icon:'&#128309;',color:'var(--orange)',bg:'#fff3e0',title:'Radio de curva (cuerda y sagita)',formula:'R = C2 / (8*f) + f/2',fields:[{id:'f6_c',label:'Cuerda / longitud medida (m)',ph:'Ej: 20'},{id:'f6_f',label:'Flecha / Sagita (m)',ph:'Ej: 0.50'}],unit:'metros de radio',fn:()=>{const C=parseFloat(document.getElementById('f6_c')?.value)||0;const f=parseFloat(document.getElementById('f6_f')?.value)||0;if(C<=0||f<=0)return null;const R=(C*C)/(8*f)+f/2;const interp=R<50?'Curva muy cerrada':R<100?'Curva cerrada':R<200?'Curva moderada':'Curva amplia';return{val:R.toFixed(1),note:'Cuerda='+C+'m Sagita='+f+'m: '+interp};}},
+  {id:'f7',icon:'&#128721;',color:'var(--green2)',bg:'#e8f5ee',title:'Distancia total de parada',formula:'d = V*t_reac + V2/(2*u*g)',fields:[{id:'f7_v',label:'Velocidad inicial (km/h)',ph:'Ej: 60'},{id:'f7_mu',label:'Superficie',type:'surf'},{id:'f7_tr',label:'Tiempo de reaccion',type:'select',opts:[{v:'0.75',l:'Alertado (0.75s)'},{v:'1.0',l:'Normal (1.0s)'},{v:'1.5',l:'Distraido (1.5s)'},{v:'2.5',l:'Fatigado (2.5s)'}]}],unit:'metros',fn:()=>{const v=(parseFloat(document.getElementById('f7_v')?.value)||0)/3.6;const mu=parseFloat(document.getElementById('f7_mu_v')?.value)||0.75;const tr=parseFloat(document.getElementById('f7_tr')?.value)||1.0;if(v<=0)return null;const dR=v*tr,dF=v*v/(2*mu*G);return{val:(dR+dF).toFixed(1),note:'Reaccion: '+dR.toFixed(1)+'m + Frenado: '+dF.toFixed(1)+'m'};}},
+];
+
+function renderFormulas(){
+  const c=document.getElementById('formulas-container');
+  c.innerHTML=FORMULAS.map(f=>{
+    const fh=f.fields.map(field=>{
+      if(field.type==='surf')return`<div class="field"><label>${field.label}</label><select id="${field.id}_v" onchange="runF('${f.id}')">${SURFS.map(s=>`<option value="${s.mu}">${s.icon} ${s.name} (u=${s.mu})</option>`).join('')}</select></div>`;
+      if(field.type==='select')return`<div class="field"><label>${field.label}</label><select id="${field.id}" onchange="runF('${f.id}')">${field.opts.map(o=>`<option value="${o.v}">${o.l}</option>`).join('')}</select></div>`;
+      return`<div class="field"><label>${field.label}</label><input type="number" id="${field.id}" placeholder="${field.ph||''}" min="0" step="0.01" oninput="runF('${f.id}')" onchange="runF('${f.id}')" onkeyup="runF('${f.id}')"></div>`;
+    }).join('');
+    return`<div class="calc-card" id="${f.id}"><div class="calc-head"><div class="calc-icon" style="background:${f.bg};color:${f.color};">${f.icon}</div><div><div class="calc-title">${f.title}</div><div class="calc-formula">${f.formula}</div></div></div><div class="calc-body">${fh}<div class="calc-result"><span class="calc-result-label">Resultado</span><div class="calc-result-value" id="${f.id}_res" style="color:${f.color};">— ${f.unit}</div><div class="calc-result-note" id="${f.id}_note"></div></div></div></div>`;
+  }).join('');
+}
+function runF(id){const f=FORMULAS.find(x=>x.id===id);if(!f)return;const r=f.fn();const rv=document.getElementById(id+'_res');const rn=document.getElementById(id+'_note');if(rv)rv.textContent=r?r.val+' '+f.unit:'— '+f.unit;if(rn)rn.textContent=r?.note||'';}
+
+const MODS=[
+  {icon:'&#128247;',name:'Protocolo 8 Fotos Forenses',desc:'Tomas obligatorias en escena de accidente',url:'8_fotos_forenses.html'},
+  {icon:'&#127752;',name:'Kit Operativo del Agente',desc:'Tarjeta de bolsillo y guia digital',url:'kit_agente_transito.html'},
+  {icon:'&#128739;&#65039;',name:'Guia de Friccion Visual',desc:'Evalua u sin equipos especializados',url:'guia_friccion_policia.html'},
+  {icon:'&#128208;',name:'Formato Fijacion de Curva',desc:'Registro tecnico de curvas en escena',url:'formato_curva_campo.html'},
+  {icon:'&#128302;',name:'Caso Real Suesca-Nemocon',desc:'Analisis fisico completo de caso real',url:'caso_accidente_v3.html'},
+  {icon:'&#128202;',name:'Tabla Friccion INVIAS 2008',desc:'Indices oficiales de friccion colombianos',url:'tabla_friccion_invias.html'},
+  {icon:'&#129302;',name:'Prompts IA para Peritaje',desc:'5 prompts expertos para Claude ChatGPT Gemini',url:'index.html#prompts'},
+  {icon:'&#129710;',name:'Diagnostico del Grupo',desc:'Lo que dijeron 36 agentes del diplomado',url:'para_los_agentes.html'},
+];
+function renderMods(){document.getElementById('modules-list').innerHTML=MODS.map(m=>`<a class="module-item" href="${m.url}" target="_blank"><span class="module-icon">${m.icon}</span><div><div class="module-name">${m.name}</div><div class="module-desc">${m.desc}</div></div><span class="module-arrow">&#8594;</span></a>`).join('');}
+
+const NORMAS=[
+  {badge:'LEY',color:'#e8f5ee',tc:'var(--green)',name:'Ley 769 de 2002',desc:'Codigo Nacional de Transito. Define tipos de accidentes, responsabilidad, procedimientos y sanciones.',url:'https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=5557'},
+  {badge:'LEY',color:'#e8f5ee',tc:'var(--green)',name:'Ley 2251 de 2022',desc:'Sistema Seguro / Vision Cero Colombia. Marco para reduccion de accidentalidad con estandares internacionales.',url:'https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=186424'},
+  {badge:'MANUAL',color:'#e3f2fd',tc:'var(--blue)',name:'Manual INVIAS 2008',desc:'Diseno Geometrico de Carreteras. Define coeficientes de friccion (u), radios minimos de curva y velocidades de diseno.',url:'https://www.invias.gov.co/index.php/documentos-tecnicos'},
+  {badge:'RESOLUCION',color:'#fff8e6',tc:'var(--gold2)',name:'Res. 11268/2012 - IPAT',desc:'Manual de diligenciamiento del Informe Policial de Accidentes de Transito. Procedimiento oficial para levantar un accidente.',url:'https://planetavial.co/resolucion-11268-de-2012-manual-del-diligenciamiento-del-ipat/'},
+  {badge:'FISICA',color:'#f3e5f5',tc:'var(--purple)',name:'Formula Searle',desc:'V = raiz((2g*u*d)/(1+u2)) — Para atropellos de peatones. Referenciada en manuales de accidentologia forense.',url:null},
+  {badge:'FISICA',color:'#f3e5f5',tc:'var(--purple)',name:'Conservacion de Momentum',desc:'m1v1 + m2v2 = m1vf1 + m2vf2 — Ley fisica para reconstruccion de choques entre vehiculos.',url:null},
+];
+function renderNormas(){document.getElementById('normas-list').innerHTML=NORMAS.map(n=>`<div class="norma-item"><span class="norma-badge" style="background:${n.color};color:${n.tc};">${n.badge}</span><div class="norma-name">${n.name}</div><div class="norma-desc">${n.desc}</div>${n.url?`<a class="norma-link" href="${n.url}" target="_blank">Ver documento oficial &#8594;</a>`:''}</div>`).join('');}
+
+renderSurfs();renderTipos();renderFormulas();renderMods();renderNormas();updateStepUI();
+</script>
+</body>
+</html>

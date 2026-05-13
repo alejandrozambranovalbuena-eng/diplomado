@@ -1,0 +1,2534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>VIALAPP</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--g:#004C2E;--g2:#006B40;--gd:#F5A800;--gd2:#E09000;--r:#D32F2F;--b:#1565C0;--or:#E65100;--pu:#6A1B9A;--bg:#F5F6F8;--wh:#FFFFFF;--tx:#0D1117;--t2:#4A5568;--t3:#9AA5B4;--bd:#E2E6ED;--sh:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.05);--r0:14px;--r1:10px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--tx);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;line-height:1.5;min-height:100vh;padding-bottom:76px;}
+/* TOPBAR */
+.tb{background:var(--g);padding:env(safe-area-inset-top,0) 16px 0;position:sticky;top:0;z-index:100;}
+.tb-i{height:52px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:2px;display:flex;align-items:center;gap:6px;}
+.logo-d{width:7px;height:7px;border-radius:50%;background:var(--gd);}
+.tb-badge{font-family:'DM Mono',monospace;font-size:.58rem;background:rgba(245,168,0,.2);border:1px solid rgba(245,168,0,.4);color:var(--gd);padding:3px 8px;border-radius:5px;letter-spacing:1.5px;}
+/* BOTTOM NAV */
+.bn{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--wh);border-top:1px solid var(--bd);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom,0);box-shadow:0 -4px 20px rgba(0,0,0,.08);}
+.bi{display:flex;flex-direction:column;align-items:center;padding:8px 4px;cursor:pointer;border:none;background:none;font-family:inherit;}
+.bi-ic{font-size:1.35rem;margin-bottom:2px;}
+.bi-lb{font-size:.6rem;font-weight:600;color:var(--t3);}
+.bi.on .bi-lb{color:var(--g);}
+.bi.on .bi-ic{transform:translateY(-2px);}
+/* PAGES */
+.pg{display:none;padding:0 0 16px;}
+.pg.on{display:block;}
+/* CARDS */
+.card{background:var(--wh);border-radius:var(--r0);box-shadow:var(--sh);overflow:hidden;margin-bottom:12px;}
+.ch{padding:13px 15px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;}
+.ch-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.ch-t{font-weight:700;font-size:.88rem;}
+.ch-s{font-size:.68rem;color:var(--t2);margin-top:1px;}
+.cb{padding:13px 15px;}
+/* FIELDS */
+.f{margin-bottom:11px;}
+.f:last-child{margin-bottom:0;}
+.f label{display:block;font-size:.7rem;font-weight:700;color:var(--t2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px;}
+.f input,.f select{width:100%;background:var(--bg);border:1.5px solid var(--bd);border-radius:var(--r1);color:var(--tx);padding:11px 13px;font-family:inherit;font-size:.93rem;transition:border-color .2s;-webkit-appearance:none;}
+.f input:focus,.f select:focus{outline:none;border-color:var(--g);background:var(--wh);}
+.f-note{font-size:.67rem;color:var(--t3);margin-top:3px;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+/* SECTION LABEL */
+.sec{padding:14px 16px 0;}
+.sec-t{font-size:.68rem;font-weight:700;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-t::after{content:'';flex:1;height:1px;background:var(--bd);}
+/* MENU GRID */
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mc{background:var(--wh);border-radius:var(--r0);padding:15px;display:flex;flex-direction:column;gap:7px;cursor:pointer;box-shadow:var(--sh);border:none;font-family:inherit;text-align:left;transition:all .15s;}
+.mc:active{transform:scale(.97);}
+.mc.full{grid-column:span 2;flex-direction:row;align-items:center;}
+.mc-ic{font-size:1.7rem;}
+.mc-n{font-size:.87rem;font-weight:700;color:var(--tx);line-height:1.2;}
+.mc-d{font-size:.7rem;color:var(--t2);line-height:1.35;}
+.mc-ar{margin-left:auto;font-size:1rem;color:var(--t3);}
+.mc.pri{background:var(--g);}
+.mc.pri .mc-n{color:#fff;}
+.mc.pri .mc-d{color:rgba(255,255,255,.65);}
+.mc.pri .mc-ar{color:var(--gd);}
+/* WIZARD */
+.sb{display:flex;gap:4px;padding:11px 15px;background:var(--wh);border-bottom:1px solid var(--bd);}
+.sd{height:4px;flex:1;border-radius:2px;background:var(--bd);transition:background .25s;}
+.sd.on{background:var(--gd);}
+.sd.dn{background:var(--g);}
+.sl{font-size:.67rem;color:var(--t3);font-weight:600;text-align:center;padding:5px 15px 0;}
+.sc{padding:12px 15px;}
+/* PEND SELECTOR */
+.psel{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px;}
+.pb{padding:10px 5px;border-radius:9px;border:1.5px solid var(--bd);background:var(--bg);text-align:center;cursor:pointer;transition:all .2s;}
+.pb.on{border-color:var(--g);background:rgba(0,76,46,.07);}
+.pb-ic{font-size:1.1rem;display:block;margin-bottom:2px;}
+.pb-lb{font-size:.7rem;font-weight:700;color:var(--t2);}
+.pb.on .pb-lb{color:var(--g);}
+/* SURF GRID */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.sp{padding:9px 7px;border-radius:9px;border:1.5px solid var(--bd);background:var(--bg);text-align:center;cursor:pointer;transition:all .2s;}
+.sp.on{border-color:var(--g);background:rgba(0,76,46,.07);}
+.sp-ic{font-size:1.1rem;display:block;margin-bottom:2px;}
+.sp-n{font-size:.7rem;font-weight:700;color:var(--tx);display:block;}
+.sp-m{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--t3);display:block;margin-top:1px;}
+.sp.on .sp-n{color:var(--g);}
+.sp.on .sp-m{color:var(--g);}
+/* TIPO ACCIDENTE */
+.ta{display:flex;flex-direction:column;gap:9px;}
+.tb2{display:flex;align-items:center;gap:12px;padding:13px;border-radius:11px;border:1.5px solid var(--bd);background:var(--bg);cursor:pointer;transition:all .2s;}
+.tb2.on{background:rgba(0,76,46,.05);}
+.tb2-ic{font-size:1.6rem;flex-shrink:0;}
+.tb2-n{font-weight:700;font-size:.88rem;}
+.tb2-d{font-size:.7rem;color:var(--t2);margin-top:1px;}
+.tb2-r{margin-left:auto;font-size:1.1rem;flex-shrink:0;}
+/* VEH TABS */
+.vt{display:flex;border-radius:9px;overflow:hidden;border:1.5px solid var(--bd);margin-bottom:12px;}
+.vti{flex:1;padding:10px;text-align:center;font-size:.78rem;font-weight:700;cursor:pointer;background:var(--bg);color:var(--t2);transition:all .2s;}
+.vti.on{background:var(--g);color:#fff;}
+/* GPS */
+.gps-btn{width:100%;padding:12px;border-radius:9px;background:var(--g);color:#fff;border:none;font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;margin-bottom:10px;transition:all .2s;}
+.gps-res{display:none;background:rgba(0,76,46,.06);border:1px solid rgba(0,76,46,.2);border-radius:9px;padding:10px;margin-bottom:10px;}
+.gps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center;}
+.gps-lbl{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--t3);margin-bottom:2px;}
+.gps-val{font-weight:700;color:var(--g);font-size:.82rem;}
+/* RESULTS */
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.rc{background:var(--wh);border-radius:var(--r1);border:1.5px solid var(--bd);padding:11px;box-shadow:var(--sh);}
+.rc.full{grid-column:span 2;}
+.rc.hi{border-color:var(--g);background:rgba(0,76,46,.04);}
+.rc.wa{border-color:var(--gd);background:rgba(245,168,0,.05);}
+.rc.da{border-color:var(--r);background:rgba(211,47,47,.05);}
+.rl{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--t3);letter-spacing:.7px;text-transform:uppercase;display:block;margin-bottom:3px;}
+.rv{font-size:1.6rem;font-weight:800;line-height:1;display:block;}
+.rc.hi .rv{color:var(--g);}
+.rc.wa .rv{color:var(--gd2);}
+.rc.da .rv{color:var(--r);}
+.ru{font-size:.63rem;color:var(--t3);display:block;margin-top:2px;}
+/* DIAG */
+.dg{border-radius:var(--r0);padding:15px;margin-bottom:12px;color:#fff;}
+.dg-lb{font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.5);letter-spacing:2px;margin-bottom:5px;}
+.dg-t{font-size:.95rem;font-weight:800;color:var(--gd);margin-bottom:5px;}
+.dg-b{font-size:.78rem;color:rgba(255,255,255,.8);line-height:1.55;}
+.dg-lm{margin-top:9px;padding-top:9px;border-top:1px solid rgba(255,255,255,.15);font-size:.72rem;color:rgba(255,255,255,.7);}
+/* INFORME */
+.inf{background:var(--wh);border-radius:var(--r0);border:1.5px solid var(--bd);overflow:hidden;margin-bottom:12px;box-shadow:var(--sh);}
+.inf-h{background:var(--g);padding:13px 15px;display:flex;align-items:center;gap:9px;}
+.inf-ht{font-size:.88rem;font-weight:700;color:#fff;}
+.inf-hs{font-size:.68rem;color:rgba(255,255,255,.6);}
+.inf-b{padding:13px 15px;}
+.ir{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--bg);font-size:.8rem;gap:8px;}
+.ir:last-child{border:none;}
+.ik{color:var(--t2);flex-shrink:0;}
+.iv{font-weight:700;color:var(--tx);text-align:right;}
+.iv.ok{color:var(--g);}
+.iv.bad{color:var(--r);}
+.iv.wa{color:var(--gd2);}
+.ist{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--g);letter-spacing:2px;text-transform:uppercase;margin:11px 0 5px;padding-top:11px;border-top:1px solid var(--bd);}
+/* ALERT */
+.al{background:rgba(245,168,0,.08);border:1px solid rgba(245,168,0,.3);border-radius:9px;padding:10px 12px;font-size:.73rem;color:var(--t2);margin-bottom:12px;display:flex;gap:8px;align-items:flex-start;}
+.al strong{color:var(--gd2);}
+.al.gr{background:rgba(0,76,46,.06);border-color:rgba(0,76,46,.2);}
+.al.gr strong{color:var(--g);}
+/* ACTION ROW */
+.ar{display:flex;gap:8px;padding:12px 15px;background:var(--bg);}
+.btn{flex:1;padding:13px;border-radius:9px;border:none;font-family:inherit;font-size:.86rem;font-weight:700;cursor:pointer;transition:all .15s;}
+.btn:active{transform:scale(.97);}
+.btn-g{background:var(--g);color:#fff;}
+.btn-gd{background:var(--gd);color:var(--g);}
+.btn-gh{background:var(--wh);color:var(--t2);border:1.5px solid var(--bd);}
+/* CALC CARDS */
+.cc{background:var(--wh);border-radius:var(--r0);border:1.5px solid var(--bd);overflow:hidden;margin-bottom:12px;box-shadow:var(--sh);}
+.cc-h{padding:11px 13px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:9px;background:var(--bg);}
+.cc-ic{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+.cc-t{font-size:.83rem;font-weight:700;}
+.cc-f{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--t3);margin-top:1px;}
+.cc-b{padding:11px 13px;}
+.cr{background:var(--bg);border:1px solid var(--bd);border-radius:9px;padding:9px 11px;margin-top:9px;}
+.cr-l{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--t3);display:block;margin-bottom:2px;}
+.cr-v{font-size:1.3rem;font-weight:800;color:var(--g);}
+.cr-n{font-size:.67rem;color:var(--t3);margin-top:2px;}
+/* MODULES */
+.ml{display:flex;flex-direction:column;gap:10px;}
+.mi{background:var(--wh);border-radius:var(--r0);border:1.5px solid var(--bd);padding:13px 15px;display:flex;align-items:center;gap:11px;text-decoration:none;box-shadow:var(--sh);}
+.mi:active{transform:scale(.98);}
+.mi-ic{font-size:1.5rem;flex-shrink:0;}
+.mi-n{font-size:.87rem;font-weight:700;color:var(--tx);}
+.mi-d{font-size:.7rem;color:var(--t2);margin-top:1px;}
+.mi-ar{margin-left:auto;color:var(--t3);flex-shrink:0;}
+/* NORMAS */
+.ni{background:var(--wh);border-radius:var(--r0);border:1.5px solid var(--bd);padding:13px 15px;margin-bottom:10px;box-shadow:var(--sh);}
+.ni-b{display:inline-block;font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:5px;margin-bottom:5px;font-family:'DM Mono',monospace;}
+.ni-n{font-size:.88rem;font-weight:700;margin-bottom:3px;}
+.ni-d{font-size:.76rem;color:var(--t2);line-height:1.5;}
+.ni-l{display:inline-flex;align-items:center;gap:4px;margin-top:7px;font-size:.7rem;font-weight:600;color:var(--g);text-decoration:none;}
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--g),var(--g2));padding:18px 15px 22px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;right:-25px;top:-25px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.04);}
+.hero-t{font-size:1rem;font-weight:800;color:#fff;margin-bottom:3px;}
+.hero-s{font-size:.76rem;color:rgba(255,255,255,.6);margin-bottom:14px;}
+.hero-chips{display:flex;gap:5px;flex-wrap:wrap;}
+.hc{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);font-size:.62rem;font-weight:600;padding:3px 9px;border-radius:20px;}
+@media print{.tb,.bn,.ar,.btn{display:none!important;}.pg{display:block!important;}body{padding:0;background:#fff;}}
+
+/* ═══ HERO PREMIUM ═══ */
+.hero-wrap{background:linear-gradient(150deg,#001f12 0%,#003d24 35%,#004C2E 65%,#006040 100%);padding:32px 16px 28px;position:relative;overflow:hidden;}
+.hero-bg-circle{position:absolute;right:-50px;top:-50px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(245,168,0,.12) 0%,transparent 70%);}
+.hero-bg-circle2{position:absolute;left:-30px;bottom:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);}
+.hero-content{position:relative;z-index:1;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
+.hero-logo{font-size:2.6rem;font-weight:900;color:#fff;letter-spacing:2px;line-height:1;margin-bottom:8px;text-shadow:0 2px 20px rgba(0,0,0,.3);}
+.hero-tagline{font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:16px;}
+.hchip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.75);font-size:.6rem;font-weight:600;padding:4px 9px;border-radius:20px;backdrop-filter:blur(10px);}
+
+/* ═══ STATS BAR ═══ */
+.stats-bar{background:var(--wh);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:12px 0;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.stat-item{flex:1;text-align:center;padding:0 4px;}
+.stat-val{font-size:1.3rem;font-weight:800;color:var(--g);line-height:1;font-family:'DM Mono',monospace;}
+.stat-lbl{font-size:.55rem;color:var(--t3);margin-top:2px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;}
+.stat-div{width:1px;height:30px;background:var(--bd);flex-shrink:0;}
+
+/* ═══ HERO CTA ═══ */
+.hero-cta{width:100%;background:linear-gradient(135deg,var(--g),var(--g2));border:none;border-radius:14px;padding:16px 15px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:inherit;box-shadow:0 4px 20px rgba(0,76,46,.3);transition:all .2s;}
+.hero-cta:active{transform:scale(.98);}
+.hero-cta-ic{font-size:2rem;flex-shrink:0;}
+.hero-cta-text{flex:1;text-align:left;}
+.hero-cta-title{font-size:1rem;font-weight:800;color:#fff;margin-bottom:3px;}
+.hero-cta-sub{font-size:.68rem;color:rgba(255,255,255,.65);line-height:1.4;}
+.hero-cta-arrow{font-size:1.3rem;color:var(--gd);font-weight:700;flex-shrink:0;}
+
+/* ═══ QUICK BTNS ═══ */
+.quick-btn{background:var(--wh);border:1.5px solid var(--bd);border-radius:12px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-family:inherit;box-shadow:var(--sh);transition:all .2s;}
+.quick-btn:active{transform:scale(.96);border-color:var(--g);}
+.quick-ic{font-size:1.5rem;}
+.quick-n{font-size:.7rem;font-weight:700;color:var(--tx);}
+
+/* ═══ IA BUTTONS ═══ */
+.ia-btn{background:var(--wh);border:1.5px solid var(--bd);border-radius:10px;padding:10px 12px;text-decoration:none;display:flex;align-items:center;gap:8px;box-shadow:var(--sh);transition:all .2s;}
+.ia-btn:active{border-color:var(--g);transform:scale(.97);}
+.ia-ic{font-size:1.2rem;flex-shrink:0;}
+.ia-name{font-size:.76rem;font-weight:700;color:var(--tx);}
+.ia-sub{font-size:.6rem;color:var(--t3);margin-top:1px;}
+
+/* ═══ TIP BOX ═══ */
+.tip-box{background:rgba(0,76,46,.06);border:1px solid rgba(0,76,46,.18);border-radius:9px;padding:9px 11px;font-size:.72rem;color:var(--t2);line-height:1.5;}
+.tip-box strong{color:var(--g);}
+
+/* ═══ WIZARD BUTTONS ═══ */
+.wiz-hidden{display:none;animation:slideDown .25s ease;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+.pat-bigbtn{padding:16px 10px;border-radius:12px;border:2px solid var(--bd);background:var(--bg);text-align:center;cursor:pointer;transition:all .2s;}
+.pat-bigbtn:active{transform:scale(.96);}
+.pat-bigbtn.on{border-color:var(--g);background:rgba(0,76,46,.06);}
+.pat-bigbtn-ic{font-size:1.8rem;margin-bottom:6px;}
+.pat-bigbtn-n{font-weight:800;font-size:.88rem;color:var(--tx);margin-bottom:3px;}
+.pat-bigbtn-d{font-size:.68rem;color:var(--t2);line-height:1.4;}
+.pat-bigbtn.on .pat-bigbtn-n{color:var(--g);}
+.pat-opt{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;border:1.5px solid var(--bd);background:var(--bg);cursor:pointer;transition:all .2s;margin-bottom:7px;}
+.pat-opt:last-child{margin-bottom:0;}
+.pat-opt:active{transform:scale(.98);}
+.pat-opt.on{border-color:var(--g);background:rgba(0,76,46,.05);}
+.pat-opt-ic{font-size:1.4rem;flex-shrink:0;}
+.pat-opt-n{font-weight:700;font-size:.86rem;color:var(--tx);}
+.pat-opt-d{font-size:.7rem;color:var(--t2);margin-top:1px;}
+.pat-opt-r{margin-left:auto;color:var(--t3);font-size:1rem;flex-shrink:0;}
+.pat-opt.on .pat-opt-n{color:var(--g);}
+.pat-opt.on .pat-opt-r{color:var(--g);}
+
+/* ═══ EVIDENCIA CHECKBOXES ═══ */
+.ev-item{display:flex;align-items:flex-start;gap:10px;padding:10px 11px;border-radius:9px;border:1.5px solid var(--bd);background:var(--bg);cursor:pointer;transition:all .2s;}
+.ev-item.on{border-color:var(--g);background:rgba(0,76,46,.04);}
+.ev-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--g);flex-shrink:0;margin-top:1px;cursor:pointer;pointer-events:none;}
+.ev-item-n{font-weight:700;font-size:.82rem;color:var(--tx);}
+.ev-item-d{font-size:.68rem;color:var(--t2);margin-top:2px;line-height:1.4;}
+.ev-item.on .ev-item-n{color:var(--g);}
+
+/* ═══ RESULTADOS TRIANGULACIÓN ═══ */
+.triang-box{background:linear-gradient(135deg,var(--g),#006B40);border-radius:12px;padding:14px;margin-bottom:12px;color:#fff;}
+.triang-title{font-size:.65rem;font-family:'DM Mono',monospace;letter-spacing:2px;color:rgba(255,255,255,.5);margin-bottom:6px;text-transform:uppercase;}
+.triang-val{font-size:2.2rem;font-weight:900;line-height:1;}
+.triang-sub{font-size:.75rem;color:rgba(255,255,255,.7);margin-top:4px;}
+.conf-bar{height:6px;border-radius:3px;background:rgba(255,255,255,.2);margin-top:8px;overflow:hidden;}
+.conf-fill{height:100%;border-radius:3px;background:#F5A800;}
+
+/* ═══ MÉTODO CARDS ═══ */
+.met-card{background:var(--wh);border:1px solid var(--bd);border-radius:10px;padding:12px;margin-bottom:8px;box-shadow:var(--sh);}
+.met-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.met-badge{font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;font-family:'DM Mono',monospace;}
+.met-result{display:flex;justify-content:space-between;align-items:center;background:var(--bg);border-radius:7px;padding:8px 10px;margin-top:6px;}
+.met-val{font-size:1.3rem;font-weight:800;}
+
+/* ═══ PULSE ANIMATION ═══ */
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+</style>
+</head>
+<body>
+
+<div class="tb"><div class="tb-i">
+  <div class="logo"><div class="logo-d"></div>VIALAPP</div>
+  <span class="tb-badge">COLOMBIA</span><span style="font-family:'DM Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.3);margin-left:6px;">v3.3.2</span>
+</div></div>
+
+<!-- HOME -->
+<div class="pg on" id="pg-home">
+
+  <!-- HERO -->
+  <div style="background:linear-gradient(160deg,#001f12 0%,#003d24 40%,#004C2E 70%,#006040 100%);padding:28px 16px 26px;position:relative;overflow:hidden;">
+    <div style="position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(245,168,0,.1) 0%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:relative;">
+      <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);letter-spacing:3px;margin-bottom:10px;">VIALAPP · RECONSTRUCCIÓN VIAL</div>
+      <div style="font-size:2.4rem;font-weight:900;color:#fff;letter-spacing:2px;line-height:1;margin-bottom:6px;">VIALAPP</div>
+      <div style="font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:16px;line-height:1.5;">Reconstrucción técnica de accidentes · Peritaje digital · Informes IPAT</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;">
+        <span style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);font-size:.6rem;font-weight:600;padding:4px 9px;border-radius:20px;">⚖️ Ley 769/2002</span>
+        <span style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);font-size:.6rem;font-weight:600;padding:4px 9px;border-radius:20px;">📐 INVIAS 2008</span>
+        <span style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);font-size:.6rem;font-weight:600;padding:4px 9px;border-radius:20px;">🛡️ Ley 2251/2022</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div style="background:var(--wh);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:12px 0;box-shadow:0 2px 8px rgba(0,0,0,.05);">
+    <div style="flex:1;text-align:center;">
+      <div style="font-size:1.3rem;font-weight:800;color:var(--g);font-family:'DM Mono',monospace;">19</div>
+      <div style="font-size:.55rem;color:var(--t3);margin-top:1px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Fórmulas</div>
+    </div>
+    <div style="width:1px;height:28px;background:var(--bd);"></div>
+    <div style="flex:1;text-align:center;">
+      <div style="font-size:1.3rem;font-weight:800;color:var(--g);font-family:'DM Mono',monospace;">16</div>
+      <div style="font-size:.55rem;color:var(--t3);margin-top:1px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Patrones</div>
+    </div>
+    <div style="width:1px;height:28px;background:var(--bd);"></div>
+    <div style="flex:1;text-align:center;">
+      <div style="font-size:1.3rem;font-weight:800;color:var(--g);font-family:'DM Mono',monospace;" id="visitor-total">—</div>
+      <div style="font-size:.55rem;color:var(--t3);margin-top:1px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Visitas</div>
+    </div>
+    <div style="width:1px;height:28px;background:var(--bd);"></div>
+    <div style="flex:1;text-align:center;">
+      <div style="font-size:1.3rem;font-weight:800;color:var(--g);font-family:'DM Mono',monospace;" id="visitor-unique">—</div>
+      <div style="font-size:.55rem;color:var(--t3);margin-top:1px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Dispositivos</div>
+    </div>
+  </div>
+
+  <!-- MAIN ACTION -->
+  <div style="padding:14px 15px 0;">
+    <button onclick="showPg('calc')" style="width:100%;background:linear-gradient(135deg,var(--g),var(--g2));border:none;border-radius:14px;padding:16px 15px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:inherit;box-shadow:0 4px 20px rgba(0,76,46,.3);transition:all .2s;">
+      <span style="font-size:2rem;flex-shrink:0;">💥</span>
+      <div style="flex:1;text-align:left;">
+        <div style="font-size:1rem;font-weight:800;color:#fff;margin-bottom:3px;">Calcular Accidente</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.65);line-height:1.4;">Wizard inteligente · 16 patrones · triangulación · informe PDF</div>
+      </div>
+      <span style="font-size:1.3rem;color:var(--gd);font-weight:700;">→</span>
+    </button>
+  </div>
+
+
+
+  <!-- VERIFY WITH AI -->
+  <div style="padding:12px 15px 0;">
+    <div class="sec-t" style="margin-bottom:9px;">Verificar con IA</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+      <a href="https://claude.ai/new" target="_blank" style="background:var(--wh);border:1.5px solid var(--bd);border-radius:9px;padding:10px 11px;text-decoration:none;display:flex;align-items:center;gap:7px;box-shadow:var(--sh);">
+        <span style="font-size:1.1rem;">⚡</span><div><div style="font-size:.75rem;font-weight:700;color:var(--tx);">Claude</div><div style="font-size:.6rem;color:var(--t3);">Análisis profundo</div></div>
+      </a>
+      <a href="https://chatgpt.com" target="_blank" style="background:var(--wh);border:1.5px solid var(--bd);border-radius:9px;padding:10px 11px;text-decoration:none;display:flex;align-items:center;gap:7px;box-shadow:var(--sh);">
+        <span style="font-size:1.1rem;">🟢</span><div><div style="font-size:.75rem;font-weight:700;color:var(--tx);">ChatGPT</div><div style="font-size:.6rem;color:var(--t3);">Verificar cálculos</div></div>
+      </a>
+      <a href="https://gemini.google.com" target="_blank" style="background:var(--wh);border:1.5px solid var(--bd);border-radius:9px;padding:10px 11px;text-decoration:none;display:flex;align-items:center;gap:7px;box-shadow:var(--sh);">
+        <span style="font-size:1.1rem;">✨</span><div><div style="font-size:.75rem;font-weight:700;color:var(--tx);">Gemini</div><div style="font-size:.6rem;color:var(--t3);">Google IA</div></div>
+      </a>
+      <a href="https://grok.com" target="_blank" style="background:var(--wh);border:1.5px solid var(--bd);border-radius:9px;padding:10px 11px;text-decoration:none;display:flex;align-items:center;gap:7px;box-shadow:var(--sh);">
+        <span style="font-size:1.1rem;">𝕏</span><div><div style="font-size:.75rem;font-weight:700;color:var(--tx);">Grok</div><div style="font-size:.6rem;color:var(--t3);">xAI</div></div>
+      </a>
+      <a href="https://copilot.microsoft.com" target="_blank" style="background:var(--wh);border:1.5px solid var(--bd);border-radius:9px;padding:10px 11px;text-decoration:none;display:flex;align-items:center;gap:7px;box-shadow:var(--sh);">
+        <span style="font-size:1.1rem;">🔷</span><div><div style="font-size:.75rem;font-weight:700;color:var(--tx);">Copilot</div><div style="font-size:.6rem;color:var(--t3);">Microsoft</div></div>
+      </a>
+      <a href="https://www.perplexity.ai" target="_blank" style="background:var(--wh);border:1.5px solid var(--bd);border-radius:9px;padding:10px 11px;text-decoration:none;display:flex;align-items:center;gap:7px;box-shadow:var(--sh);">
+        <span style="font-size:1.1rem;">🔍</span><div><div style="font-size:.75rem;font-weight:700;color:var(--tx);">Perplexity</div><div style="font-size:.6rem;color:var(--t3);">Con fuentes</div></div>
+      </a>
+    </div>
+    <div style="background:rgba(0,76,46,.06);border:1px solid rgba(0,76,46,.18);border-radius:9px;padding:8px 11px;font-size:.71rem;color:var(--t2);">
+      💡 <strong style="color:var(--g);">Tip:</strong> Descarga el PDF e imágenes y pégalo en cualquier IA para verificar los cálculos.
+    </div>
+  </div>
+
+  <!-- VERSION BADGE -->
+  <div style="padding:12px 15px 0;">
+    <button onclick="showPg('vers')" style="width:100%;background:var(--wh);border:1.5px solid var(--bd);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;font-family:inherit;box-shadow:var(--sh);">
+      <span style="font-size:1.2rem;">🗂️</span>
+      <div style="flex:1;text-align:left;">
+        <div style="font-size:.8rem;font-weight:700;color:var(--tx);">VIALAPP <span style="font-family:'DM Mono',monospace;color:var(--g);">v3.3.2</span></div>
+        <div style="font-size:.65rem;color:var(--t3);">Ver historial de versiones · 10 versiones desde v1.0.0</div>
+      </div>
+      <span style="color:var(--t3);font-size:.9rem;">→</span>
+    </button>
+  </div>
+
+  <div style="height:16px;"></div>
+</div>
+
+<!-- CALC -->
+<div class="pg" id="pg-calc">
+  <div class="sb">
+    <div class="sd on" id="sd0"></div><div class="sd" id="sd1"></div>
+    <div class="sd" id="sd2"></div><div class="sd" id="sd3"></div><div class="sd" id="sd4"></div>
+  </div>
+  <div class="sl" id="slbl">PASO 1: ESCENA Y VÍA</div>
+
+  <!-- STEP 0: ESCENA -->
+  <div class="sc" id="sc0">
+    <div class="card">
+      <div class="ch"><div class="ch-ic" style="background:#e8f5ee;color:var(--g);">📋</div><div><div class="ch-t">Identificación del informe</div></div></div>
+      <div class="cb">
+        <div class="fr">
+          <div class="f"><label>Nombre del agente</label><input type="text" id="c_agente" placeholder="Nombre completo"></div>
+          <div class="f"><label>N° IPAT</label><input type="text" id="c_ipat" placeholder="Número"></div>
+        </div>
+        <div class="fr">
+          <div class="f"><label>Fecha</label><input type="date" id="c_fecha"></div>
+          <div class="f"><label>Hora</label><input type="time" id="c_hora"></div>
+        </div>
+        <div class="f"><label>Municipio / Sector</label><input type="text" id="c_municipio" placeholder="Ej: Suesca, Cundinamarca"></div>
+        <div class="f"><label>Nombre de la vía</label><input type="text" id="c_via_n" placeholder="Ej: Vía Suesca-Nemocón KM 3"></div>
+        <div class="fr">
+          <div class="f"><label>Placa V1</label><input type="text" id="c_p1" placeholder="ABC-123"></div>
+          <div class="f"><label>Placa V2</label><input type="text" id="c_p2" placeholder="XYZ-456"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic" style="background:#e3f2fd;color:var(--b);">📍</div><div><div class="ch-t">Ubicación GPS</div></div></div>
+      <div class="cb">
+        <button class="gps-btn" id="gps-btn" onclick="getGPS()">📍 Capturar ubicación GPS automática</button>
+        <div class="gps-res" id="gps-res">
+          <div class="gps-grid">
+            <div><div class="gps-lbl">LATITUD</div><div class="gps-val" id="gps-lat">—</div></div>
+            <div><div class="gps-lbl">LONGITUD</div><div class="gps-val" id="gps-lng">—</div></div>
+            <div><div class="gps-lbl">ALTITUD</div><div class="gps-val" id="gps-alt">—</div></div>
+          </div>
+          <div id="gps-prec" style="font-size:.62rem;color:var(--t3);text-align:center;margin-top:5px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic" style="background:#e8f5ee;color:var(--g);">🛣️</div><div><div class="ch-t">Condiciones de la vía</div></div></div>
+      <div class="cb">
+        <div class="fr">
+          <div class="f"><label>Clima</label>
+            <select id="c_clima">
+              <option>☀️ Despejado</option><option>🌧️ Lluvia leve</option>
+              <option>🌧️ Lluvia fuerte</option><option>🌫️ Neblina</option><option>🌙 Noche</option>
+            </select></div>
+          <div class="f"><label>Tipo de vía</label>
+            <select id="c_via">
+              <option value="urbana">Urbana</option><option value="secundaria">Secundaria</option>
+              <option value="nacional">Nacional</option></select></div>
+        </div>
+        <div class="fr">
+          <div class="f"><label>Límite velocidad (km/h)</label><input type="number" id="c_lim" value="60" step="5"></div>
+          <div class="f"><label>N° de carriles</label>
+            <select id="c_carr"><option>1</option><option selected>2</option><option>4</option><option>Otro</option></select></div>
+        </div>
+        <div class="fr">
+          <div class="f"><label>Ancho calzada (m)</label><input type="number" id="c_ancho" placeholder="Ej: 7.3" step="0.1"></div>
+          <div class="f"><label>Sentido</label>
+            <select id="c_sent"><option>Doble sentido</option><option>Un solo sentido</option></select></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic" style="background:#fff8e6;color:var(--gd2);">⛰️</div>
+        <div><div class="ch-t">Geometría de la vía</div><div class="ch-s">Pendiente y peralte — afectan el cálculo</div></div></div>
+      <div class="cb">
+        <label style="display:block;font-size:.7rem;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:7px;">Pendiente longitudinal</label>
+        <div class="psel">
+          <div class="pb on" id="pb-plano" onclick="setPend('plano')"><span class="pb-ic">➡️</span><span class="pb-lb">Plano</span></div>
+          <div class="pb" id="pb-subida" onclick="setPend('subida')"><span class="pb-ic">⬆️</span><span class="pb-lb">Subida</span></div>
+          <div class="pb" id="pb-bajada" onclick="setPend('bajada')"><span class="pb-ic">⬇️</span><span class="pb-lb">Bajada</span></div>
+        </div>
+        <div class="f" id="pv-wrap" style="display:none;">
+          <label>Valor de la pendiente (%)</label>
+          <input type="number" id="c_pval" placeholder="Ej: 5.5" min="0.1" max="30" step="0.1">
+          <div class="f-note">Ej: 5% → escribe 5 | 8.3% → escribe 8.3</div>
+        </div>
+        <div class="f">
+          <label>Peralte de la vía (%)</label>
+          <input type="number" id="c_peralte" value="0" min="-12" max="12" step="0.1">
+          <div class="f-note">Positivo = inclinado al interior de curva. 0 si vía recta.</div>
+        </div>
+        <div class="f">
+          <label>¿La escena es en una curva?</label>
+          <select id="c_curva" onchange="toggleCurva()"><option value="no">No — vía recta</option><option value="si">Sí — curva horizontal</option></select>
+        </div>
+        <div id="curva-f" style="display:none;">
+          <div class="fr">
+            <div class="f"><label>Cuerda medida (m)</label><input type="number" id="c_cuerda" placeholder="Ej: 20.0" step="0.1" min="0" oninput="calcRadio()" onkeyup="calcRadio()"></div>
+            <div class="f"><label>Sagita / Flecha (m)</label><input type="number" id="c_sagita" placeholder="Ej: 0.52" step="0.01" min="0" oninput="calcRadio()" onkeyup="calcRadio()"></div>
+          </div>
+          <div id="radio-res" style="display:none;background:rgba(0,76,46,.06);border:1px solid rgba(0,76,46,.2);border-radius:8px;padding:9px;margin-top:4px;">
+            <div style="font-family:'DM Mono',monospace;font-size:.56rem;color:var(--t3);">RADIO DE CURVA CALCULADO</div>
+            <div id="radio-val" style="font-size:1.3rem;font-weight:800;color:var(--g);">—</div>
+            <div id="radio-note" style="font-size:.66rem;color:var(--t3);margin-top:2px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ch-ic" style="background:#e8f5ee;color:var(--g);">🛣️</div>
+        <div><div class="ch-t">Superficie del pavimento</div>
+        <div class="ch-s">μ seleccionado: <strong id="mu-disp" style="color:var(--g);">0.75</strong></div></div>
+      </div>
+      <div class="cb"><div class="sg" id="surf-grid"></div></div>
+    </div>
+  </div>
+
+  <!-- STEP 1: PATRÓN INTELIGENTE DEL ACCIDENTE -->
+  <div class="sc" id="sc1" style="display:none;">
+
+    <!-- Breadcrumb -->
+    <div id="pat-crumb" style="display:none;background:rgba(0,76,46,.06);border:1px solid rgba(0,76,46,.18);border-radius:9px;padding:8px 12px;margin-bottom:10px;font-size:.75rem;color:var(--g);font-weight:600;"></div>
+
+    <!-- ① Cuántos vehículos -->
+    <div class="card" id="blk-nveh">
+      <div class="ch">
+        <div class="ch-ic" style="background:linear-gradient(135deg,#e8f5ee,#d4edda);color:var(--g);font-size:.9rem;">①</div>
+        <div><div class="ch-t">¿Cuántos vehículos involucrados?</div>
+        <div class="ch-s">Incluye motos, bicicletas y peatones</div></div>
+      </div>
+      <div class="cb">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="pat-bigbtn" id="nveh-1" onclick="wizSetNVeh(1)">
+            <div class="pat-bigbtn-ic">🚗</div>
+            <div class="pat-bigbtn-n">1 vehículo</div>
+            <div class="pat-bigbtn-d">Volcamiento<br>Salida de vía</div>
+          </div>
+          <div class="pat-bigbtn" id="nveh-2" onclick="wizSetNVeh(2)">
+            <div class="pat-bigbtn-ic">🚗💥🏍️</div>
+            <div class="pat-bigbtn-n">2 vehículos</div>
+            <div class="pat-bigbtn-d">Choque<br>Atropello</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② Tipo de vehículos -->
+    <div class="card wiz-hidden" id="blk-tipos">
+      <div class="ch">
+        <div class="ch-ic" style="background:linear-gradient(135deg,#fff8e6,#fef3c7);color:var(--gd2);font-size:.9rem;">②</div>
+        <div><div class="ch-t">¿Qué tipo de vehículos?</div>
+        <div class="ch-s" id="blk-tipos-sub">Selecciona la combinación exacta</div></div>
+      </div>
+      <div class="cb" id="blk-tipos-list"></div>
+    </div>
+
+    <!-- ③ Tipo de colisión -->
+    <div class="card wiz-hidden" id="blk-colision">
+      <div class="ch">
+        <div class="ch-ic" style="background:linear-gradient(135deg,#fde8e8,#fecaca);color:var(--r);font-size:.9rem;">③</div>
+        <div><div class="ch-t">¿Cómo ocurrió la colisión?</div>
+        <div class="ch-s">Según la evidencia física en la escena</div></div>
+      </div>
+      <div class="cb" id="blk-colision-list"></div>
+    </div>
+
+    <!-- ④ Evidencia disponible -->
+    <div class="card wiz-hidden" id="blk-evidencia">
+      <div class="ch">
+        <div class="ch-ic" style="background:linear-gradient(135deg,#e3f2fd,#bfdbfe);color:var(--b);font-size:.9rem;">④</div>
+        <div><div class="ch-t">¿Qué evidencia encontraste?</div>
+        <div class="ch-s">Marca TODO lo visible — la app filtra automáticamente</div></div>
+      </div>
+      <div class="cb">
+        <div id="blk-evidencia-list" style="display:flex;flex-direction:column;gap:7px;"></div>
+        <div id="blk-ev-tip" style="display:none;margin-top:10px;background:rgba(0,76,46,.06);border:1px solid rgba(0,76,46,.18);border-radius:8px;padding:9px 11px;font-size:.72rem;color:var(--t2);">
+          💡 <strong style="color:var(--g);">Patrón listo:</strong> <span id="blk-ev-patron"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos reutilizados del paso 1 -->
+    <div id="blk-reuso" style="display:none;background:rgba(0,76,46,.04);border:1.5px solid rgba(0,76,46,.15);border-radius:10px;padding:11px 13px;margin-bottom:8px;">
+      <div style="font-size:.63rem;font-weight:700;color:var(--g);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;">✅ Datos del Paso 1 que se usarán automáticamente</div>
+      <div id="blk-reuso-list" style="font-size:.75rem;color:var(--t2);line-height:1.9;"></div>
+      <div style="font-size:.67rem;color:var(--t3);margin-top:5px;">No necesitas ingresarlos de nuevo en este paso</div>
+    </div>
+
+  </div>
+
+  <!-- STEP 1b: MEDIDAS ESPECÍFICAS DEL PATRÓN -->
+  <div class="sc" id="sc1b" style="display:none;">
+    <div style="background:var(--g);border-radius:10px;padding:11px 14px;margin-bottom:12px;">
+      <div style="font-family:'DM Mono',monospace;font-size:.56rem;color:rgba(255,255,255,.45);letter-spacing:1.5px;margin-bottom:3px;">MEDIDAS REQUERIDAS · PATRÓN IDENTIFICADO</div>
+      <div id="sc1b-titulo" style="font-size:.88rem;font-weight:700;color:#fff;"></div>
+      <div style="font-size:.68rem;color:rgba(255,255,255,.55);margin-top:2px;">Ingresa las medidas → presiona <strong style="color:var(--gd);">Continuar →</strong></div>
+    </div>
+    <div id="sc1b-campos"></div>
+  </div>
+
+  <!-- STEP 2: VEHÍCULOS -->
+  <div class="sc" id="sc2" style="display:none;">
+    <div class="vt" id="veh-tabs">
+      <div class="vti on" id="vt1" onclick="switchVT(1)">① Vehículo 1</div>
+      <div class="vti" id="vt2" onclick="switchVT(2)">② Vehículo 2</div>
+    </div>
+    <div id="vp1">
+      <div class="card">
+        <div class="ch"><div class="ch-ic" style="background:#e8f5ee;color:var(--g);font-weight:800;">1</div>
+          <div><div class="ch-t" style="color:var(--g);">Vehículo 1 — El que impacta</div></div></div>
+        <div class="cb">
+          <div class="f"><label>Tipo de vehículo</label>
+            <select id="c_t1" onchange="syncM(1)">
+              <option value="150">🏍️ Motocicleta (~150 kg)</option>
+              <option value="350">🛵 Moto grande (~350 kg)</option>
+              <option value="1200" selected>🚗 Automóvil (~1.200 kg)</option>
+              <option value="1800">🚙 Camioneta (~1.800 kg)</option>
+              <option value="3500">🚐 Microbús (~3.500 kg)</option>
+              <option value="5000">🚛 Camión (~5.000 kg)</option>
+              <option value="15000">🚜 Tractocamión (~15.000 kg)</option>
+              <option value="0">✏️ Personalizar</option>
+            </select></div>
+          <div class="f"><label>Masa vacío (kg)</label><input type="number" id="c_m1" value="1200" min="50" step="1"></div>
+          <div class="fr">
+            <div class="f"><label>N° de ocupantes</label><input type="number" id="c_o1" value="1" min="0" max="50"><div class="f-note">~75 kg c/u</div></div>
+            <div class="f"><label>Carga adicional (kg)</label><input type="number" id="c_c1" value="0" min="0" step="0.1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="vp2" style="display:none;">
+      <div class="card">
+        <div class="ch"><div class="ch-ic" style="background:#fde8e8;color:var(--r);font-weight:800;">2</div>
+          <div><div class="ch-t" style="color:var(--r);">Vehículo 2 — El impactado</div></div></div>
+        <div class="cb">
+          <div class="f"><label>Tipo de vehículo</label>
+            <select id="c_t2" onchange="syncM(2)">
+              <option value="150">🏍️ Motocicleta (~150 kg)</option>
+              <option value="350">🛵 Moto grande (~350 kg)</option>
+              <option value="1200" selected>🚗 Automóvil (~1.200 kg)</option>
+              <option value="1800">🚙 Camioneta (~1.800 kg)</option>
+              <option value="3500">🚐 Microbús (~3.500 kg)</option>
+              <option value="5000">🚛 Camión (~5.000 kg)</option>
+              <option value="15000">🚜 Tractocamión (~15.000 kg)</option>
+              <option value="0">✏️ Personalizar</option>
+            </select></div>
+          <div class="f"><label>Masa vacío (kg)</label><input type="number" id="c_m2" value="1200" min="50" step="1"></div>
+          <div class="fr">
+            <div class="f"><label>N° de ocupantes</label><input type="number" id="c_o2" value="1" min="0" max="50"><div class="f-note">~75 kg c/u</div></div>
+            <div class="f"><label>Carga adicional (kg)</label><input type="number" id="c_c2" value="0" min="0" step="0.1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: REVISAR -->
+  <div class="sc" id="sc3" style="display:none;">
+    <div class="al"><span>✅</span><div>Revisa los datos. Si algo está mal, regresa. Luego presiona <strong>CALCULAR</strong>.</div></div>
+    <div class="inf"><div class="inf-h"><div><div class="inf-ht">📋 Resumen antes de calcular</div></div></div><div class="inf-b" id="resumen-b"></div></div>
+  </div>
+
+  <!-- STEP 4: RESULTADOS -->
+  <div class="sc" id="sc4" style="display:none;">
+    <div id="res-area"><div style="text-align:center;padding:40px;color:var(--t3);">⚙️ Calculando...</div></div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="ar">
+    <button class="btn btn-gh" id="btn-bk" onclick="stepB()" style="display:none;">← Atrás</button>
+    <button class="btn btn-g" id="btn-nx" onclick="stepN()">Continuar →</button>
+    <button class="btn btn-gd" id="btn-cl" onclick="doCalc()" style="display:none;">⚡ CALCULAR</button>
+    <button class="btn btn-gh" id="btn-nw" onclick="resetC()" style="display:none;">🔄 Nuevo</button>
+    <button class="btn btn-g" id="btn-pd" onclick="genPDF()" style="display:none;">📄 PDF</button>
+  </div>
+</div>
+
+<!-- FÓRMULAS -->
+<div class="pg" id="pg-form">
+  <div class="sec"><div class="sec-t">Calculadoras técnicas</div></div>
+  <div style="padding:0 15px;" id="form-grid"></div>
+</div>
+
+<!-- MÓDULOS -->
+<div class="pg" id="pg-mods">
+  <div style="padding:15px;"><div class="sec-t">Módulos de campo</div><div class="ml" id="mods-list"></div>
+    <div style="margin-top:12px;">
+      <button onclick="showPg('norm')" style="width:100%;background:var(--wh);border:1.5px solid var(--bd);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;font-family:inherit;box-shadow:var(--sh);">
+        <span style="font-size:1.4rem;">⚖️</span>
+        <div style="text-align:left;"><div style="font-size:.87rem;font-weight:700;color:var(--tx);">Normativa colombiana</div>
+        <div style="font-size:.7rem;color:var(--t2);">Leyes 769/2002 · 2251/2022 · INVIAS 2008 · Res. 11268</div></div>
+        <span style="margin-left:auto;color:var(--t3);">→</span>
+      </button>
+    </div></div>
+</div>
+
+<!-- NORMATIVA -->
+<div class="pg" id="pg-norm">
+  <div style="padding:15px;"><div class="sec-t">Normativa colombiana</div><div id="norm-list"></div></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<!-- VERSIONES -->
+<div class="pg" id="pg-vers">
+  <div style="background:linear-gradient(135deg,#001f12,#004C2E);padding:20px 16px 18px;">
+    <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.35);letter-spacing:3px;margin-bottom:8px;">VIALAPP · HISTORIAL</div>
+    <div style="font-size:1.6rem;font-weight:900;color:#fff;letter-spacing:1px;">v3.3.2</div>
+    <div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-top:3px;">Control de versiones · Colombia 🇨🇴</div>
+  </div>
+  <div style="padding:14px 15px 0;">
+    <div class="sec-t" style="margin-bottom:10px;">Historial de cambios</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+<div style="background:var(--wh);border-radius:10px;border:1.5px solid #e8f5ee;padding:11px 13px;box-shadow:var(--sh);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;background:#e8f5ee;color:#004C2E;">FIX</span><span style="font-family:'DM Mono',monospace;font-size:.75rem;font-weight:800;color:var(--tx);">v3.3.2</span><span style="font-size:.65rem;color:var(--t3);margin-left:auto;">2026-05-13</span></div><div style="font-size:.75rem;color:var(--t2);line-height:1.5;">Fix calcInteligente/renderResultados eliminadas, generarCamposMedidas duplicada, stepB duplicada. PDF dinámico 6 secciones.</div></div><div style="background:var(--wh);border-radius:10px;border:1.5px solid #fef3c7;padding:11px 13px;box-shadow:var(--sh);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;background:#fef3c7;color:#92400e;">MAYOR</span><span style="font-family:'DM Mono',monospace;font-size:.75rem;font-weight:800;color:var(--tx);">v3.2.0</span><span style="font-size:.65rem;color:var(--t3);margin-left:auto;">2026-05-13</span></div><div style="font-size:.75rem;color:var(--t2);line-height:1.5;">Wizard inteligente 16 patrones, 4 preguntas secuenciales, triangulación multi-método con % confianza por evidencia.</div></div><div style="background:var(--wh);border-radius:10px;border:1.5px solid #e8f5ee;padding:11px 13px;box-shadow:var(--sh);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;background:#e8f5ee;color:#004C2E;">FIX</span><span style="font-family:'DM Mono',monospace;font-size:.75rem;font-weight:800;color:var(--tx);">v3.1.2</span><span style="font-size:.65rem;color:var(--t3);margin-left:auto;">2026-05-13</span></div><div style="font-size:.75rem;color:var(--t2);line-height:1.5;">Fix hero duplicado en home, TIPOS array limpio, nav 5 tabs, btn-nx sticky visible.</div></div><div style="background:var(--wh);border-radius:10px;border:1.5px solid #e8f5ee;padding:11px 13px;box-shadow:var(--sh);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;background:#e8f5ee;color:#004C2E;">FIX</span><span style="font-family:'DM Mono',monospace;font-size:.75rem;font-weight:800;color:var(--tx);">v3.1.1</span><span style="font-size:.65rem;color:var(--t3);margin-left:auto;">2026-05-13</span></div><div style="font-size:.75rem;color:var(--t2);line-height:1.5;">Contador visitas cross-device, Policía Nacional eliminado, coma decimal móvil.</div></div><div style="background:var(--wh);border-radius:10px;border:1.5px solid #eff6ff;padding:11px 13px;box-shadow:var(--sh);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;background:#eff6ff;color:#1e40af;">MENOR</span><span style="font-family:'DM Mono',monospace;font-size:.75rem;font-weight:800;color:var(--tx);">v3.1.0</span><span style="font-size:.65rem;color:var(--t3);margin-left:auto;">2026-05-12</span></div><div style="font-size:.75rem;color:var(--t2);line-height:1.5;">Hero premium, stats bar visitas/dispositivos únicos, IAs grid 2x3, CSS premium.</div></div><div style="background:var(--wh);border-radius:10px;border:1.5px solid #e8f5ee;padding:11px 13px;box-shadow:var(--sh);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;background:#e8f5ee;color:#004C2E;">FIX</span><span style="font-family:'DM Mono',monospace;font-size:.75rem;font-weight:800;color:var(--tx);">v3.0.1</span><span style="font-size:.65rem;color:var(--t3);margin-left:auto;">2026-05-12</span></div><div style="font-size:.75rem;color:var(--t2);line-height:1.5;">Fix calcSep variables no declaradas, muC bajada negativa, PDF 8 secciones.</div></div><div style="background:var(--wh);border-radius:10px;border:1.5px solid #fef3c7;padding:11px 13px;box-shadow:var(--sh);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;background:#fef3c7;color:#92400e;">MAYOR</span><span style="font-family:'DM Mono',monospace;font-size:.75rem;font-weight:800;color:var(--tx);">v3.0.0</span><span style="font-size:.65rem;color:var(--t3);margin-left:auto;">2026-05-12</span></div><div style="font-size:.75rem;color:var(--t2);line-height:1.5;">Reescritura completa: wizard 5 pasos, momentum 2D, GPS, pendiente visual, 4 tipos.</div></div><div style="background:var(--wh);border-radius:10px;border:1.5px solid #eff6ff;padding:11px 13px;box-shadow:var(--sh);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;background:#eff6ff;color:#1e40af;">MENOR</span><span style="font-family:'DM Mono',monospace;font-size:.75rem;font-weight:800;color:var(--tx);">v2.1.0</span><span style="font-size:.65rem;color:var(--t3);margin-left:auto;">2026-05-12</span></div><div style="font-size:.75rem;color:var(--t2);line-height:1.5;">Fórmula proyección ocupante moto, Searle pendiente arriba/abajo, velocidad relativa.</div></div><div style="background:var(--wh);border-radius:10px;border:1.5px solid #fef3c7;padding:11px 13px;box-shadow:var(--sh);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;background:#fef3c7;color:#92400e;">MAYOR</span><span style="font-family:'DM Mono',monospace;font-size:.75rem;font-weight:800;color:var(--tx);">v2.0.0</span><span style="font-size:.65rem;color:var(--t3);margin-left:auto;">2026-05-12</span></div><div style="font-size:.75rem;color:var(--t2);line-height:1.5;">Calculadora por tipo, diagrama SVG huellas PRE/POST, PDF profesional 8 secciones.</div></div><div style="background:var(--wh);border-radius:10px;border:1.5px solid #fef3c7;padding:11px 13px;box-shadow:var(--sh);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;background:#fef3c7;color:#92400e;">MAYOR</span><span style="font-family:'DM Mono',monospace;font-size:.75rem;font-weight:800;color:var(--tx);">v1.0.0</span><span style="font-size:.65rem;color:var(--t3);margin-left:auto;">2026-05-12</span></div><div style="font-size:.75rem;color:var(--t2);line-height:1.5;">Lanzamiento inicial: 19 fórmulas, 4 tipos accidente, GPS, superficie, pendiente.</div></div>
+    </div>
+    <div style="margin-top:12px;background:var(--bg);border-radius:8px;padding:9px 12px;font-size:.68rem;color:var(--t3);text-align:center;">
+      🟡 MAYOR = nuevo módulo &nbsp;·&nbsp; 🔵 MENOR = mejora &nbsp;·&nbsp; 🟢 FIX = corrección
+    </div>
+  </div>
+  <div style="height:20px;"></div>
+</div>
+
+<div class="bn">
+  <button class="bi on" id="bi-home" onclick="showPg('home')"><span class="bi-ic">🏠</span><span class="bi-lb">Inicio</span></button>
+  <button class="bi" id="bi-calc" onclick="showPg('calc')"><span class="bi-ic">💥</span><span class="bi-lb">Calcular</span></button>
+  <button class="bi" id="bi-form" onclick="showPg('form')"><span class="bi-ic">🧮</span><span class="bi-lb">Fórmulas</span></button>
+  <button class="bi" id="bi-mods" onclick="showPg('mods')"><span class="bi-ic">📚</span><span class="bi-lb">Módulos</span></button>
+  <button class="bi" id="bi-norm" onclick="showPg('norm')"><span class="bi-ic">⚖️</span><span class="bi-lb">Normativa</span></button>
+</div>
+
+<script>
+
+/* ════════════════════════
+   VIALAPP v3 — Engine
+   ════════════════════════ */
+var G=9.81;
+var _pf=parseFloat;
+parseFloat=function(v){if(typeof v==='string')v=v.replace(',','.');return _pf(v);};
+
+/* NAVIGATION */
+function showPg(n){
+  document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});
+  document.getElementById('pg-'+n).classList.add('on');
+  document.querySelectorAll('.bi').forEach(function(b){b.classList.remove('on');});
+  var nb=document.getElementById('bi-'+n);
+  if(nb)nb.classList.add('on');
+  window.scrollTo(0,0);
+}
+function jumpStep(s){setTimeout(function(){step=s;updUI();},100);}
+
+/* SURFACES */
+var SURFS=[
+  {id:'as',ic:'⬛',n:'Asfalto seco',mu:0.75},
+  {id:'ah',ic:'💧',n:'Asfalto húmedo',mu:0.50},
+  {id:'am',ic:'🌧️',n:'Asfalto mojado',mu:0.35},
+  {id:'cs',ic:'⬜',n:'Concreto seco',mu:0.80},
+  {id:'ch',ic:'💦',n:'Concreto húmedo',mu:0.55},
+  {id:'ds',ic:'🧱',n:'Adoquín seco',mu:0.65},
+  {id:'dh',ic:'🫧',n:'Adoquín húmedo',mu:0.40},
+  {id:'t', ic:'🟫',n:'Tierra',mu:0.30},
+  {id:'b', ic:'🟤',n:'Barro/lodo',mu:0.20},
+  {id:'g', ic:'🪨',n:'Gravilla',mu:0.22}
+];
+var selSurf=SURFS[0];
+
+/* ════════════════════════════════════════
+   WIZARD INTELIGENTE v2 — Flujo secuencial
+   ════════════════════════════════════════ */
+
+var pat={nveh:0,tipo:'',colision:'',evidencias:[]};
+
+/* ── CATÁLOGOS ── */
+var CAT_TIPOS={
+  '1':[
+    {id:'volteo_curva',ic:'🔄',n:'Volcamiento en curva',d:'Exceso de velocidad al tomar la curva'},
+    {id:'volteo_impacto',ic:'💥🔄',n:'Volcamiento por impacto',d:'El vehículo volcó tras colisionar'},
+    {id:'salida_via',ic:'🛣️⬇️',n:'Salida de vía',d:'El vehículo salió de la carretera'}
+  ],
+  '2':[
+    {id:'auto_auto',ic:'🚗💥🚗',n:'Auto / Camión vs Auto / Camión',d:'Dos vehículos de cuatro ruedas o más'},
+    {id:'auto_moto',ic:'🚗💥🏍️',n:'Vehículo vs Motocicleta',d:'⭐ El más frecuente en Colombia'},
+    {id:'auto_peaton',ic:'🚗💥🚶',n:'Vehículo vs Peatón',d:'Atropello de persona a pie'},
+    {id:'auto_ciclist',ic:'🚗💥🚲',n:'Vehículo vs Ciclista',d:'Atropello a persona en bicicleta'},
+    {id:'moto_moto',ic:'🏍️💥🏍️',n:'Motocicleta vs Motocicleta',d:'Dos motos involucradas'},
+    {id:'auto_animal',ic:'🚗💥🐄',n:'Vehículo vs Animal',d:'Impacto con animal en la vía'}
+  ]
+};
+
+var CAT_COLISIONES={
+  'auto_auto':[
+    {id:'frontal_eng',ic:'⬅➡🔗',n:'Frontal con enganche',d:'Venían de frente y quedaron pegados — método más confiable'},
+    {id:'frontal_sep',ic:'⬅💥➡',n:'Frontal con separación',d:'Venían de frente y rebotaron separados'},
+    {id:'alcance_eng',ic:'→→🔗',n:'Alcance con enganche',d:'Mismo sentido, uno chocó al otro y quedaron pegados'},
+    {id:'alcance_sep',ic:'→→💥',n:'Alcance con separación',d:'Mismo sentido, se separaron tras el impacto'},
+    {id:'lateral_perp',ic:'↕💥',n:'Lateral perpendicular',d:'En intersección — uno impactó el costado del otro'},
+    {id:'lateral_tang',ic:'↗',n:'Lateral tangencial',d:'Rozamiento de costado sin detenerse'}
+  ],
+  'auto_moto':[
+    {id:'frontal_sep',ic:'⬅💥➡',n:'Frontal',d:'Venían de frente — moto o vehículo invadió el carril'},
+    {id:'alcance_sep',ic:'→→💥',n:'Alcance por detrás',d:'El vehículo chocó a la moto por detrás'},
+    {id:'lateral_perp',ic:'↕💥',n:'Lateral en intersección',d:'El vehículo impactó el costado de la moto'},
+    {id:'moto_cae',ic:'🏍️⬇️💥',n:'Moto cayó y fue impactada',d:'La moto perdió el control, cayó y fue golpeada'}
+  ],
+  'auto_peaton':[
+    {id:'atropello_plano',ic:'🚶💥',n:'Atropello en vía plana',d:'Peatón en zona horizontal'},
+    {id:'atropello_subida',ic:'🚶⬆️💥',n:'Atropello en subida',d:'Peatón en pendiente ascendente'},
+    {id:'atropello_bajada',ic:'🚶⬇️💥',n:'Atropello en bajada',d:'Peatón en pendiente descendente'}
+  ],
+  'auto_ciclist':[
+    {id:'atropello_cicl',ic:'🚲💥',n:'Atropello ciclista',d:'Vehículo impactó al ciclista — Fórmula SAE 900368'}
+  ],
+  'moto_moto':[
+    {id:'frontal_sep',ic:'⬅💥➡',n:'Frontal',d:'Las dos motos venían de frente'},
+    {id:'alcance_sep',ic:'→→💥',n:'Alcance',d:'Una moto chocó a la otra por detrás'}
+  ],
+  'auto_animal':[
+    {id:'impacto_animal',ic:'🐄💥',n:'Impacto con animal',d:'Vehículo chocó contra animal en la vía'}
+  ],
+  'volteo_curva':  [{id:'volteo_curva',ic:'🔄',n:'Volcamiento en curva',d:''}],
+  'volteo_impacto':[{id:'volteo_impacto',ic:'💥🔄',n:'Volcamiento por impacto',d:''}],
+  'salida_via':    [{id:'salida_via',ic:'🛣️⬇️',n:'Salida de vía',d:''}]
+};
+
+var CAT_EVIDENCIAS={
+  'frontal_eng_auto_auto':[
+    {id:'pre1',ic:'🟡',n:'Huellas de frenado V1 (PRE-impacto)',d:'Marcas que dejó V1 antes del choque'},
+    {id:'pre2',ic:'🟡',n:'Huellas de frenado V2 (PRE-impacto)',d:'Marcas que dejó V2 antes del choque'},
+    {id:'post_comb',ic:'🔴',n:'Huella combinada POST-impacto',d:'Distancia que rodaron juntos pegados'},
+    {id:'angulo',ic:'📐',n:'Ángulo de desviación final',d:'Ángulo entre trayectoria original y dirección final'}
+  ],
+  'frontal_sep_auto_auto':[
+    {id:'pre1',ic:'🟡',n:'Huellas PRE-impacto V1',d:'Frenado de V1 antes del choque'},
+    {id:'pre2',ic:'🟡',n:'Huellas PRE-impacto V2',d:'Frenado de V2 antes del choque'},
+    {id:'post1',ic:'🔴',n:'Huella POST-impacto V1',d:'Distancia que rodó V1 tras el impacto'},
+    {id:'post2',ic:'🔴',n:'Huella POST-impacto V2',d:'Distancia que rodó V2 tras el impacto'},
+    {id:'angulo',ic:'📐',n:'Ángulo de separación',d:'Ángulo entre las trayectorias post-impacto'}
+  ],
+  'alcance_eng_auto_auto':[
+    {id:'pre1',ic:'🟡',n:'Huellas PRE-impacto V1 (el que chocó)',d:'Frenado del vehículo que impactó por detrás'},
+    {id:'post_comb',ic:'🔴',n:'Huella POST combinada',d:'Distancia que rodaron juntos'}
+  ],
+  'alcance_sep_auto_auto':[
+    {id:'pre1',ic:'🟡',n:'Huellas PRE-impacto V1',d:'Frenado del que chocó por detrás'},
+    {id:'post1',ic:'🔴',n:'Huella POST V1',d:'Distancia que rodó V1 tras el impacto'},
+    {id:'post2',ic:'🔴',n:'Huella POST V2',d:'Distancia que rodó V2 tras el impacto'}
+  ],
+  'lateral_perp_auto_auto':[
+    {id:'pre1',ic:'🟡',n:'Huellas PRE V1',d:''},
+    {id:'pre2',ic:'🟡',n:'Huellas PRE V2',d:''},
+    {id:'post1',ic:'🔴',n:'Huella POST V1',d:''},
+    {id:'post2',ic:'🔴',n:'Huella POST V2',d:''},
+    {id:'angulo',ic:'📐',n:'Ángulo de impacto',d:'Ángulo entre los vehículos'}
+  ],
+  'lateral_tang_auto_auto':[
+    {id:'pre1',ic:'🟡',n:'Huellas PRE V1',d:''},
+    {id:'ceja',ic:'⬛',n:'Marca de ceja de llanta',d:'Marca lateral en la llanta por el impacto'}
+  ],
+  'frontal_sep_auto_moto':[
+    {id:'pre1',ic:'🟡',n:'Huellas PRE-impacto del VEHÍCULO V1',d:'Frenado del auto/camión antes del impacto'},
+    {id:'pre2',ic:'🟡',n:'Huellas PRE-impacto de la MOTO',d:'Si la moto frenó antes — puede no haber'},
+    {id:'post1',ic:'🔴',n:'Huella POST-impacto del VEHÍCULO V1',d:'Distancia que rodó el vehículo tras el choque'},
+    {id:'post2',ic:'🔴',n:'Huella POST-impacto de la MOTO',d:'Distancia que rodó la moto tras el impacto'},
+    {id:'proyeccion_conductor',ic:'👤',n:'Proyección del CONDUCTOR de la moto',d:'Distancia desde el impacto hasta donde quedó el conductor'},
+    {id:'proyeccion_parrillero',ic:'👤',n:'Proyección del PARRILLERO',d:'Si venía acompañante — distancia hasta donde quedó'},
+    {id:'arrastre_moto',ic:'🔗',n:'Arrastre metálico de la moto',d:'Marcas de metal de la moto sobre el asfalto'}
+  ],
+  'alcance_sep_auto_moto':[
+    {id:'pre1',ic:'🟡',n:'Huellas PRE-impacto del VEHÍCULO V1',d:'Frenado del vehículo que chocó a la moto'},
+    {id:'post1',ic:'🔴',n:'Huella POST V1',d:'Distancia que rodó el vehículo tras el choque'},
+    {id:'post2',ic:'🔴',n:'Huella POST moto',d:''},
+    {id:'proyeccion_conductor',ic:'👤',n:'Proyección conductor moto',d:'Distancia desde el impacto hasta donde quedó'},
+    {id:'proyeccion_parrillero',ic:'👤',n:'Proyección parrillero',d:'Si venía acompañante'}
+  ],
+  'lateral_perp_auto_moto':[
+    {id:'pre1',ic:'🟡',n:'Huellas PRE V1',d:''},
+    {id:'post1',ic:'🔴',n:'Huella POST V1',d:''},
+    {id:'post2',ic:'🔴',n:'Huella POST moto',d:''},
+    {id:'proyeccion_conductor',ic:'👤',n:'Proyección conductor moto',d:''},
+    {id:'proyeccion_parrillero',ic:'👤',n:'Proyección parrillero',d:'Si aplica'}
+  ],
+  'moto_cae_auto_moto':[
+    {id:'pre2',ic:'🟡',n:'Huellas moto antes de caer',d:''},
+    {id:'post2',ic:'🔴',n:'Huellas moto deslizando',d:''},
+    {id:'proyeccion_conductor',ic:'👤',n:'Proyección conductor moto',d:''},
+    {id:'proyeccion_parrillero',ic:'👤',n:'Proyección parrillero',d:'Si aplica'}
+  ],
+  'atropello_plano_auto_peaton':[
+    {id:'pre1',ic:'🟡',n:'Huellas frenado del vehículo',d:''},
+    {id:'proyeccion_peaton',ic:'🚶',n:'Distancia proyección del peatón',d:'Desde el punto de impacto hasta donde quedó el cuerpo'}
+  ],
+  'atropello_subida_auto_peaton':[
+    {id:'pre1',ic:'🟡',n:'Huellas frenado del vehículo',d:''},
+    {id:'proyeccion_peaton',ic:'🚶',n:'Distancia proyección del peatón',d:'Desde el punto de impacto hasta donde quedó'}
+  ],
+  'atropello_bajada_auto_peaton':[
+    {id:'pre1',ic:'🟡',n:'Huellas frenado del vehículo',d:''},
+    {id:'proyeccion_peaton',ic:'🚶',n:'Distancia proyección del peatón',d:'Desde el punto de impacto hasta donde quedó'}
+  ],
+  'atropello_cicl_auto_ciclist':[
+    {id:'pre1',ic:'🟡',n:'Huellas frenado del vehículo',d:''},
+    {id:'proyeccion_cicl',ic:'🚲',n:'Distancia proyección del ciclista',d:'Desde el punto de impacto hasta donde quedó'}
+  ],
+  'frontal_sep_moto_moto':[
+    {id:'pre1',ic:'🟡',n:'Huellas PRE moto 1',d:''},
+    {id:'pre2',ic:'🟡',n:'Huellas PRE moto 2',d:''},
+    {id:'post1',ic:'🔴',n:'Huella POST moto 1',d:''},
+    {id:'post2',ic:'🔴',n:'Huella POST moto 2',d:''},
+    {id:'proyeccion_conductor',ic:'👤',n:'Proyección conductor moto 1',d:''},
+    {id:'proyeccion_parrillero',ic:'👤',n:'Proyección conductor moto 2',d:''}
+  ],
+  'alcance_sep_moto_moto':[
+    {id:'pre1',ic:'🟡',n:'Huellas PRE moto 1',d:''},
+    {id:'post1',ic:'🔴',n:'Huella POST moto 1',d:''},
+    {id:'post2',ic:'🔴',n:'Huella POST moto 2',d:''},
+    {id:'proyeccion_conductor',ic:'👤',n:'Proyección ocupantes',d:''}
+  ],
+  'impacto_animal_auto_animal':[
+    {id:'pre1',ic:'🟡',n:'Huellas frenado del vehículo',d:''},
+    {id:'post1',ic:'🔴',n:'Huella post-impacto',d:''}
+  ],
+  'volteo_curva_volteo_curva':[
+    {id:'huellas_vol',ic:'🟡',n:'Huellas de frenado antes de la curva',d:'Marcas de frenado previas al punto de volcamiento'}
+  ],
+  'volteo_impacto_volteo_impacto':[
+    {id:'pre1',ic:'🟡',n:'Huellas PRE-impacto (frenado antes del choque)',d:'Metros de frenado antes del impacto que causó el volteo'},
+    {id:'post1',ic:'🔴',n:'Huellas POST-impacto hasta el volteo',d:'Metros desde el impacto hasta donde volcó'}
+  ],
+  'salida_via_salida_via':[
+    {id:'pre1',ic:'🟡',n:'Huellas de frenado antes de salir',d:'Metros desde donde frenó hasta el borde de la vía'},
+    {id:'desnivel',ic:'⬇️',n:'Desnivel de caída (metros)',d:'Diferencia de altura entre la vía y el punto de aterrizaje'},
+    {id:'dist_caida',ic:'↔️',n:'Distancia horizontal de caída (metros)',d:'Qué tan lejos del borde de la vía cayó el vehículo'}
+  ]
+};
+
+/* ── FUNCIONES DEL WIZARD ── */
+function wizSetNVeh(n){
+  pat={nveh:n,tipo:'',colision:'',evidencias:[]};
+  /* Reset V2 visibility for later */
+  var vt2r=document.getElementById('vt2');
+  var vt1r=document.getElementById('vt1');
+  if(vt2r)vt2r.style.display='';
+  if(vt1r)vt1r.textContent='① Vehículo 1';
+  ['nveh-1','nveh-2'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.classList.remove('on');
+  });
+  var el=document.getElementById('nveh-'+n);
+  if(el)el.classList.add('on');
+
+  var blk=document.getElementById('blk-tipos');
+  var list=document.getElementById('blk-tipos-list');
+  var sub=document.getElementById('blk-tipos-sub');
+
+  var opts=CAT_TIPOS[String(n)];
+  sub.textContent=n===1?'¿Qué pasó con el vehículo?':'¿Qué vehículos están involucrados?';
+  list.innerHTML=opts.map(function(o){
+    var badge=o.id==='auto_moto'?' <span style="background:var(--gd);color:var(--g);font-size:.58rem;font-weight:700;padding:1px 6px;border-radius:4px;vertical-align:middle;">MÁS COMÚN</span>':'';
+    var oid=o.id;
+    return '<div class="pat-opt" id="tipo-'+oid+'" data-wid="'+oid+'" onclick="wizHandleTipo(this)">'+
+      '<span class="pat-opt-ic">'+o.ic+'</span>'+
+      '<div><div class="pat-opt-n">'+o.n+badge+'</div><div class="pat-opt-d">'+o.d+'</div></div>'+
+      '<span class="pat-opt-r">›</span></div>';
+  }).join('');
+
+  blk.classList.remove('wiz-hidden');
+  blk.style.display='block';
+  /* hide lower blocks */
+  document.getElementById('blk-colision').style.display='none';
+  document.getElementById('blk-evidencia').style.display='none';
+  document.getElementById('blk-reuso').style.display='none';
+  document.getElementById('pat-crumb').style.display='none';
+  setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'nearest'});},100);
+  wizUpdateCrumb();
+}
+
+function wizHandleTipo(el){wizSetTipo(el.getAttribute('data-wid'));}
+function wizSetTipo(tipo){
+  pat.tipo=tipo;pat.colision='';pat.evidencias=[];
+  document.querySelectorAll('[id^="tipo-"]').forEach(function(el){el.classList.remove('on');});
+  var el=document.getElementById('tipo-'+tipo);if(el)el.classList.add('on');
+
+  var cols=CAT_COLISIONES[tipo];
+  if(!cols||cols.length===1){
+    /* No sub-collision choice needed */
+    pat.colision=cols?cols[0].id:tipo;
+    wizSetColision(pat.colision,true);
+    return;
+  }
+  var blk=document.getElementById('blk-colision');
+  var list=document.getElementById('blk-colision-list');
+  list.innerHTML=cols.map(function(o){
+    return '<div class="pat-opt" id="col-'+o.id+'" data-id="'+o.id+'" onclick="wizSetColision(this.dataset.id)">'+
+      '<span class="pat-opt-ic">'+o.ic+'</span>'+
+      '<div><div class="pat-opt-n">'+o.n+'</div><div class="pat-opt-d">'+o.d+'</div></div>'+
+      '<span class="pat-opt-r">›</span></div>';
+  }).join('');
+  blk.classList.remove('wiz-hidden');
+  blk.style.display='block';
+  document.getElementById('blk-evidencia').style.display='none';
+  document.getElementById('blk-reuso').style.display='none';
+  wizUpdateCrumb();
+  setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'nearest'});},100);
+}
+
+function wizSetColision(col,skip){
+  pat.colision=col;pat.evidencias=[];
+  if(!skip){
+    document.querySelectorAll('[id^="col-"]').forEach(function(el){el.classList.remove('on');});
+    var el=document.getElementById('col-'+col);if(el)el.classList.add('on');
+  }
+
+  /* Get evidences for this pattern */
+  var evKey=col+'_'+pat.tipo;
+  var evList=CAT_EVIDENCIAS[evKey]||CAT_EVIDENCIAS[col]||[];
+
+  var blk=document.getElementById('blk-evidencia');
+  var list=document.getElementById('blk-evidencia-list');
+  list.innerHTML=evList.map(function(ev){
+    return '<div class="ev-item" id="ev-'+ev.id+'" data-evid="'+ev.id+'" onclick="wizClickEv(this)">'+
+      '<input type="checkbox" id="cb-'+ev.id+'" value="'+ev.id+'" style="pointer-events:none;">'+
+      '<div><div class="ev-item-n">'+ev.ic+' '+ev.n+'</div>'+
+      (ev.d?'<div class="ev-item-d">'+ev.d+'</div>':'')+'</div></div>';
+  }).join('');
+  /* Add context for what paso 1 already covers */
+  var infoBox='';
+  var p1_cuerda=parseFloat(gv('c_cuerda'))||0;
+  var p1_sagita=parseFloat(gv('c_sagita'))||0;
+  if(pat.nveh===1&&p1_cuerda>0&&p1_sagita>0){
+    var R_info=(p1_cuerda*p1_cuerda)/(8*p1_sagita)+p1_sagita/2;
+    infoBox='<div style="background:rgba(0,76,46,.06);border:1px solid rgba(0,76,46,.18);border-radius:8px;padding:9px 11px;margin-bottom:10px;font-size:.73rem;color:var(--t2);">✅ <strong style="color:var(--g);">Del Paso 1:</strong> Radio de curva ya calculado = <strong style="color:var(--g);">'+R_info.toFixed(1)+' m</strong> · Peralte = <strong>'+( parseFloat(gv('c_peralte'))||0)+'%</strong> · Superficie μ='+selSurf.mu+'<br>No necesitas volver a ingresar estos datos.</div>';
+  }
+  list.innerHTML=infoBox+list.innerHTML;
+  blk.classList.remove('wiz-hidden');
+  blk.style.display='block';
+
+  /* Show reuse info from step 1 */
+  wizMostrarReuso();
+  wizUpdateCrumb();
+  setTimeout(function(){blk.scrollIntoView({behavior:'smooth',block:'nearest'});},100);
+}
+
+function wizClickEv(el){
+  var id=el.getAttribute('data-evid');
+  var cb=document.getElementById('cb-'+id);
+  var isOn=el.classList.contains('on');
+  if(isOn){
+    pat.evidencias.splice(pat.evidencias.indexOf(id),1);
+    el.classList.remove('on');
+    if(cb)cb.checked=false;
+  }else{
+    if(pat.evidencias.indexOf(id)<0)pat.evidencias.push(id);
+    el.classList.add('on');
+    if(cb)cb.checked=true;
+  }
+  var tip=document.getElementById('blk-ev-tip');
+  var patron=document.getElementById('blk-ev-patron');
+  if(pat.evidencias.length>0){
+    if(tip)tip.style.display='block';
+    if(patron)patron.textContent=wizGetNombrePatron()+' · '+pat.evidencias.length+' evidencia'+(pat.evidencias.length>1?'s':'')+' · '+wizGetNFormulas()+' fórmulas aplicarán';
+  }else{
+    if(tip)tip.style.display='none';
+  }
+}
+function wizToggleEv(id,el){wizClickEv(el);}
+
+
+function wizMostrarReuso(){
+  var reuso=[];
+  if(selSurf.mu)reuso.push('Superficie: '+selSurf.n+' (μ='+selSurf.mu+')');
+  var e=getPend();
+  if(e!==0)reuso.push('Pendiente: '+(pendDir==='subida'?'Subida':'Bajada')+' '+Math.abs(e*100).toFixed(1)+'%');
+  else reuso.push('Pendiente: Plana (0%)');
+  var peralte=parseFloat(gv('c_peralte'))||0;
+  if(peralte!==0)reuso.push('Peralte: '+peralte+'%');
+  var cuerda=parseFloat(gv('c_cuerda'))||0;
+  var sagita=parseFloat(gv('c_sagita'))||0;
+  if(cuerda>0&&sagita>0){
+    var R=(cuerda*cuerda)/(8*sagita)+sagita/2;
+    reuso.push('Radio de curva calculado: '+R.toFixed(1)+' m (de cuerda='+cuerda+'m, sagita='+sagita+'m)');
+  }
+  var lim=gv('c_lim');
+  if(lim)reuso.push('Límite de velocidad: '+lim+' km/h');
+  var blk=document.getElementById('blk-reuso');
+  var list=document.getElementById('blk-reuso-list');
+  list.innerHTML=reuso.map(function(r){return'✅ '+r;}).join('<br>');
+  blk.style.display='block';
+}
+
+function wizUpdateCrumb(){
+  var crumb=document.getElementById('pat-crumb');
+  var parts=[];
+  if(pat.nveh)parts.push(pat.nveh===1?'1 vehículo':'2 vehículos');
+  if(pat.tipo){
+    var tipos={'auto_auto':'Auto vs Auto','auto_moto':'Auto vs Moto','auto_peaton':'vs Peatón',
+      'auto_ciclist':'vs Ciclista','moto_moto':'Moto vs Moto','auto_animal':'vs Animal',
+      'volteo_curva':'Volcamiento curva','volteo_impacto':'Volcamiento impacto','salida_via':'Salida de vía'};
+    parts.push(tipos[pat.tipo]||pat.tipo);
+  }
+  if(pat.colision&&pat.colision!==pat.tipo){
+    var cols={'frontal_eng':'Frontal enganche','frontal_sep':'Frontal separación',
+      'alcance_eng':'Alcance enganche','alcance_sep':'Alcance separación',
+      'lateral_perp':'Lateral','lateral_tang':'Tangencial','atropello_plano':'Atropello plano',
+      'atropello_subida':'En subida','atropello_bajada':'En bajada',
+      'atropello_cicl':'Atropello','moto_cae':'Moto cayó','impacto_animal':'Impacto animal'};
+    parts.push(cols[pat.colision]||pat.colision);
+  }
+  if(parts.length>0){
+    crumb.style.display='block';
+    crumb.innerHTML='📍 '+parts.join(' → ');
+  }
+}
+
+function wizGetNombrePatron(){
+  var tipos={'auto_auto':'Auto vs Auto','auto_moto':'Vehículo vs Moto',
+    'auto_peaton':'Atropello peatón','auto_ciclist':'Atropello ciclista',
+    'moto_moto':'Moto vs Moto','volteo_curva':'Volcamiento curva','salida_via':'Salida de vía'};
+  var cols={'frontal_eng':'Frontal enganche','frontal_sep':'Frontal','alcance_eng':'Alcance enganche',
+    'alcance_sep':'Alcance','lateral_perp':'Lateral','atropello_plano':'Plano',
+    'atropello_subida':'Subida','atropello_bajada':'Bajada','atropello_cicl':'Ciclista'};
+  return (tipos[pat.tipo]||pat.tipo)+' — '+(cols[pat.colision]||pat.colision);
+}
+
+function wizGetNFormulas(){
+  var n=0;var ev=pat.evidencias;
+  var has=function(e){return ev.indexOf(e)>=0;};
+  if(has('post1')||has('post2')||has('post_comb'))n++;
+  if(has('pre1'))n++;
+  if(has('proyeccion_conductor')||has('proyeccion_parrillero'))n++;
+  if(has('proyeccion_peaton'))n++;
+  if(has('proyeccion_cicl'))n++;
+  if(has('arrastre_moto'))n++;
+  if(has('video'))n++;
+  if((has('post1')&&has('post2'))||has('post_comb'))n++;/* momentum */
+  return n;
+}
+
+/* ── GENERA CAMPOS SC1B (sin duplicar paso 1) ── */
+function generarCamposMedidas(){
+  var ev=pat.evidencias;
+  var has=function(e){return ev.indexOf(e)>=0;};
+  var campos=[];
+
+  /* ── Lo que YA viene del Paso 1 (no volver a pedir) ── */
+  var tengoRadio=(parseFloat(gv('c_cuerda').replace(',','.'))||0)>0 &&
+                 (parseFloat(gv('c_sagita').replace(',','.'))||0)>0;
+  var hayPendiente=pendDir!=='plano';
+  var hayPeralte=(parseFloat(gv('c_peralte').replace(',','.'))||0)!==0;
+  var viaConCurva=document.getElementById('c_curva')&&document.getElementById('c_curva').value==='si';
+
+  /* ── Campos según evidencia marcada ── */
+
+  /* Huellas PRE-impacto */
+  if(has('pre1'))
+    campos.push({id:'mp_pre1',
+      lb:'🟡 Huella PRE-impacto V1 (metros)',
+      note:'Desde donde empieza a frenar hasta el punto exacto del choque. Escribir 0 si no hay.',
+      def:'0'});
+
+  if(has('pre2'))
+    campos.push({id:'mp_pre2',
+      lb:'🟡 Huella PRE-impacto V2 / Moto (metros)',
+      note:'Desde donde frenó el segundo vehículo hasta el impacto. Escribir 0 si no hay.',
+      def:'0'});
+
+  /* Huellas POST-impacto */
+  if(has('post_comb'))
+    campos.push({id:'mp_postcomb',
+      lb:'🔴 Huella POST-impacto COMBINADA (metros)',
+      note:'Distancia total que rodaron juntos pegados desde el punto de choque hasta detenerse.'});
+
+  if(has('post1'))
+    campos.push({id:'mp_post1',
+      lb:'🔴 Huella POST-impacto V1 (metros)',
+      note:'Desde el punto exacto del choque hasta donde quedó detenido el V1.'});
+
+  if(has('post2'))
+    campos.push({id:'mp_post2',
+      lb:'🔴 Huella POST-impacto V2 / Moto (metros)',
+      note:'Desde el punto exacto del choque hasta donde quedó detenida la moto / V2.'});
+
+  /* Ángulo */
+  if(has('angulo'))
+    campos.push({id:'mp_angulo',
+      lb:'📐 Ángulo de desviación / separación (grados)',
+      note:'Ángulo medido en escena entre la trayectoria original y la dirección final. Dejar vacío si no se midió.',
+      def:''});
+
+  /* Proyecciones */
+  if(has('proyeccion_conductor'))
+    campos.push({id:'mp_proy_cond',
+      lb:'👤 Proyección CONDUCTOR de la moto (metros)',
+      note:'Desde el punto exacto del impacto hasta donde quedó el cuerpo del conductor.'});
+
+  if(has('proyeccion_parrillero'))
+    campos.push({id:'mp_proy_parr',
+      lb:'👤 Proyección PARRILLERO (metros)',
+      note:'Distancia del acompañante proyectado. Escribir 0 si venía solo.',
+      def:'0'});
+
+  if(has('proyeccion_peaton'))
+    campos.push({id:'mp_proy_peat',
+      lb:'🚶 Proyección PEATÓN (metros)',
+      note:'Desde el punto de impacto exacto hasta donde quedó el cuerpo del peatón.'});
+
+  if(has('proyeccion_cicl'))
+    campos.push({id:'mp_proy_cicl',
+      lb:'🚲 Proyección CICLISTA (metros)',
+      note:'Desde el punto de impacto hasta donde quedó el ciclista.'});
+
+  /* Arrastre metálico */
+  if(has('arrastre_moto'))
+    campos.push({id:'mp_arrastre',
+      lb:'🔗 Arrastre metálico de la moto (metros)',
+      note:'Longitud de las marcas de metal de la moto sobre el asfalto post-impacto.',
+      def:'0'});
+
+  /* Ceja de llanta */
+  if(has('ceja'))
+    campos.push({id:'mp_ceja',
+      lb:'⬛ Marca de ceja de llanta (metros)',
+      note:'Longitud de la marca lateral en la llanta por el impacto de costado.',
+      def:'0'});
+
+  /* Huellas volcamiento */
+  if(has('huellas_vol'))
+    campos.push({id:'mp_huellas_vol',
+      lb:'🟡 Huellas de frenado antes del volcamiento (metros)',
+      note:'Si hay marcas de frenado antes de la curva donde volcó.',
+      def:'0'});
+
+  /* ── Radio de curva: SOLO si la vía tiene curva Y no viene del Paso 1 ── */
+  /* volteo_curva siempre necesita radio */
+  if(pat.colision==='volteo_curva' && !tengoRadio){
+    campos.push({id:'mp_cuerda2',
+      lb:'📐 Cuerda de la curva (metros)',
+      note:'Distancia entre dos puntos del borde exterior de la curva. No ingresada en Paso 1.'});
+    campos.push({id:'mp_sagita2',
+      lb:'📐 Sagita / flecha de la curva (metros)',
+      note:'Distancia del punto medio de la cuerda al borde interior de la curva.'});
+  }
+  /* radio_curva marcado como evidencia Y hay curva Y no viene del Paso 1 */
+  if(has('radio_curva') && viaConCurva && !tengoRadio){
+    campos.push({id:'mp_cuerda2',
+      lb:'📐 Cuerda de la curva (metros)',
+      note:'Distancia entre dos puntos del borde exterior de la curva.'});
+    campos.push({id:'mp_sagita2',
+      lb:'📐 Sagita / flecha de la curva (metros)',
+      note:'Distancia del punto medio de la cuerda al borde interior.'});
+  }
+
+  /* ── Radio de curva ya viene del Paso 1: mostrar aviso ── */
+  if(tengoRadio && (pat.colision==='volteo_curva' || has('radio_curva'))){
+    var C1=parseFloat(gv('c_cuerda').replace(',','.'))||0;
+    var S1=parseFloat(gv('c_sagita').replace(',','.'))||0;
+    var R1=(C1*C1)/(8*S1)+S1/2;
+    campos.push({id:'_info_radio',
+      lb:'✅ Radio de curva ya calculado del Paso 1',
+      note:'R = '+R1.toFixed(2)+' m (Cuerda='+C1+'m · Sagita='+S1+'m) · No necesitas ingresarlo de nuevo.',
+      tipo:'info'});
+  }
+
+  /* Salida de vía */
+  if(has('desnivel'))
+    campos.push({id:'mp_desnivel',
+      lb:'⬇️ Desnivel de caída (metros)',
+      note:'Diferencia de altura entre la vía y el punto donde aterrizó el vehículo.'});
+
+  if(has('dist_caida'))
+    campos.push({id:'mp_dist_caida',
+      lb:'↔️ Distancia horizontal de caída (metros)',
+      note:'Qué tan lejos del borde de la vía cayó el vehículo.'});
+
+  /* Video */
+
+
+  /* ── Mostrar aviso de datos reutilizados del Paso 1 ── */
+  var reusoMsg=[];
+  if(selSurf&&selSurf.mu) reusoMsg.push('Superficie: '+selSurf.n+' (μ='+selSurf.mu+')');
+  if(hayPendiente) reusoMsg.push('Pendiente: '+(pendDir==='subida'?'Subida':'Bajada')+' '+(parseFloat(gv('c_pval'))||0)+'%');
+  if(hayPeralte) reusoMsg.push('Peralte: '+gv('c_peralte')+'%');
+  if(tengoRadio){var C0=parseFloat(gv('c_cuerda'))||0,S0=parseFloat(gv('c_sagita'))||0;reusoMsg.push('Radio: '+((C0*C0)/(8*S0)+S0/2).toFixed(1)+' m');}
+
+  /* ── Título y render ── */
+  document.getElementById('sc1b-titulo').textContent=wizGetNombrePatron();
+
+  /* Render campos */
+  var html='';
+
+  /* Aviso de datos del Paso 1 */
+  if(reusoMsg.length>0){
+    html+='<div style="background:rgba(0,76,46,.05);border:1px solid rgba(0,76,46,.2);border-radius:9px;padding:10px 12px;margin-bottom:10px;">'
+      +'<div style="font-size:.63rem;font-weight:700;color:var(--g);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px;">✅ Datos del Paso 1 — se usan automáticamente</div>'
+      +'<div style="font-size:.75rem;color:var(--t2);line-height:1.9;">'+reusoMsg.join('<br>')+'</div></div>';
+  }
+
+  if(campos.length===0){
+    html+='<div class="al"><span>✅</span><div><strong>Todo listo.</strong> Todos los datos necesarios ya fueron ingresados en el Paso 1. Presiona Continuar →</div></div>';
+  }else{
+    html+=campos.map(function(f){
+      if(f.tipo==='info'){
+        return '<div style="background:rgba(0,76,46,.04);border:1px solid rgba(0,76,46,.15);border-radius:8px;padding:9px 12px;margin-bottom:8px;">'
+          +'<div style="font-size:.75rem;font-weight:700;color:var(--g);">'+f.lb+'</div>'
+          +'<div style="font-size:.7rem;color:var(--t2);margin-top:3px;">'+f.note+'</div></div>';
+      }
+      return '<div class="card"><div class="cb"><div class="f">'
+        +'<label>'+f.lb+'</label>'
+        +'<input type="number" inputmode="decimal" id="'+f.id+'" min="0" step="0.01"'
+        +(f.def!==undefined?' value="'+f.def+'"':' placeholder="Ej: 0.0"')+'>'
+        +(f.note?'<div class="f-note">'+f.note+'</div>':'')
+        +'</div></div></div>';
+    }).join('');
+  }
+
+  document.getElementById('sc1b-campos').innerHTML=html;
+}
+
+
+/* ── FUNCIONES DEL WIZARD DE PATRONES ── */
+/* ── GENERA CAMPOS SC1B ── */
+
+
+function renderSurfs(){
+  var el=document.getElementById('surf-grid');
+  if(!el)return;
+  el.innerHTML=SURFS.map(function(s){
+    var on=s.id===selSurf.id;
+    return '<div class="sp'+(on?' on':'')+'" onclick="pickSurf(\''+s.id+'\')">'
+      +'<span class="sp-ic">'+s.ic+'</span>'
+      +'<span class="sp-n">'+s.n+'</span>'
+      +'<span class="sp-m">μ='+s.mu+'</span>'
+      +'</div>';
+  }).join('');
+  var md=document.getElementById('mu-disp');
+  if(md)md.textContent=selSurf.mu;
+}
+function pickSurf(id){
+  selSurf=SURFS.find(function(s){return s.id===id;});
+  renderSurfs();
+}
+
+/* PENDIENTE */
+var pendDir='plano';
+function setPend(d){
+  pendDir=d;
+  ['plano','subida','bajada'].forEach(function(x){
+    var el=document.getElementById('pb-'+x);
+    if(el){el.classList.toggle('on',x===d);}
+  });
+  var w=document.getElementById('pv-wrap');
+  if(w)w.style.display=d==='plano'?'none':'block';
+}
+function getPend(){
+  if(pendDir==='plano')return 0;
+  var v=parseFloat(document.getElementById('c_pval').value)||0;
+  return pendDir==='subida'?v/100:-v/100;
+}
+function muEff(mu,e){
+  if(e===0)return mu;
+  return(mu+Math.abs(e))/Math.sqrt(e*e+1)*(e>0?1:-1)+mu*(e>0?0:1);
+}
+/* Correct muEff */
+function muC(mu,e){
+  if(e===0)return mu;
+  var r=(mu+e)/Math.sqrt(e*e+1);
+  return r<0.01?0.01:r;
+}
+
+/* CURVA */
+function toggleCurva(){
+  var v=document.getElementById('c_curva').value;
+  var el=document.getElementById('curva-f');
+  if(el)el.style.display=v==='si'?'block':'none';
+}
+function calcRadio(){
+  var cv=document.getElementById('c_cuerda').value.replace(',','.');
+  var sv=document.getElementById('c_sagita').value.replace(',','.');
+  var C=parseFloat(cv)||0;
+  var f=parseFloat(sv)||0;
+  var rd=document.getElementById('radio-res');
+  if(!rd||C<=0||f<=0){if(rd)rd.style.display='none';return;}
+  var R=(C*C)/(8*f)+f/2;
+  rd.style.display='block';
+  document.getElementById('radio-val').textContent=R.toFixed(2)+' m';
+  var tipo=R<50?'🔴 Curva muy cerrada':R<100?'🟠 Curva cerrada':R<200?'🟡 Curva moderada':'🟢 Curva amplia';
+  document.getElementById('radio-note').textContent='C='+C+'m · f='+f+'m · '+tipo;
+  window._radio=R;
+}
+
+/* GPS */
+function getGPS(){
+  if(!navigator.geolocation){alert('GPS no disponible en este dispositivo.');return;}
+  var btn=document.getElementById('gps-btn');
+  btn.textContent='⏳ Obteniendo...'; btn.disabled=true;
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      var lat=pos.coords.latitude.toFixed(6);
+      var lng=pos.coords.longitude.toFixed(6);
+      var alt=pos.coords.altitude?pos.coords.altitude.toFixed(1)+' m':'N/D';
+      document.getElementById('gps-lat').textContent=lat;
+      document.getElementById('gps-lng').textContent=lng;
+      document.getElementById('gps-alt').textContent=alt;
+      document.getElementById('gps-res').style.display='block';
+      document.getElementById('gps-prec').textContent='Precisión ±'+Math.round(pos.coords.accuracy||0)+'m · '+new Date().toLocaleTimeString('es-CO');
+      window._gps={lat:lat,lng:lng,alt:alt};
+      btn.textContent='✅ Ubicación capturada'; btn.style.background='var(--g2)'; btn.disabled=false;
+    },
+    function(e){alert('No se pudo obtener la ubicación. Activa el GPS y da permiso.\n'+e.message);btn.textContent='📍 Capturar ubicación GPS';btn.disabled=false;},
+    {enableHighAccuracy:true,timeout:15000,maximumAge:0}
+  );
+}
+
+/* TIPO ACCIDENTE */
+var TIPOS=[
+  {id:'sep',ic:'↔️',n:'Choque con separación',d:'Los vehículos rebotaron y quedaron separados',col:'var(--b)'},
+  {id:'eng',ic:'🔗',n:'Choque con enganche',d:'Quedaron pegados — el método más fácil y confiable',col:'var(--r)'},
+  {id:'vol',ic:'🔄',n:'Volcamiento',d:'Uno o ambos vehículos volcaron',col:'var(--pu)'},
+  {id:'at', ic:'🚶',n:'Atropello',d:'Vehículo vs peatón o ciclista',col:'var(--or)'}
+];
+var selTipo='sep';
+function renderTipos(){
+  var el=document.getElementById('acc-grid');
+  if(!el)return;
+  el.innerHTML=TIPOS.map(function(t){
+    var on=t.id===selTipo;
+    return '<div class="tb2'+(on?' on':'')+'" onclick="pickTipo(\''+t.id+'\')" style="border-color:'+(on?t.col:'var(--bd)')+';">'
+      +'<span class="tb2-ic">'+t.ic+'</span>'
+      +'<div><div class="tb2-n" style="color:'+(on?t.col:'var(--tx)')+'">'+t.n+'</div>'
+      +'<div class="tb2-d">'+t.d+'</div></div>'
+      +'<span class="tb2-r" style="color:'+(on?t.col:'var(--t3)')+';">'+(on?'●':'○')+'</span>'
+      +'</div>';
+  }).join('');
+  ['sep','eng','vol','at'].forEach(function(id){
+    var el2=document.getElementById('sub-'+id);
+    if(el2)el2.style.display=id===selTipo?'block':'none';
+  });
+}
+function pickTipo(id){selTipo=id;renderTipos();}
+
+/* TOGGLE HELPERS */
+function toggleV2(){
+  var v=document.getElementById('s_v2est').value;
+  var w=document.getElementById('s_v2vel-w');
+  var i=document.getElementById('s_v2k');
+  if(v==='parado'){w.style.opacity='.4';i.disabled=true;i.value='0';}
+  else{w.style.opacity='1';i.disabled=false;}
+}
+function toggleEngV2(){
+  var v=document.getElementById('e_v2est').value;
+  var w=document.getElementById('e_v2vel-w');
+  var i=document.getElementById('e_v2k');
+  if(v==='parado'){w.style.opacity='.4';i.disabled=true;i.value='0';}
+  else{w.style.opacity='1';i.disabled=false;}
+}
+function toggleEngAng(){
+  var v=document.getElementById('e_angsel').value;
+  var w=document.getElementById('e_ang-w');
+  if(w)w.style.display=v==='si'?'block':'none';
+}
+function toggleVolteo(){
+  var v=document.getElementById('v_tipo').value;
+  document.getElementById('v_curva-f').style.display=v==='curva'?'block':'none';
+  document.getElementById('v_imp-f').style.display=v==='impacto'?'block':'none';
+}
+
+/* VEH TABS */
+function switchVT(n){
+  document.getElementById('vt1').classList.toggle('on',n===1);
+  document.getElementById('vt2').classList.toggle('on',n===2);
+  document.getElementById('vp1').style.display=n===1?'block':'none';
+  document.getElementById('vp2').style.display=n===2?'block':'none';
+}
+function syncM(v){
+  var s=document.getElementById('c_t'+v);
+  var m=document.getElementById('c_m'+v);
+  if(s&&m&&s.value!=='0')m.value=s.value;
+}
+
+/* MASA */
+function getMasa(v){
+  var m=parseFloat(document.getElementById('c_m'+v).value)||0;
+  var o=parseFloat(document.getElementById('c_o'+v).value)||0;
+  var c=parseFloat(document.getElementById('c_c'+v).value)||0;
+  return m+o*75+c;
+}
+function gv(id){var el=document.getElementById(id);return el?el.value:'—';}
+
+/* WIZARD */
+var step=0;
+var SLBLS=['PASO 1: ESCENA Y VÍA','PASO 2: PATRÓN DEL ACCIDENTE','PASO 2b: MEDIDAS EN ESCENA','PASO 3: VEHÍCULOS','PASO 4: REVISAR','PASO 5: RESULTADO'];
+function updUI(){
+  /* step 15 = 1b (medidas) */
+  var realStep=step===15?1:step;
+  for(var i=0;i<5;i++){
+    var scId='sc'+i;
+    var sc=document.getElementById(scId);
+    var sd=document.getElementById('sd'+i);
+    if(sc)sc.style.display=(i===realStep&&step!==15)?'block':'none';
+    if(sd){sd.classList.remove('on','dn');
+      if(i<realStep)sd.classList.add('dn');
+      else if(i===realStep)sd.classList.add('on');
+    }
+  }
+  /* Show/hide sc1b */
+  var sc1b=document.getElementById('sc1b');
+  if(sc1b)sc1b.style.display=step===15?'block':'none';
+  /* Hide sc1 when on sc1b */
+  var sc1=document.getElementById('sc1');
+  if(sc1)sc1.style.display=(step===1)?'block':'none';
+
+  var lbl=document.getElementById('slbl');
+  var lblMap={0:'PASO 1: ESCENA Y VÍA',1:'PASO 2: PATRÓN DEL ACCIDENTE',15:'PASO 2b: MEDIDAS EN ESCENA',2:'PASO 3: VEHÍCULOS',3:'PASO 4: REVISAR',4:'PASO 5: RESULTADO'};
+  if(lbl)lbl.textContent=lblMap[step]||'';
+  document.getElementById('btn-bk').style.display=(step>0&&step<4)?'block':'none';
+  document.getElementById('btn-nx').style.display=(step<3||step===15)?'block':'none';
+  document.getElementById('btn-cl').style.display=step===3?'block':'none';
+  document.getElementById('btn-nw').style.display=step===4?'block':'none';
+  document.getElementById('btn-pd').style.display=step===4?'block':'none';
+}
+function stepN(){
+  if(step===1){
+    if(!pat.nveh){
+      alert('Selecciona cuántos vehículos hay involucrados.');return;
+    }
+    if(!pat.tipo){
+      alert('Selecciona el tipo de vehículos involucrados.');return;
+    }
+    if(!pat.colision){
+      alert('Selecciona cómo ocurrió la colisión.');return;
+    }
+    if(pat.evidencias.length===0){
+      alert('Marca al menos una evidencia disponible en la escena para poder calcular.');return;
+    }
+    generarCamposMedidas();
+    /* Hide V2 tab if only 1 vehicle */
+    var vt2=document.getElementById('vt2');
+    var vp2=document.getElementById('vp2');
+    var vt1el=document.getElementById('vt1');
+    if(pat.nveh===1){
+      if(vt2){vt2.style.display='none';}
+      if(vp2){vp2.style.display='none';}
+      if(vt1el){vt1el.textContent='🚗 Vehículo involucrado';}
+    }else{
+      if(vt2){vt2.style.display='';}
+      if(vp2){}
+      if(vt1el){vt1el.textContent='① Vehículo 1';}
+    }
+    step=15;
+    updUI();window.scrollTo(0,0);return;
+  }
+  if(step===15){step=2;updUI();window.scrollTo(0,0);return;}
+  if(step===2)buildRes();
+  if(step<3){step++;updUI();window.scrollTo(0,0);}
+}
+function stepB(){
+  if(step===15){step=1;updUI();window.scrollTo(0,0);return;}
+  if(step>0&&step<4){step--;updUI();window.scrollTo(0,0);}
+}
+function resetC(){step=0;updUI();window.scrollTo(0,0);}
+
+function buildRes(){
+  var m1=getMasa(1),m2=getMasa(2);
+  var tipoNombre=typeof wizGetNombrePatron==='function'?wizGetNombrePatron():'—';
+  var pen=pendDir==='plano'?'Plano (0%)':(pendDir==='subida'?'Subida ':'Bajada ')+(gv('c_pval')||'0')+'%';
+  var evCount=pat.evidencias.length;
+  var rows=[
+    ['Agente / IPAT',gv('c_agente')+' / '+gv('c_ipat')],
+    ['Municipio',gv('c_municipio')],
+    ['Vía',gv('c_via_n')],
+    ['Placa V1 / V2',gv('c_p1')+' / '+gv('c_p2')],
+    ['Patrón de accidente',tipoNombre],
+    ['Evidencias marcadas',evCount+' tipo(s)'],
+    ['Superficie',selSurf.n+' (μ='+selSurf.mu+')'],
+    ['Límite velocidad',gv('c_lim')+' km/h'],
+    ['Pendiente',pen],
+    ['Peralte',gv('c_peralte')+'%'],
+    ['Masa total V1',m1.toFixed(0)+' kg'],
+    ['Masa total V2',m2.toFixed(0)+' kg']
+  ];
+  if(window._gps)rows.push(['GPS',window._gps.lat+', '+window._gps.lng+' Alt:'+window._gps.alt]);
+  document.getElementById('resumen-b').innerHTML=rows.map(function(r){
+    return '<div class="ir"><span class="ik">'+r[0]+'</span><span class="iv">'+r[1]+'</span></div>';
+  }).join('');
+}
+
+/* ════ CALCULATIONS ════ */
+
+/* ════ CÁLCULO INTELIGENTE POR PATRÓN ════ */
+function calcInteligente(){
+  var G=9.81;
+  var mu=selSurf.mu;
+  var e=getPend();  /* ya viene del Paso 1 */
+  var mue=muC(mu,e);
+  var m1=getMasa(1), m2=getMasa(2);
+  var lim=parseFloat(gv('c_lim').replace(',','.'))||60;
+  var col=pat.colision, tipo=pat.tipo;
+  var ev=pat.evidencias;
+  var has=function(x){return ev.indexOf(x)>=0;};
+  var resultados=[];
+
+  /* ── helper: leer campo numérico ── */
+  function gf(id){
+    var el=document.getElementById(id);
+    if(!el||el.value==='')return null;
+    var v=parseFloat(el.value.replace(',','.'));
+    return isNaN(v)?null:v;
+  }
+  /* ── helper: añadir resultado ── */
+  function add(metodo,formula,veh,val,label,conf,color,nota){
+    if(val===null||val===undefined||isNaN(val)||val<=0)return;
+    resultados.push({metodo:metodo,formula:formula,veh:veh,
+      val:val,label:label,conf:conf,color:color,nota:nota||''});
+  }
+
+  /* ══ MÉTODOS POR TIPO DE EVIDENCIA ══ */
+
+  /* 1. HUELLAS POST V1 → velocidad V1 post-impacto */
+  if(has('post1')){
+    var d=gf('mp_post1');
+    if(d>0) add('Huellas POST V1','V=√(2μgd)','V1',
+      Math.sqrt(2*mue*G*d)*3.6,
+      'Velocidad V1 al quedar detenido (post-impacto)',85,'var(--g)');
+  }
+  /* 2. HUELLAS POST V2/Moto */
+  if(has('post2')){
+    var d2=gf('mp_post2');
+    if(d2>0) add('Huellas POST V2/Moto','V=√(2μgd)','V2',
+      Math.sqrt(2*mue*G*d2)*3.6,
+      'Velocidad V2/Moto al quedar detenida (post-impacto)',80,'var(--r)');
+  }
+  /* 3. HUELLAS POST COMBINADAS (enganche) */
+  if(has('post_comb')){
+    var dc=gf('mp_postcomb');
+    if(dc>0){
+      var vfc=Math.sqrt(2*mue*G*dc);
+      /* Velocidad combinada → despejar V1 */
+      if(m1>0){
+        var v1_eng=((m1+m2)*vfc)/m1;
+        var pre1e=has('pre1')?(gf('mp_pre1')||0):0;
+        var v1_pre_eng=pre1e>0?Math.sqrt(v1_eng*v1_eng+2*mue*G*pre1e):v1_eng;
+        add('Momentum enganche','v1=(m1+m2)·vf/m1','V1',
+          v1_pre_eng*3.6,'Velocidad V1 antes de frenar',92,'var(--g)');
+      }
+      add('Huellas POST combinadas','V=√(2μgd)','Comb',
+        vfc*3.6,'Velocidad conjunta post-impacto',88,'var(--g)');
+    }
+  }
+
+  /* 4. MOMENTUM SEPARACIÓN (post1 + post2) */
+  if(has('post1')&&has('post2')){
+    var p1=gf('mp_post1'), p2=gf('mp_post2');
+    if(p1>0&&p2>0&&m1>0&&m2>0){
+      var vf1s=Math.sqrt(2*mue*G*p1);
+      var vf2s=Math.sqrt(2*mue*G*p2);
+      var isFront=(col==='frontal_sep'||col==='frontal_eng');
+      /* Conservación momentum */
+      var v1s=isFront?(m1*vf1s+m2*vf2s+m2*vf2s)/m1
+                     :(m1*vf1s+m2*vf2s)/m1;
+      if(v1s<0)v1s=Math.abs(v1s);
+      var pre1s=has('pre1')?(gf('mp_pre1')||0):0;
+      var v1pre=pre1s>0?Math.sqrt(v1s*v1s+2*mue*G*pre1s):v1s;
+      add('Momentum lineal '+(isFront?'frontal':'alcance/lateral'),
+        'm1v1+m2v2=m1vf1+m2vf2','V1',v1pre*3.6,
+        'Velocidad V1 antes de frenar (por momentum)',88,'var(--g)');
+    }
+  }
+
+  /* 5. PRE-impacto solo V1 (si hay POST también) */
+  if(has('pre1')&&(has('post1')||has('post_comb'))){
+    var dpr=gf('mp_pre1');
+    /* Ya incluido en momentum, pero si no hay V2 data */
+    if(dpr>0&&!has('post2')&&!has('post_comb')){
+      /* Solo hay pre1 + post1 para V1 */
+      var dp1=gf('mp_post1')||0;
+      if(dp1>0){
+        var vfp=Math.sqrt(2*mue*G*dp1);
+        var vip=Math.sqrt(vfp*vfp+2*mue*G*dpr);
+        add('Huellas PRE+POST V1','V=√(vf²+2μg·d_pre)','V1',
+          vip*3.6,'Velocidad V1 antes de frenar (cinemática)',87,'var(--g)');
+      }
+    }
+  }
+
+  /* 6. SEARLE — conductor moto */
+  if(has('proyeccion_conductor')){
+    var dp=gf('mp_proy_cond');
+    if(dp>0){
+      var vs=Math.sqrt((2*G*mue*dp)/(1+mue*mue))*3.6;
+      add('Searle — conductor moto','V=√(2gμd/(1+μ²))','Moto',
+        vs,'Vel. MÍNIMA moto al impactar (por conductor)',78,'var(--r)',
+        'Esta es la velocidad mínima — la real puede ser mayor');
+    }
+  }
+  /* 7. SEARLE — parrillero */
+  if(has('proyeccion_parrillero')){
+    var dp2=gf('mp_proy_parr');
+    if(dp2>0){
+      var vs2=Math.sqrt((2*G*mue*dp2)/(1+mue*mue))*3.6;
+      add('Searle — parrillero moto','V=√(2gμd/(1+μ²))','Moto',
+        vs2,'Vel. MÍNIMA moto al impactar (por parrillero)',75,'var(--r)',
+        'Velocidad mínima — usar la mayor entre conductor y parrillero');
+    }
+  }
+  /* 8. SEARLE — peatón (con pendiente automática del Paso1) */
+  if(has('proyeccion_peaton')){
+    var dpe=gf('mp_proy_peat');
+    if(dpe>0){
+      var vpe;
+      var pendiente=getPend();
+      if(col==='atropello_subida'||pendiente>0){
+        vpe=Math.sqrt((2*G*(mue+Math.abs(pendiente))*dpe)/
+          ((1+mue*mue)*Math.sqrt(1+pendiente*pendiente)))*3.6;
+        add('Searle peatón — pendiente subida',
+          'V=√(2g(μ+e)d/((1+μ²)√(1+e²)))','V1',
+          vpe,'Vel. MÍNIMA al impactar peatón (subida '+
+          Math.abs(pendiente*100).toFixed(1)+'%)',80,'var(--or)');
+      }else if(col==='atropello_bajada'||pendiente<0){
+        var ep=Math.abs(pendiente);
+        if(mue>ep){
+          vpe=Math.sqrt((2*G*(mue-ep)*dpe)/
+            ((1+mue*mue)*Math.sqrt(1+ep*ep)))*3.6;
+          add('Searle peatón — pendiente bajada',
+            'V=√(2g(μ-e)d/((1+μ²)√(1+e²)))','V1',
+            vpe,'Vel. MÍNIMA al impactar peatón (bajada '+
+            (ep*100).toFixed(1)+'%)',80,'var(--or)');
+        }
+      }else{
+        vpe=Math.sqrt((2*G*mue*dpe)/(1+mue*mue))*3.6;
+        add('Searle peatón — vía plana',
+          'V=√(2gμd/(1+μ²))','V1',
+          vpe,'Vel. MÍNIMA al impactar peatón',80,'var(--or)');
+      }
+    }
+  }
+  /* 9. SAE 900368 — ciclista */
+  if(has('proyeccion_cicl')){
+    var dc2=gf('mp_proy_cicl');
+    if(dc2>0){
+      add('SAE 900368 — ciclista','V=0.8351d+21.152','V1',
+        0.8351*dc2+21.152,'Vel. al impactar ciclista',75,'var(--or)',
+        'Modelo empírico SAE · R²≈0.806');
+      /* Añadir PRE si hay */
+      var preC=has('pre1')?(gf('mp_pre1')||0):0;
+      if(preC>0){
+        var vSAE=(0.8351*dc2+21.152)/3.6;
+        var vPreC=Math.sqrt(vSAE*vSAE+2*mue*G*preC)*3.6;
+        add('SAE 900368 + PRE frenado',
+          'V_pre=√(V_SAE²+2μg·d_pre)','V1',
+          vPreC,'Vel. V1 antes de frenar',78,'var(--or)');
+      }
+    }
+  }
+  /* 10. Arrastre metálico */
+  if(has('arrastre_moto')){
+    var da=gf('mp_arrastre');
+    if(da>0){
+      var mu_m=mue*0.55;
+      add('Arrastre metálico moto','V=√(2μ_metal·g·d)','Moto',
+        Math.sqrt(2*G*mu_m*da)*3.6,
+        'Vel. moto al inicio del arrastre metálico',65,'var(--or)',
+        'μ_metal ≈ 55% del μ de la superficie');
+    }
+  }
+  /* Video eliminado — no confiable en campo */
+  /* 12. Velocidad crítica curva */
+  var R_f=null;
+  var C0=parseFloat(gv('c_cuerda').replace(',','.'))||0;
+  var S0=parseFloat(gv('c_sagita').replace(',','.'))||0;
+  if(C0>0&&S0>0) R_f=(C0*C0)/(8*S0)+S0/2;
+  else{
+    var C2=gf('mp_cuerda2'), S2=gf('mp_sagita2');
+    if(C2>0&&S2>0) R_f=(C2*C2)/(8*S2)+S2/2;
+  }
+  if(R_f&&col==='volteo_curva'){
+    var per=(parseFloat(gv('c_peralte').replace(',','.'))||0)/100;
+    var den=1-mue*per;
+    if(den>0.01){
+      add('Velocidad crítica volcamiento',
+        'V=√(gR(μ+peralte)/(1-μ·peralte))','V1',
+        Math.sqrt(G*R_f*(mue+per)/den)*3.6,
+        'Vel. máxima sin voltear · R='+R_f.toFixed(1)+'m · peralte='+
+        (per*100).toFixed(1)+'%',85,'var(--pu)',
+        'Si la velocidad real superó esta → hubo volcamiento por exceso');
+    }
+  }
+  /* 13. Salida de vía — proyección parabólica */
+  if(col==='salida_via'){
+    var h=gf('mp_desnivel'), dx=gf('mp_dist_caida');
+    if(h>0&&dx>0){
+      var t_c=Math.sqrt(2*h/G);
+      add('Proyección parabólica — caída',
+        'V=dist_horiz/√(2h/g)','V1',
+        (dx/t_c)*3.6,
+        'Vel. al salir de la vía · h='+h+'m · dx='+dx+'m',80,'var(--or)',
+        'Asume proyección libre — sin obstáculos en la caída');
+    }
+    var dpre=has('pre1')?(gf('mp_pre1')||0):0;
+    if(dpre>0){
+      add('Huellas frenado — salida de vía','V=√(2μgd)','V1',
+        Math.sqrt(2*mue*G*dpre)*3.6,
+        'Vel. al inicio del frenado',78,'var(--or)');
+    }
+  }
+  /* 14. Volcamiento por impacto */
+  if(col==='volteo_impacto'){
+    var pre_v=has('pre1')?(gf('mp_pre1')||0):0;
+    var post_v=has('post1')?(gf('mp_post1')||0):0;
+    if(post_v>0){
+      var vf_v=Math.sqrt(2*mue*G*post_v);
+      var vi_v=pre_v>0?Math.sqrt(vf_v*vf_v+2*mue*G*pre_v):vf_v;
+      add('Cinemática — volcamiento por impacto',
+        'V=√(vf²+2μg·d_pre)','V1',vi_v*3.6,
+        'Vel. estimada al momento del impacto que causó el volteo',75,'var(--pu)');
+    }
+  }
+  /* 15. Velocidad relativa de impacto (para frontales) */
+  if((col==='frontal_sep'||col==='frontal_eng')&&resultados.length>=2){
+    var rv1=resultados.filter(function(r){return r.veh==='V1'&&r.val>0;});
+    var rv2=resultados.filter(function(r){return r.veh==='V2'||r.veh==='Moto';});
+    if(rv1.length>0&&rv2.length>0){
+      var v1r=rv1[rv1.length-1].val, v2r=rv2[rv2.length-1].val;
+      add('Velocidad relativa de impacto','V_rel=V1+V2','Impacto',
+        v1r+v2r,'Energía cinética combinada en el punto de impacto',70,'#6A1B9A',
+        'Frontal: V1+V2 — determina la gravedad real del choque');
+    }
+  }
+
+  /* ══ TRIANGULACIÓN ══ */
+  function triangular(veh){
+    var ms=resultados.filter(function(r){
+      return (veh==='V1'?r.veh==='V1':r.veh===veh||r.veh==='Moto')&&r.val>0;
+    });
+    if(ms.length===0)return null;
+    var sw=0,svw=0;
+    ms.forEach(function(r){sw+=r.conf;svw+=r.val*r.conf;});
+    return{val:svw/sw,n:ms.length,conf:Math.min(96,60+ms.length*12)};
+  }
+  var tV1=triangular('V1');
+  var tV2=resultados.some(function(r){return r.veh==='V2'||r.veh==='Moto';})?
+    triangular('V2'):null;
+
+  /* Guardar para PDF */
+  if(tV1){
+    window._cd={
+      tipo:wizGetNombrePatron(),
+      v1pre_kh:tV1.val,v1kh:tV1.val,
+      excess:tV1.val-lim,lim:lim,
+      limMsg:(tV1.val-lim>0?'🔴 EXCESO +'+(tV1.val-lim).toFixed(1)+' km/h':'🟢 Dentro del límite'),
+      surf:selSurf.n,mu:selSurf.mu,m1:m1,m2:m2
+    };
+  }
+  window._lastCalc={resultados:resultados,tV1:tV1,tV2:tV2,lim:lim,mue:mue,mu:mu};
+  return window._lastCalc;
+}
+
+function renderResultadosInteligentes(calc){
+  if(!calc)return '<div class="al"><span>⚠️</span><div>Error en el cálculo.</div></div>';
+  var html='';
+  var lim=calc.lim;
+
+  /* ── Triangulación V1 ── */
+  if(calc.tV1){
+    var v=calc.tV1.val, ex=v-lim;
+    var bg=ex>lim*0.5?'linear-gradient(135deg,#7f1d1d,#D32F2F)':
+           ex>0?'linear-gradient(135deg,#78350f,#E65100)':
+           'linear-gradient(135deg,var(--g),#006B40)';
+    html+='<div class="triang-box" style="background:'+bg+';">';
+    html+='<div class="triang-title">VELOCIDAD V1 · '+calc.tV1.n+' método'+(calc.tV1.n>1?'s':'')+' · '+calc.tV1.conf+'% confianza</div>';
+    html+='<div class="triang-val">'+v.toFixed(1)+' <span style="font-size:1rem;font-weight:400;">km/h</span></div>';
+    html+='<div class="triang-sub">'+(ex>0?'🔴 EXCESO +'+ex.toFixed(1)+' km/h sobre límite de '+lim+' km/h':'🟢 Dentro del límite de '+lim+' km/h')+'</div>';
+    html+='<div class="conf-bar"><div class="conf-fill" style="width:'+calc.tV1.conf+'%"></div></div>';
+    html+='</div>';
+  }
+
+  /* ── Triangulación V2/Moto ── */
+  if(calc.tV2){
+    var v2=calc.tV2.val, ex2=v2-lim;
+    html+='<div class="triang-box" style="background:linear-gradient(135deg,#4a1942,#7B1FA2);">';
+    html+='<div class="triang-title">VELOCIDAD MOTO/V2 · '+calc.tV2.n+' método'+(calc.tV2.n>1?'s':'')+' · '+calc.tV2.conf+'% confianza</div>';
+    html+='<div class="triang-val">'+v2.toFixed(1)+' <span style="font-size:1rem;font-weight:400;">km/h</span></div>';
+    html+='<div class="triang-sub">'+(ex2>0?'🔴 EXCESO +'+ex2.toFixed(1)+' km/h':'🟢 Dentro del límite')+'</div>';
+    html+='<div class="conf-bar"><div class="conf-fill" style="width:'+calc.tV2.conf+'%"></div></div>';
+    html+='</div>';
+  }
+
+  if(!calc.tV1&&!calc.tV2){
+    return '<div class="al"><span>⚠️</span><div><strong>No hay suficientes datos para calcular.</strong><br>'
+      +'Verifica que ingresaste las medidas correctamente en el paso anterior.<br>'
+      +'<small style="color:var(--t3);">Recuerda: necesitas al menos una huella POST-impacto o una proyección de ocupante.</small></div></div>';
+  }
+
+  /* ── Detalle por método ── */
+  html+='<div style="font-size:.68rem;font-weight:700;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase;margin:12px 0 8px;">Detalle por método de cálculo</div>';
+  calc.resultados.forEach(function(r){
+    var ex_r=r.val-lim;
+    var vehColor=r.veh==='V1'?'var(--g)':r.veh==='Moto'||r.veh==='V2'?'var(--r)':'var(--b)';
+    html+='<div class="met-card">';
+    html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">';
+    html+='<span style="background:rgba(0,0,0,.05);color:'+r.color+';font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:4px;font-family:\'DM Mono\',monospace;">'+r.metodo+'</span>';
+    html+='<span style="background:'+vehColor+';color:#fff;font-size:.58rem;font-weight:700;padding:1px 6px;border-radius:3px;">'+r.veh+'</span>';
+    html+='<span style="margin-left:auto;font-size:.63rem;color:var(--t3);">'+r.conf+'% conf.</span></div>';
+    html+='<div style="font-family:\'DM Mono\',monospace;font-size:.63rem;color:var(--t3);margin-bottom:6px;">'+r.formula+'</div>';
+    html+='<div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg);border-radius:7px;padding:7px 10px;">';
+    html+='<div><div style="font-size:.68rem;color:var(--t2);">'+r.label+'</div>';
+    html+='<div style="font-size:1.25rem;font-weight:800;color:'+r.color+';">'+r.val.toFixed(1)+' km/h</div>';
+    if(r.nota)html+='<div style="font-size:.62rem;color:var(--t3);margin-top:1px;">'+r.nota+'</div>';
+    html+='</div>';
+    html+='<div style="text-align:right;font-size:.7rem;font-weight:700;color:'+(ex_r>0?'var(--r)':'var(--g)')+';">'+(ex_r>0?'+'+ex_r.toFixed(1)+'<br>EXCESO':'✅ OK')+'</div>';
+    html+='</div></div>';
+  });
+
+  return html;
+}
+
+
+
+function doCalc(){
+  step=4;updUI();window.scrollTo(0,0);
+  try{
+    var calc=calcInteligente();
+    window._lastCalc=calc;
+    document.getElementById('res-area').innerHTML=renderResultadosInteligentes(calc);
+  }catch(err){
+    document.getElementById('res-area').innerHTML=
+      '<div class="al"><span>⚠️</span><div><strong>Error en el cálculo:</strong> '+err.message+
+      '<br><small>Patrón: '+wizGetNombrePatron()+'</small></div></div>';
+    console.error('doCalc error:',err);
+  }
+}
+
+function mk(css,lbl,val,unit){
+  return '<div class="rc '+css+'"><span class="rl">'+lbl+'</span><span class="rv">'+val+'</span><span class="ru">'+unit+'</span></div>';
+}
+function mkRow(k,v,cls){return '<div class="ir"><span class="ik">'+k+'</span><span class="iv '+(cls||'')+'">'+v+'</span></div>';}
+function mkSec(t){return '<div class="ist">'+t+'</div>';}
+
+function calcSep(mue,m1,m2,lim){
+  var pre1=parseFloat(gv('s_pre1'))||0;
+  var post1=parseFloat(gv('s_post1'))||0;
+  var post2=parseFloat(gv('s_post2'))||0;
+  var v2est=document.getElementById('s_v2est').value;
+  var v2k=(v2est==='parado')?0:(parseFloat(gv('s_v2k'))||0);
+  if(post1<=0&&post2<=0){
+    return '<div class="al"><span>⚠️</span><div>Sin huellas post-impacto. Si los vehículos quedaron pegados, regresa y selecciona <strong>Choque con enganche</strong>.</div></div>';
+  }
+  var vf1=post1>0?Math.sqrt(2*mue*G*post1):0;
+  var vf2=post2>0?Math.sqrt(2*mue*G*post2):0;
+  var v2=v2k/3.6;
+  var v1=v2est==='frontal'?(m1*vf1+m2*vf2+m2*v2)/m1:(m1*vf1+m2*vf2-m2*v2)/m1;
+  if(v1<0)v1=Math.abs(v1);
+  var v1pre=pre1>0?Math.sqrt(v1*v1+2*mue*G*pre1):v1;
+  var v1kh=v1*3.6,v1pre_kh=v1pre*3.6,vf1kh=vf1*3.6,vf2kh=vf2*3.6;
+  var excess=v1pre_kh-lim;
+  var Fkn=Math.abs(m1*v1-m1*vf1)/(0.1*1000);
+  var dEkJ=Math.max(0,0.5*m1*v1*v1+0.5*m2*v2*v2-0.5*m1*vf1*vf1-0.5*m2*vf2*vf2)/1000;
+  var ec=(Math.abs(v1-v2)>0.01)?Math.min(1,Math.max(0,Math.abs(vf2-vf1)/Math.abs(v1-v2))):0;
+  var cv=excess>10?'da':excess>0?'wa':'hi';
+  var limMsg=excess>0?'🔴 EXCESO +'+excess.toFixed(1)+' km/h':'🟢 Dentro del límite ('+lim+' km/h)';
+  var tipoC=ec<0.2?'💥 INELÁSTICO SEVERO':ec<0.5?'⚡ PARCIALMENTE INELÁSTICO':'🔄 PARCIALMENTE ELÁSTICO';
+  var descC=ec<0.2?'Gran deformación estructural. Alta absorción de energía en carrocería.':ec<0.5?'Deformación significativa con algo de rebote. Daños moderados a severos.':'Los vehículos se separaron con velocidad. Típico de choques tangenciales.';
+  var dgCol=ec<0.3?'var(--r)':ec<0.6?'var(--gd2)':'var(--g)';
+  window._cd={tipo:'Choque con separación',v1pre_kh:v1pre_kh,v1kh:v1kh,vf1kh:vf1kh,v2kh:v2k,vf2kh:vf2kh,m1:m1,m2:m2,Fkn:Fkn,dEkJ:dEkJ,ec:ec,excess:excess,lim:lim,limMsg:limMsg,tipoC:tipoC,surf:selSurf.n,mu:selSurf.mu};
+  return '<div class="rg">'
+    +mk(cv+' full','⚡ VEL. V1 ANTES DE FRENAR',v1pre_kh.toFixed(1),'km/h · '+limMsg)
+    +mk('','V1 al impactar',v1kh.toFixed(1),'km/h')
+    +mk('','V1 post-choque',vf1kh.toFixed(1),'km/h')
+    +mk('','V2 pre-choque',v2k.toFixed(1),'km/h')
+    +mk('','V2 post-choque',vf2kh.toFixed(1),'km/h')
+    +mk(Fkn>500?'da':Fkn>200?'wa':'hi','Fuerza impacto',Fkn.toFixed(0),'kN')
+    +mk('','Energía disipada',dEkJ.toFixed(1),'kJ en daños')
+    +mk('','Coef. restitución',ec.toFixed(2),'0=destrucción, 1=rebote')
+    +'</div>'
+    +'<div class="dg" style="background:'+dgCol+'"><div class="dg-lb">TIPO DE CHOQUE</div><div class="dg-t">'+tipoC+'</div><div class="dg-b">'+descC+'</div><div class="dg-lm">'+limMsg+' | Fuerza: '+Fkn.toFixed(0)+' kN</div></div>'
+    +mkInforme('Choque con separación',{v1pre_kh:v1pre_kh,v1kh:v1kh,v2kh:v2k,m1:m1,m2:m2,Fkn:Fkn,dEkJ:dEkJ,excess:excess,lim:lim,limMsg:limMsg,tipoC:tipoC,cv:cv});
+}
+
+function calcEng(mue,m1,m2,lim){
+  var pre1=parseFloat(gv('e_pre1'))||0;
+  var post=parseFloat(gv('e_post'))||0;
+  var v2est=document.getElementById('e_v2est').value;
+  var v2k=(v2est==='parado')?0:(parseFloat(gv('e_v2k'))||0);
+  var angSel=document.getElementById('e_angsel').value;
+  var ang=(angSel==='si')?(parseFloat(gv('e_ang'))||0)*Math.PI/180:0;
+  var v2=v2k/3.6;
+  var vf=post>0?Math.sqrt(2*mue*G*post):0;
+  var v1=angSel==='si'&&ang>0?((m1+m2)*vf*Math.cos(ang)-m2*v2)/m1:(m1+m2)*vf/m1-m2*v2/m1;
+  if(v1<0)v1=Math.abs(v1);
+  var v1pre=pre1>0?Math.sqrt(v1*v1+2*mue*G*pre1):v1;
+  var v1kh=v1*3.6,v1pre_kh=v1pre*3.6,vfkh=vf*3.6;
+  var excess=v1pre_kh-lim;
+  var Fkn=Math.abs(m1*v1)/(0.1*1000);
+  var dEkJ=Math.max(0,0.5*m1*v1*v1+0.5*m2*v2*v2-0.5*(m1+m2)*vf*vf)/1000;
+  var cv=excess>10?'da':excess>0?'wa':'hi';
+  var limMsg=excess>0?'🔴 EXCESO +'+excess.toFixed(1)+' km/h':'🟢 Dentro del límite ('+lim+' km/h)';
+  window._cd={tipo:'Choque con enganche',v1pre_kh:v1pre_kh,v1kh:v1kh,v2kh:v2k,m1:m1,m2:m2,Fkn:Fkn,dEkJ:dEkJ,excess:excess,lim:lim,limMsg:limMsg,surf:selSurf.n,mu:selSurf.mu};
+  return '<div class="al gr"><span>✅</span><div><strong>Método más confiable:</strong> Una sola huella, cálculo directo. '+(angSel==='si'?'Cálculo vectorial 2D con ángulo.':'Sin ángulo medido.')+'</div></div>'
+    +'<div class="rg">'
+    +mk(cv+' full','⚡ VEL. V1 ANTES DE FRENAR',v1pre_kh.toFixed(1),'km/h · '+limMsg)
+    +mk('','V1 al impactar',v1kh.toFixed(1),'km/h')
+    +mk('','Vel. combinada post',vfkh.toFixed(1),'km/h juntos')
+    +mk(Fkn>500?'da':Fkn>200?'wa':'hi','Fuerza impacto',Fkn.toFixed(0),'kN')
+    +mk('','Energía disipada',dEkJ.toFixed(1),'kJ')
+    +mk('','Masa combinada',(m1+m2).toFixed(0),'kg')
+    +'</div>'
+    +mkInforme('Choque con enganche',{v1pre_kh:v1pre_kh,v1kh:v1kh,v2kh:v2k,m1:m1,m2:m2,Fkn:Fkn,dEkJ:dEkJ,excess:excess,lim:lim,limMsg:limMsg,tipoC:'INELÁSTICO TOTAL',cv:cv});
+}
+
+function calcVol(mue,m1,lim){
+  var vtipo=document.getElementById('v_tipo').value;
+  var vE,metodo;
+  if(vtipo==='curva'){
+    var R=parseFloat(gv('v_r'))||50;
+    var per=(parseFloat(gv('v_per'))||0)/100;
+    vE=Math.sqrt(G*R*(mue+per)/(1-mue*per))*3.6;
+    metodo='Vel. crítica volcamiento en curva';
+  }else{
+    var pre=parseFloat(gv('v_pre'))||0;
+    var post=parseFloat(gv('v_post'))||0;
+    var vf2=post>0?Math.sqrt(2*mue*G*post):0;
+    vE=Math.sqrt(vf2*vf2+2*mue*G*pre)*3.6;
+    metodo='Estimado por huellas pre/post impacto';
+  }
+  var excess=vE-lim;
+  var cv=excess>10?'da':excess>0?'wa':'hi';
+  var limMsg=excess>0?'🔴 EXCESO +'+excess.toFixed(1)+' km/h':'🟢 Dentro del límite';
+  window._cd={tipo:'Volcamiento',v1pre_kh:vE,excess:excess,lim:lim,limMsg:limMsg,metodo:metodo,surf:selSurf.n,mu:selSurf.mu};
+  return '<div class="rg">'+mk(cv+' full','⚡ VEL. ESTIMADA AL VOLCAMIENTO',vE.toFixed(1),'km/h · '+limMsg)+'</div>'
+    +'<div class="inf"><div class="inf-h"><div><div class="inf-ht">📄 Informe de Volcamiento</div></div></div><div class="inf-b">'
+    +mkSec('ANÁLISIS')
+    +mkRow('Método',metodo)
+    +mkRow('Vel. estimada',vE.toFixed(1)+' km/h',cv==='da'?'bad':cv==='wa'?'wa':'ok')
+    +mkRow('Límite',lim+' km/h')
+    +mkRow('Exceso',excess>0?'+'+excess.toFixed(1)+' km/h EXCESO':'Sin exceso',excess>0?'bad':'ok')
+    +mkSec('NORMAS')
+    +mkRow('Fricción','Manual INVIAS 2008')
+    +mkRow('Clasificación','Ley 769/2002')
+    +'</div></div>'
+    +'<div class="al gr"><span>💡</span><div style="font-size:.72rem;"><strong>Copia este informe a tu IA</strong> para verificar cálculos y generar el dictamen pericial completo.</div></div>';
+}
+
+function calcAt(mue,lim){
+  var vic=document.getElementById('a_vic').value;
+  var d=parseFloat(gv('a_d'))||0;
+  var pre=parseFloat(gv('a_pre'))||0;
+  if(d<=0)return '<div class="al"><span>⚠️</span><div>Ingresa la distancia de proyección de la víctima.</div></div>';
+  var vI,formula;
+  if(vic==='peaton'){
+    vI=Math.sqrt((2*G*mue*d)/(1+mue*mue))*3.6;
+    formula='Searle: V = √((2g·μ·d)/(1+μ²))';
+  }else{
+    vI=0.8351*d+21.152;
+    formula='SAE 900368: V = 0.8351·d + 21.152';
+  }
+  var vPre=pre>0?Math.sqrt((vI/3.6)*(vI/3.6)+2*mue*G*pre)*3.6:vI;
+  var excess=vPre-lim;
+  var cv=excess>10?'da':excess>0?'wa':'hi';
+  var limMsg=excess>0?'🔴 EXCESO +'+excess.toFixed(1)+' km/h':'🟢 Dentro del límite';
+  window._cd={tipo:'Atropello',v1pre_kh:vPre,v1kh:vI,excess:excess,lim:lim,limMsg:limMsg,formula:formula,vic:vic,surf:selSurf.n,mu:selSurf.mu};
+  return '<div class="rg">'
+    +mk(cv+' full','⚡ VEL. ANTES DE FRENAR',vPre.toFixed(1),'km/h · '+limMsg)
+    +mk(cv,'Vel. al impactar',vI.toFixed(1),'km/h (mínima)')
+    +mk('','Dist. proyección',d.toFixed(1),'metros')
+    +'</div>'
+    +'<div class="inf"><div class="inf-h"><div><div class="inf-ht">📄 Informe de Atropello</div></div></div><div class="inf-b">'
+    +mkSec('DATOS')
+    +mkRow('Tipo víctima',vic==='peaton'?'Peatón':'Ciclista')
+    +mkRow('Fórmula',formula)
+    +mkRow('Distancia proyección',d.toFixed(1)+' m')
+    +mkRow('Huella frenado vehículo',pre.toFixed(1)+' m')
+    +mkSec('VELOCIDADES')
+    +mkRow('Vel. al impactar',vI.toFixed(1)+' km/h '+( vic==='peaton'?'(velocidad mínima)':''),cv==='da'?'bad':cv==='wa'?'wa':'ok')
+    +mkRow('Vel. antes de frenar',vPre.toFixed(1)+' km/h',cv==='da'?'bad':cv==='wa'?'wa':'ok')
+    +mkRow('Límite de velocidad',lim+' km/h')
+    +mkRow('Exceso',excess>0?'+'+excess.toFixed(1)+' km/h EXCESO':'Sin exceso',excess>0?'bad':'ok')
+    +mkSec('NORMAS')
+    +mkRow('Fórmula',vic==='peaton'?'Searle (forense)':'SAE 900368')
+    +mkRow('Clasificación','Ley 769/2002')
+    +'</div></div>'
+    +'<div class="al gr"><span>💡</span><div style="font-size:.72rem;"><strong>Copia este informe a tu IA</strong> para verificar cálculos y generar el dictamen completo.</div></div>';
+}
+
+function mkInforme(tipo,d){
+  var cv=d.cv||'hi';
+  return '<div class="inf"><div class="inf-h"><div style="font-size:1.2rem;margin-right:6px;">📄</div><div><div class="inf-ht">Informe técnico — '+tipo+'</div><div class="inf-hs">Listo para copiar a IA o descargar como PDF</div></div></div><div class="inf-b">'
+    +mkSec('ESCENA')
+    +mkRow('Superficie',d.surf+' (μ='+d.mu+')')
+    +mkRow('Límite velocidad',d.lim+' km/h')
+    +mkSec('VEHÍCULO 1')
+    +mkRow('Masa total',d.m1.toFixed(0)+' kg')
+    +mkRow('Vel. antes de frenar',d.v1pre_kh.toFixed(1)+' km/h',cv==='da'?'bad':cv==='wa'?'wa':'ok')
+    +mkRow('Vel. al impactar',d.v1kh.toFixed(1)+' km/h')
+    +(d.m2?mkSec('VEHÍCULO 2')+mkRow('Masa total',d.m2.toFixed(0)+' kg')+mkRow('Vel. pre-choque',d.v2kh.toFixed(1)+' km/h'):'')
+    +mkSec('ANÁLISIS')
+    +(d.Fkn?mkRow('Fuerza impacto',d.Fkn.toFixed(0)+' kN'):'')
+    +(d.dEkJ?mkRow('Energía disipada',d.dEkJ.toFixed(1)+' kJ'):'')
+    +(d.tipoC?mkRow('Clasificación',d.tipoC):'')
+    +mkRow('Exceso velocidad V1',d.excess>0?'+'+d.excess.toFixed(1)+' km/h EXCESO':'Sin exceso detectado',d.excess>0?'bad':'ok')
+    +mkSec('NORMAS')
+    +mkRow('Fricción','Manual INVIAS 2008')
+    +mkRow('Clasificación','Ley 769/2002 Art.143')
+    +mkRow('Sistema Seguro','Ley 2251/2022')
+    +'</div></div>'
+    +'<div class="al gr"><span>💡</span><div style="font-size:.72rem;"><strong>Copia este informe a tu IA favorita</strong> para verificar cálculos, identificar factores adicionales y generar el dictamen pericial completo.</div></div>';
+}
+
+/* PDF */
+function genPDF(){
+  var d=window._cd||{};
+  var calc=window._lastCalc||null;
+  var fecha=new Date().toLocaleDateString('es-CO',{year:'numeric',month:'long',day:'numeric'});
+  var hora=new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
+  var gps=window._gps;
+  var radio=window._radio?window._radio.toFixed(2)+' m':'No medido';
+
+  /* ── Helpers ── */
+  function row(k,v,color){
+    return '<tr><td style="padding:5px 10px;color:#555;font-size:.78rem;border-bottom:1px solid #f0f0f0;">'+k+'</td>'
+          +'<td style="padding:5px 10px;font-weight:600;font-size:.78rem;border-bottom:1px solid #f0f0f0;text-align:right;'+(color?'color:'+color+';':'')+'">'+v+'</td></tr>';
+  }
+  function sec(n,icon){
+    return '<tr><td colspan="2" style="padding:8px 10px 4px;font-size:.6rem;font-weight:700;color:#004C2E;letter-spacing:2px;text-transform:uppercase;background:#f7f9f7;border-top:2px solid #004C2E;">'+icon+' '+n+'</td></tr>';
+  }
+  function semaforo(val,lim){
+    if(val>lim*1.2)return{color:'#D32F2F',bg:'#fde8e8',label:'EXCESO SEVERO',icon:'🔴'};
+    if(val>lim)    return{color:'#E65100',bg:'#fff3e0',label:'EXCESO',icon:'🟠'};
+    if(val>lim*0.9)return{color:'#E09000',bg:'#fff8e6',label:'AL LÍMITE',icon:'🟡'};
+    return{color:'#004C2E',bg:'#e8f5ee',label:'DENTRO DEL LÍMITE',icon:'🟢'};
+  }
+
+  /* ── Recopilar datos de entrada ── */
+  var patron=typeof wizGetNombrePatron==='function'?wizGetNombrePatron():'—';
+  var evidList=pat&&pat.evidencias?pat.evidencias.join(', '):'—';
+  var pendTexto=typeof pendDir!=='undefined'?(pendDir==='plano'?'Plana (0%)':(pendDir==='subida'?'Subida ':'Bajada ')+(gv('c_pval')||'0')+'%'):'—';
+  var clima=document.getElementById('c_clima')?document.getElementById('c_clima').options[document.getElementById('c_clima').selectedIndex].text:'—';
+  var viaT=document.getElementById('c_via')?document.getElementById('c_via').value:'—';
+  var sentido=document.getElementById('c_sent')?document.getElementById('c_sent').options[document.getElementById('c_sent').selectedIndex].text:'—';
+  var curvaT=document.getElementById('c_curva')?document.getElementById('c_curva').value:'no';
+
+  /* Medidas de escena ingresadas */
+  var medidas=[];
+  var medIds=[
+    ['mp_pre1','Huella PRE-impacto V1','m'],['mp_pre2','Huella PRE-impacto V2/Moto','m'],
+    ['mp_post1','Huella POST-impacto V1','m'],['mp_post2','Huella POST-impacto V2/Moto','m'],
+    ['mp_postcomb','Huella POST combinada (enganche)','m'],
+    ['mp_proy_cond','Proyección conductor moto','m'],['mp_proy_parr','Proyección parrillero','m'],
+    ['mp_proy_peat','Proyección peatón','m'],['mp_proy_cicl','Proyección ciclista','m'],
+    ['mp_arrastre','Arrastre metálico','m'],['mp_angulo','Ángulo desviación','°'],
+    ['mp_cuerda2','Cuerda de curva','m'],['mp_sagita2','Sagita de curva','m'],
+    ['mp_video_d','Distancia referencia video','m'],['mp_video_t','Tiempo en video','s'],
+    ['mp_desnivel','Desnivel de caída','m'],['mp_dist_caida','Distancia horizontal caída','m'],
+    ['mp_huellas_vol','Huellas pre-volcamiento','m'],
+  ];
+  medIds.forEach(function(m){
+    var el=document.getElementById(m[0]);
+    if(el&&el.value!==''&&parseFloat(el.value)>0){
+      medidas.push([m[1],parseFloat(el.value).toFixed(2)+' '+m[2]]);
+    }
+  });
+  /* Also from paso 1 */
+  var c_cuerda=parseFloat(gv('c_cuerda'))||0;
+  var c_sagita=parseFloat(gv('c_sagita'))||0;
+  if(c_cuerda>0&&c_sagita>0){
+    var R_calc=(c_cuerda*c_cuerda)/(8*c_sagita)+c_sagita/2;
+    medidas.push(['Radio de curva (calculado)',R_calc.toFixed(2)+' m']);
+  }
+
+  /* ── Resultados del cálculo ── */
+  var lim=parseFloat(gv('c_lim'))||60;
+  var v1=d.v1pre_kh||0;
+  var sem=semaforo(v1,lim);
+  var lastCalc=window._lastCalcData||calc;
+
+  /* ── Análisis estadístico / semafórico ── */
+  var excess=v1-lim;
+  var excPct=lim>0?((excess/lim)*100):0;
+  var gravedad='';
+  if(excess>lim*0.5)gravedad='EXTREMA — Velocidad más del 50% sobre el límite';
+  else if(excess>lim*0.3)gravedad='MUY ALTA — Velocidad más del 30% sobre el límite';
+  else if(excess>lim*0.1)gravedad='ALTA — Velocidad más del 10% sobre el límite';
+  else if(excess>0)gravedad='MODERADA — Pequeño exceso de velocidad';
+  else gravedad='SIN EXCESO — Velocidad dentro del límite legal';
+
+  /* ── Construir HTML del PDF ── */
+  var pw=window.open('','_blank');
+  if(!pw)return;
+
+  var html='<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">'
+    +'<title>Informe VIALAPP v3.3.2 — '+patron+'</title><style>'
+    +'*{box-sizing:border-box;margin:0;padding:0;}'
+    +'body{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:#111;background:#fff;padding:28px 32px;}'
+    +'h1{font-size:1.6rem;font-weight:900;color:#004C2E;letter-spacing:2px;}'
+    +'.bar{height:5px;background:linear-gradient(90deg,#004C2E 40%,#F5A800 40%,#F5A800 70%,#004C2E 70%);margin:8px 0 16px;}'
+    +'.bloque{background:#fff;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin-bottom:16px;}'
+    +'.bloque-head{background:#004C2E;color:#fff;padding:8px 12px;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;}'
+    +'.bloque-head span{font-size:.65rem;color:rgba(255,255,255,.55);font-weight:400;letter-spacing:0;}'
+    +'table{width:100%;border-collapse:collapse;}'
+    +'.result-hero{background:'+sem.bg+';border:2px solid '+sem.color+';border-radius:8px;padding:14px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;}'
+    +'.result-v{font-size:2.4rem;font-weight:900;color:'+sem.color+';line-height:1;}'
+    +'.result-label{font-size:.65rem;color:#666;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}'
+    +'.result-badge{background:'+sem.color+';color:#fff;font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:20px;margin-top:6px;display:inline-block;}'
+    +'.sem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}'
+    +'.sem-cell{border-radius:6px;padding:8px;text-align:center;border:1px solid #e0e0e0;}'
+    +'.sem-val{font-size:1.1rem;font-weight:800;}'
+    +'.sem-lbl{font-size:.58rem;color:#666;margin-top:2px;text-transform:uppercase;letter-spacing:.5px;}'
+    +'.met-row{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;border-bottom:1px solid #f0f0f0;}'
+    +'.met-name{font-size:.73rem;color:#333;}'
+    +'.met-val{font-size:.8rem;font-weight:700;}'
+    +'.met-conf{font-size:.62rem;color:#999;}'
+    +'.footer{margin-top:16px;padding-top:10px;border-top:1px solid #e0e0e0;font-size:.65rem;color:#999;text-align:center;}'
+    +'.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 20px;padding:10px 12px;font-size:.75rem;}'
+    +'.meta-k{color:#666;}'
+    +'.meta-v{font-weight:600;color:#111;}'
+    +'@media print{body{padding:15px 20px;}@page{margin:1cm;size:A4;}}'
+    +'</style></head><body>'
+
+    /* CABECERA */
+    +'<h1>VIALAPP</h1><div class="bar"></div>'
+    +'<div style="display:flex;justify-content:space-between;margin-bottom:16px;">'
+    +'<div><div style="font-size:1rem;font-weight:700;color:#004C2E;">INFORME TÉCNICO DE RECONSTRUCCIÓN VIAL</div>'
+    +'<div style="font-size:.78rem;color:#666;margin-top:2px;">Patrón: <strong>'+patron+'</strong></div></div>'
+    +'<div style="text-align:right;font-size:.7rem;color:#999;">'+fecha+' · '+hora+'<br>VIALAPP v3.3.2</div></div>'
+
+    /* BLOQUE 0: IDENTIFICACIÓN */
+    +'<div class="bloque"><div class="bloque-head">① Identificación del informe <span>Datos del agente y la escena</span></div>'
+    +'<div class="meta-grid">'
+    +'<div><span class="meta-k">Agente: </span><span class="meta-v">'+gv('c_agente')+'</span></div>'
+    +'<div><span class="meta-k">N° IPAT: </span><span class="meta-v">'+gv('c_ipat')+'</span></div>'
+    +'<div><span class="meta-k">Fecha: </span><span class="meta-v">'+gv('c_fecha')+'</span></div>'
+    +'<div><span class="meta-k">Hora: </span><span class="meta-v">'+gv('c_hora')+'</span></div>'
+    +'<div><span class="meta-k">Municipio: </span><span class="meta-v">'+gv('c_municipio')+'</span></div>'
+    +'<div><span class="meta-k">Vía: </span><span class="meta-v">'+gv('c_via_n')+'</span></div>'
+    +'<div><span class="meta-k">Placa V1: </span><span class="meta-v">'+gv('c_p1')+'</span></div>'
+    +'<div><span class="meta-k">Placa V2: </span><span class="meta-v">'+gv('c_p2')+'</span></div>'
+    +(gps?'<div><span class="meta-k">Latitud: </span><span class="meta-v">'+gps.lat+'</span></div>'
+         +'<div><span class="meta-k">Longitud: </span><span class="meta-v">'+gps.lng+'</span></div>'
+         +'<div><span class="meta-k">Altitud: </span><span class="meta-v">'+gps.alt+'</span></div>'
+         +'<div><span class="meta-k">Precisión GPS: </span><span class="meta-v">±'+( (document.getElementById('gps-prec')||{}).textContent||'—')+'</span></div>'
+    :'<div><span class="meta-k">GPS: </span><span class="meta-v" style="color:#999;">No capturado</span></div>')
+    +'</div></div>'
+
+    /* BLOQUE 1: DATOS SELECCIONADOS */
+    +'<div class="bloque"><div class="bloque-head">② Datos de la escena seleccionados <span>Parámetros ingresados por el agente</span></div>'
+    +'<table><tbody>'
+    +sec('PATRÓN DEL ACCIDENTE','💥')
+    +row('Patrón identificado',patron)
+    +row('Evidencias marcadas',evidList)
+    +sec('CONDICIONES DE LA VÍA','🛣️')
+    +row('Tipo de vía',viaT)
+    +row('Clima',clima)
+    +row('Sentido',sentido)
+    +row('N° de carriles',gv('c_carr'))
+    +row('Ancho de calzada',gv('c_ancho')+' m')
+    +row('Límite de velocidad',gv('c_lim')+' km/h')
+    +sec('GEOMETRÍA','⛰️')
+    +row('Pendiente longitudinal',pendTexto)
+    +row('Peralte transversal',gv('c_peralte')+'%')
+    +(curvaT==='si'?row('Curva: cuerda/sagita',gv('c_cuerda')+'m / '+gv('c_sagita')+'m → R='+radio):'')
+    +sec('SUPERFICIE','🛣️')
+    +row('Tipo de pavimento',selSurf.n)
+    +row('Coeficiente μ (INVIAS 2008)',selSurf.mu.toString())
+    +(typeof pendDir!=='undefined'&&getPend()!==0?row('μ efectivo con pendiente',muC(selSurf.mu,getPend()).toFixed(3)):'')
+    +sec('VEHÍCULOS','🚗')
+    +row('V1 — Masa total',(getMasa(1)).toFixed(0)+' kg  (vacío '+gv('c_m1')+' kg + '+gv('c_o1')+' ocup. + '+gv('c_c1')+' kg carga)')
+    +row('V2 — Masa total',(getMasa(2)).toFixed(0)+' kg  (vacío '+gv('c_m2')+' kg + '+gv('c_o2')+' ocup. + '+gv('c_c2')+' kg carga)')
+    +sec('HIPÓTESIS Y OBSERVACIONES','📝')
+    +row('Hipótesis del accidente',gv('c_hipotesis')||'No ingresada')
+    +row('Testigos',document.getElementById('c_testigos')?document.getElementById('c_testigos').options[document.getElementById('c_testigos').selectedIndex].text:'—')
+    +row('Estado de la vía',gv('c_estado_via')||'No registrado')
+    +row('Descripción V1',gv('c_desc1')||'No registrado')
+    +row('Descripción V2',gv('c_desc2')||'No registrado')
+    +row('Observaciones',gv('c_observaciones')||'Sin observaciones')
+    +'</tbody></table></div>'
+
+    /* BLOQUE 2: MEDIDAS TOMADAS EN ESCENA */
+    +(medidas.length>0?
+      '<div class="bloque"><div class="bloque-head">③ Medidas tomadas en la escena <span>Distancias y ángulos medidos por el agente</span></div>'
+      +'<table><tbody>'
+      +medidas.map(function(m){return row(m[0],m[1]);}).join('')
+      +'</tbody></table></div>':'')
+
+    /* RESULTADO PRINCIPAL */
+    +'<div class="result-hero">'
+    +'<div><div class="result-label">Velocidad V1 estimada antes de frenar</div>'
+    +'<div class="result-v">'+v1.toFixed(1)+' <span style="font-size:1rem;">km/h</span></div>'
+    +'<div class="result-badge">'+sem.icon+' '+sem.label+'</div></div>'
+    +'<div style="text-align:right;">'
+    +'<div style="font-size:.65rem;color:#666;">Límite de velocidad</div>'
+    +'<div style="font-size:1.4rem;font-weight:700;color:#333;">'+lim+' km/h</div>'
+    +(excess>0?'<div style="font-size:.75rem;font-weight:700;color:'+sem.color+';">+'+excess.toFixed(1)+' km/h exceso</div>':'<div style="font-size:.75rem;color:#004C2E;">Dentro del límite</div>')
+    +'</div></div>'
+
+    /* BLOQUE 3: CÁLCULOS Y RESULTADOS */
+    +'<div class="bloque"><div class="bloque-head">④ Cálculos y resultados <span>Por método de reconstrucción</span></div>'
+    +'<table><tbody>'
+    +sec('VELOCIDADES CALCULADAS','⚡')
+    +row('Vel. V1 antes de frenar',v1.toFixed(2)+' km/h',sem.color)
+    +(d.v1kh?row('Vel. V1 al impactar',d.v1kh.toFixed(2)+' km/h'):'')
+    +(d.vf1kh?row('Vel. V1 post-impacto',d.vf1kh.toFixed(2)+' km/h'):'')
+    +(d.v2kh!==undefined?row('Vel. V2 pre-choque',d.v2kh.toFixed(2)+' km/h'):'')
+    +(d.vf2kh?row('Vel. V2 post-impacto',d.vf2kh.toFixed(2)+' km/h'):'')
+    +sec('DINÁMICA DEL IMPACTO','🔬')
+    +(d.Fkn?row('Fuerza de impacto estimada',d.Fkn.toFixed(0)+' kN'):'')
+    +(d.dEkJ?row('Energía disipada en deformación',d.dEkJ.toFixed(2)+' kJ'):'')
+    +(d.ec!==undefined?row('Coeficiente de restitución (e)',d.ec.toFixed(3)+' [0=destrucción, 1=elástico]'):'')
+    +(d.tipoC?row('Clasificación del choque',d.tipoC):'')
+    /* Métodos usados */
+    +(calc&&calc.resultados&&calc.resultados.length>0?
+      sec('MÉTODOS APLICADOS','🧮')
+      +calc.resultados.map(function(r){
+        return '<tr><td style="padding:4px 10px;font-size:.73rem;color:#333;border-bottom:1px solid #f5f5f5;">'+r.metodo+'</td>'
+          +'<td style="padding:4px 10px;font-size:.7rem;color:#666;border-bottom:1px solid #f5f5f5;text-align:center;">'+r.formula+'</td>'
+          +'<td style="padding:4px 10px;font-weight:700;font-size:.75rem;border-bottom:1px solid #f5f5f5;text-align:right;color:'+r.color+';">'+r.val.toFixed(1)+' km/h</td>'
+          +'<td style="padding:4px 10px;font-size:.65rem;color:#999;text-align:right;border-bottom:1px solid #f5f5f5;">'+r.conf+'%</td></tr>';
+      }).join('')
+    :'')
+    +'</tbody></table></div>'
+
+    /* BLOQUE 4: ANÁLISIS SEMAFÓRICO Y ESTADÍSTICO */
+    +'<div class="bloque"><div class="bloque-head">⑤ Análisis semafórico y estadístico <span>Interpretación técnica del resultado</span></div>'
+    +'<div style="padding:12px;">'
+    /* Semáforo de velocidad */
+    +'<div style="margin-bottom:12px;">'
+    +'<div style="font-size:.65rem;font-weight:700;color:#666;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">SEMÁFORO DE VELOCIDAD</div>'
+    +'<div class="sem-grid">'
+    +['<60 km/h','60–72 km/h','72–90 km/h','>90 km/h'].map(function(label,i){
+      var isActive=[v1<lim, v1>=lim&&v1<lim*1.2, v1>=lim*1.2&&v1<lim*1.5, v1>=lim*1.5][i];
+      var colors=['#004C2E','#E09000','#E65100','#D32F2F'];
+      var bgs=['#e8f5ee','#fff8e6','#fff3e0','#fde8e8'];
+      return '<div class="sem-cell" style="background:'+(isActive?bgs[i]:'#f9f9f9')+';border-color:'+(isActive?colors[i]:'#e0e0e0')+';">'
+        +'<div class="sem-val" style="color:'+(isActive?colors[i]:'#ccc')+';">'+(isActive?'●':'○')+'</div>'
+        +'<div class="sem-lbl" style="color:'+(isActive?colors[i]:'#ccc')+';">'+label+'</div></div>';
+    }).join('')
+    +'</div></div>'
+    /* Indicadores */
+    +'<table style="width:100%;border-collapse:collapse;margin-bottom:10px;">'
+    +'<tr style="background:#f7f9f7;"><th style="padding:6px 10px;font-size:.65rem;color:#004C2E;letter-spacing:1px;text-align:left;text-transform:uppercase;">Indicador</th>'
+    +'<th style="padding:6px 10px;font-size:.65rem;color:#004C2E;letter-spacing:1px;text-align:right;text-transform:uppercase;">Valor</th>'
+    +'<th style="padding:6px 10px;font-size:.65rem;color:#004C2E;letter-spacing:1px;text-align:right;text-transform:uppercase;">Referencia</th></tr>'
+    +'<tr><td style="padding:5px 10px;font-size:.73rem;">Velocidad estimada V1</td><td style="padding:5px 10px;font-weight:700;text-align:right;color:'+sem.color+';">'+v1.toFixed(1)+' km/h</td><td style="padding:5px 10px;font-size:.7rem;color:#999;text-align:right;">Límite: '+lim+' km/h</td></tr>'
+    +'<tr style="background:#fafafa;"><td style="padding:5px 10px;font-size:.73rem;">Exceso de velocidad</td><td style="padding:5px 10px;font-weight:700;text-align:right;color:'+(excess>0?'#D32F2F':'#004C2E')+'">'+(excess>0?'+'+excess.toFixed(1)+' km/h':'0 km/h')+'</td><td style="padding:5px 10px;font-size:.7rem;color:#999;text-align:right;">'+(excess>0?(excPct.toFixed(0)+'% sobre límite'):'Sin exceso')+'</td></tr>'
+    +(d.Fkn?'<tr><td style="padding:5px 10px;font-size:.73rem;">Fuerza de impacto</td><td style="padding:5px 10px;font-weight:700;text-align:right;color:'+(d.Fkn>500?'#D32F2F':d.Fkn>200?'#E65100':'#004C2E')+'">'+d.Fkn.toFixed(0)+' kN</td><td style="padding:5px 10px;font-size:.7rem;color:#999;text-align:right;">'+(d.Fkn>500?'Impacto severo':d.Fkn>200?'Impacto moderado':'Impacto leve')+'</td></tr>':'')
+    +(d.dEkJ?'<tr style="background:#fafafa;"><td style="padding:5px 10px;font-size:.73rem;">Energía disipada</td><td style="padding:5px 10px;font-weight:700;text-align:right;">'+d.dEkJ.toFixed(1)+' kJ</td><td style="padding:5px 10px;font-size:.7rem;color:#999;text-align:right;">Absorbida en deformación</td></tr>':'')
+    +'</table>'
+    /* Dictamen técnico */
+    +'<div style="background:'+sem.bg+';border-left:4px solid '+sem.color+';border-radius:0 6px 6px 0;padding:10px 12px;">'
+    +'<div style="font-size:.65rem;font-weight:700;color:'+sem.color+';letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">DICTAMEN TÉCNICO PRELIMINAR</div>'
+    +'<div style="font-size:.78rem;color:#333;line-height:1.6;">'
+    +'Con base en la evidencia física disponible, se estima que el vehículo V1 circulaba a <strong>'+v1.toFixed(1)+' km/h</strong> '
+    +'en una vía con límite de <strong>'+lim+' km/h</strong> ('+sem.icon+' '+sem.label+'). '
+    +(excess>0?'El exceso de velocidad detectado es de <strong>+'+excess.toFixed(1)+' km/h</strong> ('+excPct.toFixed(0)+'% sobre el límite), '
+      +'lo cual constituye presunta infracción al Art. 106 de la Ley 769 de 2002. Gravedad: <strong>'+gravedad+'</strong>.'
+    :'La velocidad estimada se encuentra dentro del límite legal establecido para la vía.')
+    +'</div></div>'
+    +'</div></div>'
+
+    /* BLOQUE 5: NORMATIVA */
+    +'<div class="bloque"><div class="bloque-head">⑥ Normativa aplicada <span>Marco legal y técnico</span></div>'
+    +'<table><tbody>'
+    +row('Coeficiente de fricción μ','Manual de Diseño Geométrico de Carreteras — INVIAS 2008')
+    +row('Clasificación del accidente','Ley 769 de 2002 — Código Nacional de Tránsito, Art. 143')
+    +row('Exceso de velocidad','Ley 769 de 2002 — Art. 106 (límites de velocidad)')
+    +row('Sistema Seguro / Visión Cero','Ley 2251 de 2022')
+    +row('Diligenciamiento del IPAT','Resolución 11268 de 2012')
+    +row('Método de reconstrucción','Conservación de momentum lineal + cinemática de frenado')
+    +(d.vic==='peaton'?row('Fórmula atropello peatón','Método de Searle (1983) — Accidentología forense internacional'):'')
+    +(d.vic==='ciclista'?row('Fórmula atropello ciclista','SAE Technical Paper 900368'):'')
+    +'</tbody></table></div>'
+
+    +'<div style="background:#fff8e6;border:1px solid #F5A800;border-radius:6px;padding:9px 12px;font-size:.7rem;color:#78350f;line-height:1.6;margin-bottom:10px;">'
+    +'⚠️ <strong>Advertencia:</strong> Este informe es una estimación preliminar basada en la evidencia física medida en escena. '
+    +'Para uso en procesos judiciales se requiere verificación por perito certificado, medición real de μ (péndulo o GripTester), '
+    +'análisis de EDR/airbag, y corroboración con testigos o video.'
+    +'</div>'
+    +'<div class="footer">VIALAPP v3.3.2 — Herramienta técnica de reconstrucción vial · '+fecha+' · '+hora+'</div>'
+    +'<scr'+'ipt>window.onload=function(){window.print();}<\/scr'+'ipt>'
+    +'</body></html>';
+
+  pw.document.write(html);
+  pw.document.close();
+}
+
+
+/* FÓRMULAS */
+var FORMS=[
+  {id:'f0',ic:'🏎️',col:'#004C2E',bg:'#e8f5ee',t:'Velocidad por huellas (plano)',fm:'V = √(2·g·μ·d)',
+   flds:[{id:'f0d',lb:'Huella de frenado (m)',ph:'Ej: 25.0'},{id:'f0m',lb:'Superficie (μ)',tp:'surf'}],
+   unit:'km/h',fn:function(){var d=pf('f0d');var m=ps('f0m_v');if(d<=0)return null;return{v:(Math.sqrt(2*G*m*d)*3.6).toFixed(2),n:'μ='+m+' · Margen ±15%'};}},
+  {id:'f1',ic:'⬆️',col:'#E09000',bg:'#fff8e6',t:'Velocidad — cuesta ARRIBA',fm:'V = √(2g·((μ+e)/√(e²+1))·d)',
+   flds:[{id:'f1d',lb:'Huella (m)',ph:'Ej: 20'},{id:'f1m',lb:'Superficie',tp:'surf'},{id:'f1e',lb:'Pendiente subida (ej: 5%→0.05)',ph:'0.05'}],
+   unit:'km/h',fn:function(){var d=pf('f1d');var m=ps('f1m_v');var e=pf('f1e');if(d<=0)return null;var mue=(m+e)/Math.sqrt(e*e+1);return{v:(Math.sqrt(2*G*mue*d)*3.6).toFixed(2),n:'Al subir vel. menor que en plano'};}},
+  {id:'f2',ic:'⬇️',col:'#1565C0',bg:'#e3f2fd',t:'Velocidad — cuesta ABAJO',fm:'V = √(2g·((μ-e)/√(e²+1))·d)',
+   flds:[{id:'f2d',lb:'Huella (m)',ph:'Ej: 20'},{id:'f2m',lb:'Superficie',tp:'surf'},{id:'f2e',lb:'Pendiente bajada (ej: 5%→0.05)',ph:'0.05'}],
+   unit:'km/h',fn:function(){var d=pf('f2d');var m=ps('f2m_v');var e=pf('f2e');if(d<=0)return null;if(m<=e)return{v:'Error',n:'μ debe ser mayor que la pendiente'};var mue=(m-e)/Math.sqrt(e*e+1);return{v:(Math.sqrt(2*G*mue*d)*3.6).toFixed(2),n:'Al bajar vel. mayor que en plano'};}},
+  {id:'f3',ic:'🚶',col:'#D32F2F',bg:'#fde8e8',t:'Atropello peatón — Searle (plano)',fm:'V = √((2g·μ·d)/(1+μ²))',
+   flds:[{id:'f3d',lb:'Distancia proyección peatón (m)',ph:'Desde punto de impacto'},{id:'f3m',lb:'Superficie donde deslizó',tp:'surf'}],
+   unit:'km/h (velocidad MÍNIMA)',fn:function(){var d=pf('f3d');var m=ps('f3m_v');if(d<=0)return null;return{v:(Math.sqrt((2*G*m*d)/(1+m*m))*3.6).toFixed(2),n:'Velocidad mínima del vehículo al impactar'};}},
+  {id:'f4',ic:'🚲',col:'#6A1B9A',bg:'#f3e5f5',t:'Atropello ciclista — SAE 900368',fm:'V = 0.8351 × d + 21.152',
+   flds:[{id:'f4d',lb:'Distancia proyección ciclista (m)',ph:'Desde punto de impacto'}],
+   unit:'km/h',fn:function(){var d=pf('f4d');if(d<0)return null;return{v:(0.8351*d+21.152).toFixed(2),n:'SAE 900368 · R²≈0.806'};}},
+  {id:'f5',ic:'📹',col:'#1565C0',bg:'#e3f2fd',t:'Velocidad por video / cámara',fm:'V = d / t',
+   flds:[{id:'f5d',lb:'Distancia real en vía (m)',ph:'Entre dos puntos conocidos'},{id:'f5t',lb:'Tiempo en video (segundos)',ph:'Cuadro a cuadro'}],
+   unit:'km/h',fn:function(){var d=pf('f5d');var t=pf('f5t');if(d<=0||t<=0)return null;return{v:((d/t)*3.6).toFixed(2),n:'Requiere corrección por perspectiva de cámara'};}},
+  {id:'f6',ic:'🔵',col:'#E65100',bg:'#fff3e0',t:'Radio de curva (cuerda y sagita)',fm:'R = C² / (8·f) + f/2',
+   flds:[{id:'f6c',lb:'Cuerda medida (m)',ph:'Ej: 20.0'},{id:'f6f',lb:'Flecha / Sagita (m)',ph:'Ej: 0.52'}],
+   unit:'metros de radio',fn:function(){var C=pf('f6c');var f=pf('f6f');if(C<=0||f<=0)return null;var R=(C*C)/(8*f)+f/2;var tipo=R<50?'Curva muy cerrada':R<100?'Curva cerrada':R<200?'Curva moderada':'Curva amplia';return{v:R.toFixed(2),n:'C='+C+'m · f='+f+'m · '+tipo};}},
+  {id:'f7',ic:'🛑',col:'#004C2E',bg:'#e8f5ee',t:'Distancia total de parada',fm:'d = V·t_r + V²/(2·μ·g)',
+   flds:[{id:'f7v',lb:'Velocidad inicial (km/h)',ph:'Ej: 60'},{id:'f7m',lb:'Superficie',tp:'surf'},
+         {id:'f7t',lb:'Tiempo de reacción',tp:'sel',opts:[{v:'0.75',l:'Alertado (0.75s)'},{v:'1.0',l:'Normal (1.0s)'},{v:'1.5',l:'Distraído (1.5s)'},{v:'2.5',l:'Fatigado (2.5s)'}]}],
+   unit:'metros',fn:function(){var v=pf('f7v')/3.6;var m=ps('f7m_v');var t=pf('f7t');if(v<=0)return null;var dR=v*t,dF=v*v/(2*m*G);return{v:(dR+dF).toFixed(2),n:'Reacción: '+dR.toFixed(1)+'m + Frenado: '+dF.toFixed(1)+'m'};}},
+  {id:'f8',ic:'🔗',col:'#E65100',bg:'#fff3e0',t:'Arrastre metálico post-impacto',fm:'V = √(2·μ_metal·g·d)',
+   flds:[{id:'f8d',lb:'Longitud del arrastre (m)',ph:'Ej: 8.5'},{id:'f8m',lb:'Superficie',tp:'surf_metal'}],
+   unit:'km/h',fn:function(){var d=pf('f8d');var m=ps('f8m_v');if(d<=0)return null;return{v:(Math.sqrt(2*G*m*d)*3.6).toFixed(2),n:'μ_metal='+m+' · Vel. al inicio del arrastre metálico'};}},
+  {id:'f9',ic:'💧',col:'#1565C0',bg:'#e3f2fd',t:'Rastro de derrame de líquidos',fm:'Estimación referencial por longitud',
+   flds:[{id:'f9d',lb:'Longitud del rastro (m)',ph:'Ej: 15'},
+         {id:'f9t',lb:'Tipo de líquido',tp:'sel',opts:[{v:'0.35',l:'Aceite de motor'},{v:'0.40',l:'Gasolina'},{v:'0.45',l:'Refrigerante'},{v:'0.30',l:'Fluido de frenos'}]}],
+   unit:'km/h aprox.',fn:function(){var d=pf('f9d');var m=pf('f9t');if(d<=0)return null;return{v:(Math.sqrt(2*G*m*d)*3.6).toFixed(2),n:'μ='+m+' · Referencial — verificar con otras evidencias'};}},
+  {id:'fa',ic:'⬛',col:'#6A1B9A',bg:'#f3e5f5',t:'Marca de ceja de llanta (impacto lateral)',fm:'V = √(2·μ×0.6·g·d)',
+   flds:[{id:'fad',lb:'Longitud de marca de ceja (m)',ph:'Ej: 3.2'},{id:'fam',lb:'Superficie',tp:'surf'}],
+   unit:'km/h mínima lateral',fn:function(){var d=pf('fad');var m=ps('fam_v')*0.6;if(d<=0)return null;return{v:(Math.sqrt(2*G*m*d)*3.6).toFixed(2),n:'μ_lat='+m.toFixed(3)+' (60% del μ normal) · Vel. mínima en impacto lateral'};}}
+];
+function pf(id){return parseFloat(document.getElementById(id)&&document.getElementById(id).value)||0;}
+function ps(id){return parseFloat(document.getElementById(id)&&document.getElementById(id).value)||0.75;}
+
+var SURF_METAL=[{mu:0.40,ic:'⬛',n:'Asfalto seco'},{mu:0.30,ic:'💧',n:'Asfalto húmedo'},{mu:0.25,ic:'🌧️',n:'Mojado'},{mu:0.45,ic:'⬜',n:'Concreto seco'},{mu:0.35,ic:'🧱',n:'Adoquín'},{mu:0.20,ic:'🟫',n:'Tierra/Barro'}];
+
+function renderForms(){
+  var el=document.getElementById('form-grid');
+  if(!el)return;
+  el.innerHTML=FORMS.map(function(f){
+    var fh=f.flds.map(function(fd){
+      if(fd.tp==='surf'){
+        return '<div class="f"><label>'+fd.lb+'</label><select id="'+fd.id+'_v" onchange="runF(\''+f.id+'\')">'
+          +SURFS.map(function(s){return '<option value="'+s.mu+'">'+s.ic+' '+s.n+' (μ='+s.mu+')</option>';}).join('')
+          +'</select></div>';
+      }
+      if(fd.tp==='surf_metal'){
+        return '<div class="f"><label>'+fd.lb+'</label><select id="'+fd.id+'_v" onchange="runF(\''+f.id+'\')">'
+          +SURF_METAL.map(function(s){return '<option value="'+s.mu+'">'+s.ic+' '+s.n+' (μ='+s.mu+')</option>';}).join('')
+          +'</select></div>';
+      }
+      if(fd.tp==='sel'){
+        return '<div class="f"><label>'+fd.lb+'</label><select id="'+fd.id+'" onchange="runF(\''+f.id+'\')">'
+          +fd.opts.map(function(o){return '<option value="'+o.v+'">'+o.l+'</option>';}).join('')
+          +'</select></div>';
+      }
+      return '<div class="f"><label>'+fd.lb+'</label><input type="number" inputmode="decimal" id="'+fd.id+'" placeholder="'+(fd.ph||'')+'" min="0" step="0.01" oninput="runF(\''+f.id+'\')" onkeyup="runF(\''+f.id+'\')"></div>';
+    }).join('');
+    return '<div class="cc" id="'+f.id+'"><div class="cc-h"><div class="cc-ic" style="background:'+f.bg+';color:'+f.col+';">'+f.ic+'</div><div><div class="cc-t">'+f.t+'</div><div class="cc-f">'+f.fm+'</div></div></div><div class="cc-b">'+fh+'<div class="cr"><span class="cr-l">Resultado</span><div class="cr-v" id="'+f.id+'_r" style="color:'+f.col+';">— '+f.unit+'</div><div class="cr-n" id="'+f.id+'_n"></div></div></div></div>';
+  }).join('');
+}
+function runF(id){
+  var f=FORMS.find(function(x){return x.id===id;});
+  if(!f)return;
+  var r=f.fn();
+  var rv=document.getElementById(id+'_r');
+  var rn=document.getElementById(id+'_n');
+  if(rv)rv.textContent=r?r.v+' '+f.unit:'— '+f.unit;
+  if(rn)rn.textContent=r?r.n||'':'';
+}
+
+/* MODULES */
+var MODS=[
+  {ic:'📸',n:'Protocolo 8 Fotos Forenses',d:'Tomas obligatorias en escena de accidente',u:'8_fotos_forenses.html'},
+  {ic:'🎒',n:'Kit Operativo del Agente',d:'Tarjeta de bolsillo y guía digital de campo',u:'kit_agente_transito.html'},
+  {ic:'🛣️',n:'Guía de Fricción Visual',d:'Evalúa μ en pavimento sin equipos especializados',u:'guia_friccion_policia.html'},
+  {ic:'📐',n:'Formato Fijación de Curva',d:'Registro técnico de curvas en escena',u:'formato_curva_campo.html'},
+  {ic:'🔬',n:'Caso Real Suesca–Nemocón',d:'Análisis físico completo de caso real',u:'caso_accidente_v3.html'},
+  {ic:'📊',n:'Tabla Fricción INVIAS 2008',d:'Índices oficiales de fricción colombianos',u:'tabla_friccion_invias.html'},
+  {ic:'🤖',n:'Prompts IA para Peritaje',d:'5 prompts expertos para Claude, ChatGPT, Gemini',u:'index.html#prompts'},
+  {ic:'🪞',n:'Diagnóstico del Grupo',d:'Lo que dijeron 36 agentes del diplomado',u:'para_los_agentes.html'}
+];
+function renderMods(){
+  var el=document.getElementById('mods-list');
+  if(!el)return;
+  el.innerHTML=MODS.map(function(m){
+    return '<a class="mi" href="'+m.u+'" target="_blank"><span class="mi-ic">'+m.ic+'</span><div><div class="mi-n">'+m.n+'</div><div class="mi-d">'+m.d+'</div></div><span class="mi-ar">→</span></a>';
+  }).join('');
+}
+
+/* NORMAS */
+var NORMS=[
+  {b:'LEY',bc:'#e8f5ee',btc:'#004C2E',n:'Ley 769 de 2002',d:'Código Nacional de Tránsito. Define tipos de accidentes, responsabilidad, procedimientos y sanciones.',u:'https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=5557'},
+  {b:'LEY',bc:'#e8f5ee',btc:'#004C2E',n:'Ley 2251 de 2022',d:'Sistema Seguro / Visión Cero Colombia. Marco para reducción de accidentalidad con estándares internacionales.',u:'https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=186424'},
+  {b:'MANUAL',bc:'#e3f2fd',btc:'#1565C0',n:'Manual INVIAS 2008',d:'Diseño Geométrico de Carreteras. Coeficientes de fricción (μ), radios mínimos de curva y velocidades de diseño.',u:'https://www.invias.gov.co/index.php/documentos-tecnicos'},
+  {b:'RESOLUCIÓN',bc:'#fff8e6',btc:'#E09000',n:'Res. 11268/2012 — IPAT',d:'Manual de diligenciamiento del Informe Policial de Accidentes de Tránsito. Procedimiento oficial.',u:'https://planetavial.co/resolucion-11268-de-2012-manual-del-diligenciamiento-del-ipat/'},
+  {b:'FÍSICA',bc:'#f3e5f5',btc:'#6A1B9A',n:'Fórmula de Searle',d:'V = √((2g·μ·d)/(1+μ²)) — Para atropellos de peatones. Referenciada en manuales de accidentología forense.',u:null},
+  {b:'FÍSICA',bc:'#f3e5f5',btc:'#6A1B9A',n:'Conservación de Momentum',d:'m₁v₁ + m₂v₂ = m₁vf₁ + m₂vf₂ — Ley física para reconstrucción de choques entre vehículos.',u:null},
+  {b:'FÍSICA',bc:'#fff3e0',btc:'#E65100',n:'SAE 900368 — Ciclistas',d:'V = 0.8351·d + 21.152 — Modelo empírico para velocidad en atropellos de ciclistas. R²≈0.806.',u:null}
+];
+function renderNorms(){
+  var el=document.getElementById('norm-list');
+  if(!el)return;
+  el.innerHTML=NORMS.map(function(n){
+    return '<div class="ni"><span class="ni-b" style="background:'+n.bc+';color:'+n.btc+';">'+n.b+'</span>'
+      +'<div class="ni-n">'+n.n+'</div><div class="ni-d">'+n.d+'</div>'
+      +(n.u?'<a class="ni-l" href="'+n.u+'" target="_blank">Ver documento oficial →</a>':'')
+      +'</div>';
+  }).join('');
+}
+
+/* INIT */
+renderSurfs();
+renderTipos();
+renderForms();
+renderMods();
+renderNorms();
+updUI();
+
+/* VISITOR COUNTER */
+(function(){
+  try{
+    var key='vialapp_v4_sessions';
+    var local=parseInt(localStorage.getItem(key)||'0')+1;
+    localStorage.setItem(key,local);
+    var devKey='vialapp_device_id';
+    var devId=localStorage.getItem(devKey);
+    if(!devId){devId='d'+Date.now()+Math.random().toString(36).slice(2,7);localStorage.setItem(devKey,devId);}
+    var isNew=local===1;
+    var elT=document.getElementById('visitor-total');
+    var elU=document.getElementById('visitor-unique');
+    fetch('https://api.countapi.xyz/hit/vialapp-colombia-2026/total')
+      .then(function(r){return r.json();})
+      .then(function(d){if(elT)elT.textContent=(d.value||local).toLocaleString('es-CO');})
+      .catch(function(){if(elT)elT.textContent=local.toLocaleString('es-CO');});
+    if(isNew){
+      fetch('https://api.countapi.xyz/hit/vialapp-colombia-2026/unique')
+        .then(function(r){return r.json();})
+        .then(function(d){if(elU)elU.textContent=(d.value||1).toLocaleString('es-CO');})
+        .catch(function(){if(elU)elU.textContent='—';});
+    }else{
+      fetch('https://api.countapi.xyz/get/vialapp-colombia-2026/unique')
+        .then(function(r){return r.json();})
+        .then(function(d){if(elU)elU.textContent=(d.value||'—').toLocaleString('es-CO');})
+        .catch(function(){if(elU)elU.textContent='—';});
+    }
+  }catch(e){}
+})();
+
+/* COMMA FIX for mobile */
+document.addEventListener('input',function(e){
+  var el=e.target;
+  if(el.type==='number'||el.inputMode==='decimal'||el.inputmode==='decimal'){
+    var v=el.value.replace(',','.');
+    if(v!==el.value){
+      var pos=el.selectionStart;
+      el.value=v;
+      try{el.setSelectionRange(pos,pos);}catch(ex){}
+    }
+  }
+});
+/* Also handle paste */
+document.addEventListener('change',function(e){
+  var el=e.target;
+  if(el.type==='number'||el.inputMode==='decimal'){
+    el.value=el.value.replace(',','.');
+  }
+});
+
+</script>
+</body>
+</html>

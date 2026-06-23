@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotización Comparativa — Obra Castañeda · Suesca 2025</title>
+<style>
+:root{--g:#1a7a4a;--gl:#e8f5ee;--o:#c85a08;--ol:#fef0e6;--b:#1d4ed8;--bl:#eff6ff;--red:#dc2626;--bdr:#e5e7eb;--bg:#f0f2f5;--txt:#111827;--muted:#6b7280;--wh:#fff;--sh:0 1px 4px rgba(0,0,0,.08);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);font-size:13px;}
+
+/* HEADER */
+.hdr{background:var(--g);color:#fff;padding:14px 20px;position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(0,0,0,.25);}
+.hdr h1{font-size:16px;font-weight:600;}
+.hdr p{font-size:11px;opacity:.8;margin-top:2px;}
+.hdr-row{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;}
+.hdr-btns{display:flex;gap:6px;flex-wrap:wrap;}
+.btn{padding:7px 13px;border:none;border-radius:5px;cursor:pointer;font-size:12px;font-weight:500;}
+.btn-w{background:#fff;color:var(--g)}.btn-w:hover{background:var(--gl)}
+.btn-o{background:var(--o);color:#fff}.btn-o:hover{background:#a84a06}
+.btn-d{background:#374151;color:#fff}.btn-d:hover{background:#1f2937}
+
+/* SUPPLIERS BAR */
+.sup-bar{background:#fff;border-bottom:1px solid var(--bdr);padding:10px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:sticky;top:68px;z-index:190;box-shadow:var(--sh);}
+.sup-bar label{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.04em;}
+.sup-input{padding:5px 10px;border:1.5px solid var(--bdr);border-radius:5px;font-size:12px;font-weight:500;width:150px;}
+.sup-input.s1:focus{border-color:#1d4ed8} .sup-input.s2:focus{border-color:#7c3aed} .sup-input.s3:focus{border-color:#b45309}
+.sup-label-1{color:#1d4ed8;font-weight:600;font-size:11px}
+.sup-label-2{color:#7c3aed;font-weight:600;font-size:11px}
+.sup-label-3{color:#b45309;font-weight:600;font-size:11px}
+
+/* TOTALS STRIP */
+.tot-strip{background:#fff;border-bottom:1px solid var(--bdr);padding:8px 20px;display:flex;gap:20px;flex-wrap:wrap;position:sticky;top:118px;z-index:180;box-shadow:var(--sh);}
+.tot-chip .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+.tot-chip .val{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;}
+.c-g{color:var(--g)} .c-o{color:var(--o)} .c-b{color:var(--b)}
+
+/* PROGRESS */
+.prog-wrap{background:rgba(255,255,255,.3);border-radius:3px;height:4px;margin-top:8px;}
+.prog-fill{background:#5fe09a;height:100%;border-radius:3px;transition:width .3s;}
+.prog-lbl{font-size:10px;opacity:.8;margin-top:3px;}
+
+/* CONTAINER */
+.cnt{max-width:1300px;margin:0 auto;padding:16px 12px 80px;}
+
+/* CHAPTER */
+.ch{background:#fff;border-radius:8px;box-shadow:var(--sh);margin-bottom:12px;overflow:hidden;}
+.ch-hdr{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border-bottom:1px solid var(--bdr);}
+.ch-hdr:hover{background:#fafafa;}
+.ch-ttl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g);}
+.ch-meta{font-size:11px;color:var(--muted);display:flex;gap:12px;}
+.ch-body{overflow-x:auto;}
+.ch-body.hidden{display:none;}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;min-width:900px;}
+thead tr{background:#f8fafc;}
+th{font-size:10px;font-weight:600;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--bdr);white-space:nowrap;}
+th.r{text-align:right}
+td{padding:5px 7px;border-bottom:.5px solid #f0f0f0;vertical-align:middle;}
+tr:hover td{background:#fdfeff;}
+tr.last-row td{border-bottom:none;}
+td.nm{font-size:12px;max-width:260px;}
+td.nt{font-size:10px;color:var(--muted);max-width:180px;line-height:1.3;}
+
+/* INPUTS */
+.qty-in{width:60px;padding:4px 5px;border:1.5px solid var(--bdr);border-radius:4px;font-size:12px;text-align:right;}
+.qty-in:focus{outline:none;border-color:var(--g);}
+.p-in{width:90px;padding:4px 6px;border:1.5px solid var(--bdr);border-radius:4px;font-size:12px;text-align:right;font-variant-numeric:tabular-nums;transition:border-color .12s;}
+.p-in:focus{outline:none;}
+.p-in.s1{border-color:#bfdbfe} .p-in.s1:focus{border-color:#1d4ed8} .p-in.s1.best{background:#eff6ff;border-color:#1d4ed8;font-weight:600;color:#1d4ed8;}
+.p-in.s2{border-color:#e9d5ff} .p-in.s2:focus{border-color:#7c3aed} .p-in.s2.best{background:#f5f3ff;border-color:#7c3aed;font-weight:600;color:#7c3aed;}
+.p-in.s3{border-color:#fde68a} .p-in.s3:focus{border-color:#b45309} .p-in.s3.best{background:#fffbeb;border-color:#b45309;font-weight:600;color:#b45309;}
+.p-in.confirmed{background:var(--gl);border-color:#6ee7a0;color:var(--g);font-weight:600;}
+
+/* TRANSPORT */
+.tr-cell{display:flex;align-items:center;gap:4px;white-space:nowrap;}
+.tr-chk{width:13px;height:13px;cursor:pointer;accent-color:var(--o);}
+.tr-in{width:70px;padding:4px 5px;border:1.5px solid #fcd34d;border-radius:4px;font-size:11px;text-align:right;display:none;}
+.tr-in.show{display:block;}
+
+/* BEST + SUBTOTAL */
+td.mejor{font-size:12px;font-weight:600;color:var(--g);text-align:right;white-space:nowrap;min-width:80px;}
+td.mejor.pending{color:#d1d5db;font-weight:400;}
+td.sub{text-align:right;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;color:#374151;min-width:100px;white-space:nowrap;}
+td.sub.z{color:#e5e7eb;}
+
+/* CHAPTER SUBTOTAL ROW */
+.ch-sub-row td{background:var(--gl) !important;font-weight:600;font-size:12px;color:var(--g);}
+
+/* BADGE */
+.badge-conf{display:inline-block;font-size:9px;padding:1px 5px;background:var(--gl);color:var(--g);border-radius:3px;margin-left:4px;font-weight:600;}
+
+/* NOTA ROW */
+.nota-row{background:#fafafa;font-size:10px;color:var(--muted);padding:6px 14px;border-top:1px solid var(--bdr);}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:#1f2937;color:#fff;padding:10px 16px;border-radius:6px;font-size:12px;display:none;z-index:999;}
+.toast.on{display:block;animation:fi .2s;}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* MODAL */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;align-items:center;justify-content:center;}
+.mo.on{display:flex;}
+.mo-box{background:#fff;border-radius:8px;padding:20px;max-width:500px;width:90%;box-shadow:0 8px 30px rgba(0,0,0,.2);}
+.mo-box h3{font-size:14px;margin-bottom:10px;}
+.mo-box textarea{width:100%;height:160px;padding:8px;border:1.5px solid var(--bdr);border-radius:5px;font-size:11px;font-family:monospace;resize:vertical;}
+.mo-row{display:flex;gap:8px;justify-content:flex-end;margin-top:10px;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-row">
+    <div>
+      <h1>Cotización Comparativa · Obra Castañeda Peña · Suesca 2025</h1>
+      <p>Ingresa precios de hasta 3 proveedores · El mejor precio se selecciona automáticamente · Incluye transporte si aplica</p>
+    </div>
+    <div class="hdr-btns">
+      <button class="btn btn-d" onclick="importar()">📂 Importar</button>
+      <button class="btn btn-w" onclick="guardarJSON()">💾 Guardar</button>
+      <button class="btn btn-o" onclick="exportarTXT()">📋 Exportar</button>
+    </div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill" id="pBar" style="width:0"></div></div>
+  <div class="prog-lbl" id="pLbl">0 / 0 ítems con precio</div>
+</div>
+
+<!-- SUPPLIER NAMES -->
+<div class="sup-bar">
+  <span style="font-size:11px;font-weight:600;color:var(--muted)">PROVEEDORES:</span>
+  <div style="display:flex;align-items:center;gap:6px">
+    <span class="sup-label-1">①</span>
+    <input class="sup-input s1" id="sn1" value="Ferretería 1" onchange="saveSup()">
+  </div>
+  <div style="display:flex;align-items:center;gap:6px">
+    <span class="sup-label-2">②</span>
+    <input class="sup-input s2" id="sn2" value="Ferretería 2" onchange="saveSup()">
+  </div>
+  <div style="display:flex;align-items:center;gap:6px">
+    <span class="sup-label-3">③</span>
+    <input class="sup-input s3" id="sn3" value="Ferretería 3" onchange="saveSup()">
+  </div>
+  <span style="font-size:10px;color:var(--muted)">· Renombra los proveedores según donde cotices</span>
+</div>
+
+<!-- TOTALS -->
+<div class="tot-strip">
+  <div class="tot-chip"><div class="lbl">Ítems llenados</div><div class="val c-g" id="tFilled">0</div></div>
+  <div class="tot-chip"><div class="lbl">Total materiales</div><div class="val c-g" id="tMat">$0</div></div>
+  <div class="tot-chip"><div class="lbl">Equipos / alquiler</div><div class="val c-b" id="tEquip">$0</div></div>
+  <div class="tot-chip"><div class="lbl">Transporte estimado</div><div class="val c-o" id="tTransp">$0</div></div>
+  <div class="tot-chip"><div class="lbl">GRAN TOTAL (sin M.O.)</div><div class="val c-o" id="tTotal">$0</div></div>
+</div>
+
+<div class="cnt" id="main"></div>
+
+<div class="toast" id="toast"></div>
+
+<div class="mo" id="modal">
+  <div class="mo-box">
+    <h3>Importar precios (JSON)</h3>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:8px">Pega el contenido del JSON guardado anteriormente</p>
+    <textarea id="impTA"></textarea>
+    <div class="mo-row">
+      <button class="btn btn-d" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn btn-o" onclick="doImport()">Importar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// DATA — Cantidades calculadas sobre planos (512.67 m² total)
+// Piso 1: 186.25 m² | Piso 2: 326.41 m² | Cubierta: 350 m²
+// Mampostería: 680 m² | Placa entrepiso: 200 m²
+// 6 baños | 14 puertas | 4 closets | 20 col P1 + 18 col P2
+// ══════════════════════════════════════════════════════════════════
+const CAP = [
+ {id:'c1',t:'Cap 1 — Concreto y Agregados',tipo:'mat',items:[
+  {id:'cemento',     n:'Cemento portland gris',             u:'bolsa 50 kg', q:1100,qn:'Cimientos+estructura+placa+contrapiso+mortero+repello (cálculo APU)',p:[32000,0,0],conf:true},
+  {id:'arena',       n:'Arena de río lavada',               u:'m³ obra',     q:87, qn:'Incluye concreto estructural, mortero mamp., repello y contrapiso',p:[240000,0,0],conf:true},
+  {id:'gravilla',    n:'Gravilla triturada',                u:'m³ obra',     q:84, qn:'Solo para concreto (NO se usa en mortero de pega)',p:[350000,0,0],conf:true},
+  {id:'rajon',       n:'Piedra rajón (cimientos ciclópeo)', u:'m³',          q:20, qn:'40% del vol. ciclópeo',p:[0,0,0]},
+  {id:'arena_fina',  n:'Arena fina (estuco y repello)',     u:'m³',          q:15, qn:'Distinta a arena de río — más fina para acabados'},
+  {id:'recebo',      n:'Recebo compactado',                 u:'m³',          q:35, qn:'Nivelación piso 1 antes de contrapiso'},
+  {id:'cal_hidra',   n:'Cal hidratada (mortero mamp.)',     u:'bulto 25 kg', q:40, qn:'Mezcla 1:1:5 cemento:cal:arena para pega bloque'},
+ ]},
+ {id:'c2',t:'Cap 2 — Acero de Refuerzo',tipo:'mat',items:[
+  {id:'var14',  n:'Varilla corrugada 1/4"',             u:'barra 6 m', q:60,  qn:'Estribos menores y anclajes'},
+  {id:'var38',  n:'Varilla corrugada 3/8"',             u:'barra 6 m', q:1500,qn:'Estribos columnas+vigas, malla placa, vigas amarre',p:[14000,0,0],conf:true},
+  {id:'var12',  n:'Varilla corrugada 1/2"',             u:'barra 6 m', q:150, qn:'Longitudinal vigas corona P1+P2',p:[24000,0,0],conf:true},
+  {id:'var58',  n:'Varilla corrugada 5/8"',             u:'barra 6 m', q:90,  qn:'Longitudinal columnas (~38 columnas 2 pisos)',p:[38000,0,0],conf:true},
+  {id:'malla',  n:'Malla electrosoldada 10×10 cm',     u:'m²',        q:50,  qn:'Refuerzo horizontal mampostería cada 3 hiladas'},
+  {id:'alambre',n:'Alambre negro #18',                 u:'rollo 25 kg',q:10, qn:'Amarre acero en general',p:[138900,0,0],conf:true},
+ ]},
+ {id:'c3',t:'Cap 3 — Ferretería Menor (Tornillos, Puntillas, Chazos)',tipo:'mat',items:[
+  {id:'punt1',    n:'Puntilla 1" (formaleta madera)',       u:'caja 1 kg',   q:8,  qn:'Encofrado madera temporal'},
+  {id:'punt15',   n:'Puntilla 1.5"',                       u:'caja 1 kg',   q:10, qn:'Uso general obra'},
+  {id:'punt2',    n:'Puntilla 2" (uso general)',            u:'caja 1 kg',   q:12, qn:'Encofrado, madera temporal'},
+  {id:'punt25',   n:'Puntilla 2.5"',                       u:'caja 1 kg',   q:8,  qn:'Bodega provisional, clavado madera'},
+  {id:'punt3',    n:'Puntilla 3" (madera estructural)',     u:'caja 1 kg',   q:6,  qn:'Madera formaleta y provisionales'},
+  {id:'punt_zinc',n:'Puntilla galvanizada para zinc/teja', u:'caja 1 kg',   q:4,  qn:'Fijación tejados auxiliares'},
+  {id:'trn_m8_15',n:'Tornillo madera #8 × 1.5"',          u:'caja 100 und',q:5,  qn:'Carpintería en general'},
+  {id:'trn_m8_25',n:'Tornillo madera #8 × 2.5"',          u:'caja 100 und',q:5,  qn:'Marcos puertas, ventanas'},
+  {id:'trn_m10',  n:'Tornillo madera #10 × 3"',           u:'caja 100 und',q:4,  qn:'Estructura madera cubierta'},
+  {id:'trn_auto', n:'Tornillo autoperforante HEX teja',   u:'caja 100 und',q:10, qn:'Fijación teja Colmetal a correas'},
+  {id:'trn_broca',n:'Tornillo autoperforante punta broca',u:'caja 100 und',q:6,  qn:'Unión correas metálicas'},
+  {id:'trn_hex',  n:'Tornillo hexagonal 3/8" × 2" c/tuerca',u:'und',      q:60, qn:'Anclajes estructura cubierta'},
+  {id:'chazo6',   n:'Chazo expansivo 6 mm',               u:'bolsa 100',   q:5,  qn:'Anclajes menores'},
+  {id:'chazo8',   n:'Chazo expansivo 8 mm',               u:'bolsa 100',   q:8,  qn:'Anclajes medianos'},
+  {id:'chazo10',  n:'Chazo expansivo 10 mm',              u:'bolsa 50',    q:4,  qn:'Anclajes fuertes'},
+  {id:'chazo_f',  n:'Chazo Fisher 8 mm + tornillo',       u:'bolsa 50',    q:6,  qn:'Instalaciones, carpintería'},
+  {id:'arand_p',  n:'Arandela plana 3/8"',               u:'bolsa 50',    q:5,  qn:'Con tornillos hex estructura'},
+  {id:'arand_pr', n:'Arandela de presión 3/8"',          u:'bolsa 50',    q:4,  qn:'Antiafloje estructura'},
+  {id:'tuerca',   n:'Tuerca hexagonal 3/8"',             u:'bolsa 50',    q:4,  qn:'Par con tornillos hex'},
+  {id:'perno12',  n:'Perno galvanizado 1/2" × 4"',       u:'und',         q:30, qn:'Anclaje cerchas / vigas cubierta'},
+  {id:'grapa_teja',n:'Gancho / grapa de teja',           u:'und',         q:120,qn:'Amarre teja a cumbrera y extremos'},
+  {id:'trn_dry',  n:'Tornillo drywall 1" (cajax500)',     u:'caja',        q:4,  qn:'Closets, detalles carpintería'},
+ ]},
+ {id:'c4',t:'Cap 4 — Madera (Formaleta y Provisionales)',tipo:'mat',items:[
+  {id:'tablon',  n:'Tablón 1" × 10" × 3 m',            u:'und',  q:50, qn:'Bordes formaleta vigas, escalera'},
+  {id:'cuarton', n:'Cuartón 4" × 4" × 3 m',            u:'und',  q:20, qn:'Sopandas, apoyos formaleta'},
+  {id:'tabla_b', n:'Tabla burra 1" × 12" × 3 m',       u:'und',  q:30, qn:'Formaleta contrahuellas escalera, varios'},
+  {id:'liston',  n:'Listón 1" × 2" × 3 m',             u:'und',  q:40, qn:'Guías y remates formaleta'},
+ ]},
+ {id:'c5',t:'Cap 5 — Mampostería (680 m² total)',tipo:'mat',items:[
+  {id:'blq15',   n:'Bloque concreto 15×20×40 cm (exterior)',u:'und', q:6300,qn:'476 m² muros ext. ÷ 0,076 m²/bloque (incl. 10% desperdicio)'},
+  {id:'blq10',   n:'Bloque concreto 10×20×40 cm (interior)',u:'und', q:2900,qn:'204 m² muros int. ÷ 0,076 m²/bloque'},
+  {id:'dintel',  n:'Dintel metálico (ángulo L 2"×3 mm)',    u:'ml',  q:65, qn:'Vanos puertas + ventanas (~2.5 ml/vano × 26 vanos)'},
+  {id:'malla_m', n:'Malla de amarre mampostería',           u:'ml',  q:35, qn:'Refuerzo horizontal entre hiladas'},
+  {id:'cal_m',   n:'Cal hidratada para mortero pega',       u:'bulto 25 kg',q:40,qn:'Ya listada en Cap 1 — verificar duplicado'},
+ ]},
+ {id:'c6',t:'Cap 6 — Cubierta (Teja Colmetal Perfil 37k · 350 m²)',tipo:'mat',items:[
+  {id:'teja',    n:'Teja Colmetal Perfil 37k',           u:'lámina',    q:430,qn:'350 m² ÷ 0.86 m (ancho útil) × 1 m largo + 10% traslape'},
+  {id:'correa',  n:'Correa metálica tipo C (cubierta)',  u:'barra 6 m', q:85, qn:'Separación 1.2 m entre correas en 350 m²'},
+  {id:'cumbrera',n:'Cumbrera Colmetal (remate cumbrera)',u:'ml',        q:22, qn:'Longitud cumbrera estimada'},
+  {id:'limayon', n:'Limatón / lima hoya',                u:'ml',        q:12, qn:'Cambios de plano cubierta'},
+  {id:'goteron', n:'Goterón / perfil J de remate',       u:'ml',        q:35, qn:'Remate perimetral cubierta'},
+  {id:'anticorr',n:'Anticorrosivo para correas',         u:'galón',     q:5,  qn:'2 manos sobre estructura metálica'},
+  {id:'canal_ll',n:'Canal recolectora aguas lluvias',    u:'ml',        q:35, qn:'Perímetro con caída'},
+  {id:'bajante', n:'Bajante PVC 3"',                     u:'tubo 3 m',  q:10, qn:'~5 bajantes de 2 tramos'},
+  {id:'soldad',  n:'Electrodos soldadura E6013',         u:'kg',        q:6,  qn:'Unión correas y anclajes'},
+  {id:'disco_c', n:'Disco de corte 9" amoladora',        u:'und',       q:12, qn:'Corte correas y teja'},
+  {id:'mastic',  n:'Mastic sellante traslapes',          u:'cartucho 300 ml',q:10,qn:'Impermeabilizar traslapes teja'},
+  {id:'impermc', n:'Impermeabilizante cubierta (Sika o Chova)',u:'galón',q:4, qn:'Remates y parapetos'},
+ ]},
+ {id:'c7',t:'Cap 7 — Instalaciones Hidráulicas',tipo:'mat',items:[
+  {id:'pvc12',    n:'Tubo PVC presión 1/2" (agua fría)',  u:'tubo 6 m', q:30, qn:'Distribución a 6 baños + cocina + lavandería'},
+  {id:'pvc34',    n:'Tubo PVC presión 3/4"',              u:'tubo 6 m', q:15, qn:'Red principal hasta pisos'},
+  {id:'pvc1',     n:'Tubo PVC presión 1" (acometida)',    u:'tubo 6 m', q:5,  qn:'Desde tanque/fuente al contador'},
+  {id:'cpvc12',   n:'Tubo CPVC 1/2" (agua caliente)',     u:'tubo 6 m', q:20, qn:'Si se instala calentador centralizado'},
+  {id:'codo12_90',n:'Codo PVC 1/2" × 90°',               u:'und',      q:50, qn:'Giros en distribución'},
+  {id:'codo12_45',n:'Codo PVC 1/2" × 45°',               u:'und',      q:18, qn:'Bajadas y subidas de tubería'},
+  {id:'codo34',   n:'Codo PVC 3/4" × 90°',               u:'und',      q:20, qn:'Red principal'},
+  {id:'tee12',    n:'Tee PVC 1/2"',                       u:'und',      q:28, qn:'Derivaciones a artefactos'},
+  {id:'tee34',    n:'Tee PVC 3/4"',                       u:'und',      q:10, qn:'Derivaciones red principal'},
+  {id:'reduc',    n:'Reducción 3/4" a 1/2"',              u:'und',      q:12, qn:'Transición red principal'},
+  {id:'union12',  n:'Unión PVC 1/2"',                     u:'und',      q:15, qn:'Empalmes rectos'},
+  {id:'valv12',   n:'Válvula de paso 1/2" (bronce)',      u:'und',      q:14, qn:'Una por artefacto + seccionales'},
+  {id:'valv34',   n:'Válvula de paso 3/4" (bronce)',      u:'und',      q:5,  qn:'Seccionales por piso + entrada'},
+  {id:'valv_chk', n:'Válvula check 3/4"',                 u:'und',      q:1,  qn:'Evitar retorno desde tanque'},
+  {id:'san2',     n:'Tubo sanitario PVC 2" (lavamanos/ducha)',u:'tubo 6 m',q:22,qn:'Desagüe artefactos menores'},
+  {id:'san3',     n:'Tubo sanitario PVC 3" (sanitarios)', u:'tubo 6 m', q:14, qn:'Bajante sanitarios'},
+  {id:'san4',     n:'Tubo sanitario PVC 4" (colector)',   u:'tubo 6 m', q:10, qn:'Colector principal hasta cámara'},
+  {id:'codo_s2',  n:'Codo sanitario 90° 2"',             u:'und',      q:15, qn:'Giros desagüe menores'},
+  {id:'codo_s3',  n:'Codo sanitario 90° 3"',             u:'und',      q:10, qn:''},
+  {id:'codo_s4',  n:'Codo sanitario 90° 4"',             u:'und',      q:8,  qn:''},
+  {id:'yee_s2',   n:'Yee sanitaria 2"',                  u:'und',      q:8,  qn:''},
+  {id:'yee_s3',   n:'Yee sanitaria 3"',                  u:'und',      q:6,  qn:''},
+  {id:'yee_s4',   n:'Yee sanitaria 4"',                  u:'und',      q:5,  qn:''},
+  {id:'sifon_d',  n:'Sifón ducha cromado 2"',            u:'und',      q:6,  qn:'Uno por baño'},
+  {id:'sifon_p',  n:'Sifón de piso 4" (garaje/terraza)', u:'und',      q:4,  qn:'Garaje + terrazas Piso 2'},
+  {id:'trampa',   n:'Trampa de grasa cocina',            u:'und',      q:1,  qn:'Antes del colector sanitario'},
+  {id:'camara',   n:'Cámara de inspección PVC 12"',      u:'und',      q:3,  qn:'Cambios de dirección colector'},
+  {id:'vent_san', n:'Tubo ventilación sanitaria 2"',     u:'tubo 3 m', q:6,  qn:'Salida ventilación sobre cubierta'},
+  {id:'tap_san',  n:'Tapón sanitario 4"',                u:'und',      q:4,  qn:'Tapones prueba y limpieza'},
+  {id:'red_san',  n:'Reducción sanitaria 4" a 3"',       u:'und',      q:3,  qn:''},
+  {id:'pegpvc',   n:'Pegante PVC (1/4 galón)',           u:'tarro',    q:5,  qn:''},
+  {id:'teflon',   n:'Cinta teflón PTFE',                 u:'rollo',    q:14, qn:'Uniones roscadas válvulas'},
+  {id:'tanque',   n:'Tanque reservorio polietileno 1000 L',u:'und',    q:1,  qn:'Almacenamiento agua zona rural'},
+  {id:'llave_j',  n:'Llave de jardín / punto exterior 3/4"',u:'und',  q:2,  qn:'Exterior lote'},
+  {id:'abasto',   n:'Tubo abasto flexible 1/2" (lavamanos/sani)',u:'und',q:14,qn:'Conexión final a artefacto'},
+  {id:'flotador', n:'Flotador tanque sanitario',         u:'und',      q:6,  qn:'Uno por sanitario'},
+ ]},
+ {id:'c8',t:'Cap 8 — Instalaciones Eléctricas',tipo:'mat',items:[
+  {id:'cdt12',    n:'Tubo conduit PVC 1/2"',             u:'tubo 3 m', q:75, qn:'Iluminación y tomas menores'},
+  {id:'cdt34',    n:'Tubo conduit PVC 3/4"',             u:'tubo 3 m', q:25, qn:'Circuitos de fuerza'},
+  {id:'curva12',  n:'Curva conduit 1/2"',                u:'und',      q:35, qn:'Giros en canalizaciones'},
+  {id:'curva34',  n:'Curva conduit 3/4"',                u:'und',      q:15, qn:''},
+  {id:'conec12',  n:'Conector conduit 1/2"',             u:'und',      q:70, qn:'Unión tubo-caja'},
+  {id:'conec34',  n:'Conector conduit 3/4"',             u:'und',      q:25, qn:''},
+  {id:'caj_oct',  n:'Caja octagonal profunda 4"',        u:'und',      q:45, qn:'Puntos de iluminación'},
+  {id:'caj_rect', n:'Caja rectangular (tomas/interr.)',  u:'und',      q:75, qn:'Tomas corriente e interruptores'},
+  {id:'caj_4x4',  n:'Caja cuadrada 4"×4"',              u:'und',      q:15, qn:'Especiales y tablero'},
+  {id:'cab12',    n:'Cable THHN #12 AWG (iluminación)',  u:'metro',    q:420,qn:'Circuitos de iluminación 15A'},
+  {id:'cab10',    n:'Cable THHN #10 AWG (tomas 20A)',    u:'metro',    q:320,qn:'Circuitos tomas corriente'},
+  {id:'cab8',     n:'Cable THHN #8 AWG (duchas/cocina)', u:'metro',    q:85, qn:'Circuitos de alto consumo'},
+  {id:'cab6',     n:'Cable THHN #6 AWG (acometida)',     u:'metro',    q:25, qn:'Bajante desde acometida CODENSA'},
+  {id:'cab_t',    n:'Cable desnudo tierra #8',           u:'metro',    q:45, qn:'Tierra eléctrica'},
+  {id:'varilla_t',n:'Varilla de tierra cobre 5/8"×1.8 m',u:'und',    q:2,  qn:'Electrodos de puesta a tierra'},
+  {id:'grapa_t',  n:'Grapa de tierra',                   u:'und',      q:2,  qn:''},
+  {id:'tablero',  n:'Tablero bifásico 12 circ. con main',u:'und',     q:1,  qn:'Panel principal distribución'},
+  {id:'brk15',    n:'Breaker 1×15A (iluminación)',       u:'und',      q:7,  qn:'Circuitos de iluminación'},
+  {id:'brk20',    n:'Breaker 1×20A (tomas)',             u:'und',      q:5,  qn:'Circuitos tomas'},
+  {id:'brk30',    n:'Breaker 2×30A (duchas eléctricas)', u:'und',      q:2,  qn:'Una por ducha eléctrica principal'},
+  {id:'brk40',    n:'Breaker 2×40A (cocina eléctrica)',  u:'und',      q:1,  qn:'Estufa o horno'},
+  {id:'int_s',    n:'Interruptor sencillo',               u:'und',      q:20, qn:'Puntos sencillos'},
+  {id:'int_d',    n:'Interruptor doble',                  u:'und',      q:6,  qn:'Doble conmutación'},
+  {id:'int_v',    n:'Interruptor conmutable (viajero)',   u:'und',      q:6,  qn:'Escalera y pasillos (par)'},
+  {id:'toma110',  n:'Toma doble 110V polarizada',        u:'und',      q:38, qn:'Habitaciones, sala, cocina'},
+  {id:'toma_gfci',n:'Toma GFCI 110V (baños/cocina)',     u:'und',      q:7,  qn:'Protección por humedad norma NTC'},
+  {id:'toma220',  n:'Toma 220V (cocina/lavandería)',     u:'und',      q:3,  qn:''},
+  {id:'placa_sal',n:'Placa / tapa de salida (blanca)',   u:'und',      q:80, qn:'Tomas, interruptores, ciegos'},
+  {id:'cinta_el', n:'Cinta aislante 3M 33+ (rollo)',     u:'rollo',    q:8,  qn:''},
+  {id:'amarr_cab',n:'Amarra plástica cintillo (bolsa 100)',u:'bolsa',  q:4,  qn:'Organización cables'},
+ ]},
+ {id:'c9',t:'Cap 9 — Acabados Pisos y Enchapes',tipo:'mat',items:[
+  {id:'porc_soc', n:'Porcelanato piso zonas sociales 60×60',u:'m²',  q:190,qn:'170 m² + 12% desperdicio'},
+  {id:'porc_hab', n:'Porcelanato piso habitaciones',        u:'m²',  q:135,qn:'~120 m² + 12% desperdicio'},
+  {id:'cer_bano', n:'Cerámica pared baños (hasta 2 m alt.)',u:'m²',  q:165,qn:'6 baños × ~27 m² pared'},
+  {id:'cer_piso', n:'Cerámica o porcelanato piso baños',    u:'m²',  q:36, qn:'6 baños × ~6 m²'},
+  {id:'zocalo',   n:'Guarda escoba / zócalo porcelanato 10 cm',u:'ml',q:310,qn:'Perímetro total pisos sociales y habs.'},
+  {id:'pegante',  n:'Pegante porcelanato (bulto 25 kg)',     u:'bulto',q:65, qn:'~1 bulto por 4 m²'},
+  {id:'fragua_b', n:'Boquilla / fragua blanca',             u:'bolsa',q:18, qn:'Juntas porcelanato blanco'},
+  {id:'fragua_c', n:'Boquilla / fragua color (baños)',      u:'bolsa',q:12, qn:'Juntas cerámica color'},
+  {id:'crucetas', n:'Crucetas nivelación 3 mm (bolsa 100)', u:'bolsa',q:10, qn:''},
+  {id:'nivel_pi', n:'Sistema nivelador de piso (clips)',    u:'bolsa 50',q:6,qn:''},
+  {id:'mortero_p',n:'Mortero base nivelación piso (arena+cemento)',u:'preparación',q:8,qn:'Ver Cap 1 — usar arena fina + cemento'},
+ ]},
+ {id:'c10',t:'Cap 10 — Repello, Estuco y Pintura',tipo:'mat',items:[
+  {id:'estuco',   n:'Estuco blanco (bulto 25 kg)',          u:'bulto', q:85, qn:'~1 bulto × 6 m² de pared (512+680 m² paredes)'},
+  {id:'pint_int', n:'Pintura interior vinilo (blanca/color)',u:'galón',q:38, qn:'~1 galón × 20 m² (2 manos)'},
+  {id:'pint_ext', n:'Pintura exterior vinilo o caucho',     u:'galón', q:14, qn:'Fachadas exteriores'},
+  {id:'sellador', n:'Sellador / resina de profundidad',     u:'galón', q:12, qn:'Base antes de pintura'},
+  {id:'malla_es', n:'Malla fibra vidrio para estucar',     u:'m²',    q:55, qn:'Uniones mampostería-estructura'},
+  {id:'esquinero',n:'Esquinero metálico (aristas paredes)', u:'tira 3 m',q:42,qn:'Esquinas y aristas'},
+  {id:'lija',     n:'Papel de lija (varios granos 80-220)', u:'pliego',q:45, qn:'Preparación superficies'},
+  {id:'brocha',   n:'Brocha 4"',                           u:'und',   q:5,  qn:''},
+  {id:'rodillo',  n:'Rodillo pintura 9"',                  u:'und',   q:6,  qn:''},
+  {id:'felpa',    n:'Felpa rodillo repuesto',              u:'und',   q:12, qn:''},
+  {id:'bandeja',  n:'Bandeja de pintura',                  u:'und',   q:4,  qn:''},
+  {id:'thinner',  n:'Thinner (limpieza brochas/manchas)',  u:'litro', q:5,  qn:''},
+ ]},
+ {id:'c11',t:'Cap 11 — Carpintería (14 Puertas + Ventanas)',tipo:'mat',items:[
+  {id:'pta_int',  n:'Puerta interior MDF 0.80×2.10 m (marco incl.)',u:'und',q:10,qn:'10 habitaciones/sociales'},
+  {id:'pta_bano', n:'Puerta baño MDF 0.70×2.10 m (marco incl.)',  u:'und', q:4, qn:'4 baños (2 suites sin puerta vista)'},
+  {id:'pta_ppal', n:'Puerta principal madera maciza o metálica',   u:'und', q:1, qn:'Acceso principal Piso 2'},
+  {id:'pta_garj', n:'Puerta garaje metálica corrediza',            u:'und', q:1, qn:'Para 2 carros ~5×2.50 m'},
+  {id:'chapa_b',  n:'Chapa de bola interior',                      u:'und', q:10,qn:'Puertas habitaciones'},
+  {id:'chapa_ba', n:'Chapa de baño (palanca con seguro)',          u:'und', q:4, qn:'Baños'},
+  {id:'bisagra',  n:'Bisagra 3.5" acero inox (par)',               u:'par', q:48,qn:'3 pares × 14 puertas'},
+  {id:'ventana',  n:'Marco ventana aluminio anodizado corredizo',  u:'m²',  q:32,qn:'Ventanas fachada y habitaciones est.'},
+  {id:'vidrio',   n:'Vidrio claro 4 mm',                           u:'m²',  q:32,qn:'Igual que área ventana'},
+  {id:'silicona', n:'Silicona transparente',                       u:'cartucho',q:12,qn:'Sellado ventanas y juntas baño'},
+  {id:'empaque',  n:'Empaque PVC para ventana',                    u:'ml',  q:65, qn:'Sellado perimetral ventanas'},
+  {id:'manivela', n:'Manivela / seguro ventana',                   u:'und', q:18, qn:''},
+ ]},
+ {id:'c12',t:'Cap 12 — Aparatos Sanitarios y Grifería (6 Baños)',tipo:'mat',items:[
+  {id:'sanitario',n:'Sanitario (inodoro completo)',              u:'und',  q:6,  qn:'6 baños'},
+  {id:'lavamanos',n:'Lavamanos con pedestal',                   u:'und',  q:6,  qn:'6 baños'},
+  {id:'ducha_el', n:'Ducha eléctrica 110V',                     u:'und',  q:6,  qn:'6 baños'},
+  {id:'grif_lav', n:'Grifería lavamanos (2 entradas)',          u:'und',  q:6,  qn:''},
+  {id:'espejo',   n:'Espejo baño 60×80 cm',                    u:'und',  q:6,  qn:''},
+  {id:'acc_bano', n:'Accesorios baño (portapapel+toallero+jabonera)',u:'juego',q:6,qn:''},
+  {id:'meson_c',  n:'Mesón cocina granito/cuarzo',             u:'ml',   q:4,  qn:'Longitud mesón cocina estimada'},
+  {id:'lavaplat', n:'Lavaplatos acero inox doble poceta',       u:'und',  q:1,  qn:''},
+  {id:'grif_lp',  n:'Grifería lavaplatos cuello de ganso',     u:'und',  q:1,  qn:''},
+  {id:'meson_lav',n:'Mesón lavandería (prefabricado o concreto)',u:'und', q:1,  qn:''},
+  {id:'llave_lav',n:'Llave pared lavandería 3/4"',             u:'und',  q:2,  qn:''},
+  {id:'calent',   n:'Calentador de agua (si aplica)',           u:'und',  q:1,  qn:'O solares — definir tecnología'},
+ ]},
+ {id:'c13',t:'Cap 13 — Impermeabilización',tipo:'mat',items:[
+  {id:'sika1',    n:'Sika 1 impermeabilizante',                 u:'galón',q:12, qn:'Terrazas, baños, placa cubierta'},
+  {id:'lam_asf',  n:'Lámina asfáltica 4 mm (terrazas)',         u:'m²',   q:65, qn:'Área verde + terrazas Piso 2 estimado'},
+  {id:'geotex',   n:'Geotextil NT1600 (drenaje)',               u:'m²',   q:55, qn:'Sobre lámina asfáltica y taludes'},
+  {id:'poliet',   n:'Polietileno calibre 6 (barrera humedad)',  u:'m²',   q:210,qn:'Bajo contrapiso Piso 1 total'},
+  {id:'adic_imp', n:'Aditivo impermeabilizante Sika 1 cemento', u:'galón',q:6,  qn:'Mezclar en concreto terrazas'},
+  {id:'mastic_i', n:'Mastic sellante (cartucho 300 ml)',        u:'und',  q:12, qn:'Juntas, penetraciones tuberías'},
+  {id:'sil_gris', n:'Silicona gris (juntas baño / cocina)',    u:'cartucho',q:8,qn:''},
+ ]},
+ {id:'c14',t:'Cap 14 — Closets y Carpintería Interior (4 Closets)',tipo:'mat',items:[
+  {id:'closet',   n:'Closet modular MDF melaminizado',          u:'m² equipado',q:20,qn:'4 closets × ~5 m² c/u estimado'},
+  {id:'riel_cl',  n:'Riel corredera closet 180 cm',            u:'par',  q:8,  qn:'2 puertas por closet'},
+ ]},
+ {id:'c15',t:'Cap 15 — Equipos en Alquiler',tipo:'equip',items:[
+  {id:'trompo',   n:'Trompo mezclador 300 L',                  u:'hora', q:55, qn:'Fase cimientos + estructura + mampostería',p:[80000,0,0],conf:true},
+  {id:'rana',     n:'Compactador rana',                        u:'hora', q:22, qn:'Compactación rellenos',p:[80000,0,0],conf:true},
+  {id:'formal',   n:'Formaleta metálica (lámina)',             u:'und×día',q:900,qn:'15 lám × 60 días prom.',p:[20000,0,0],conf:true},
+  {id:'puntal',   n:'Puntal metálico',                        u:'und×día',q:2450,qn:'35 und × 70 días (placa entrepiso)',p:[20000,0,0],conf:true},
+  {id:'andamio',  n:'Marco andamio tubular',                  u:'und×día',q:900,qn:'10 marcos × 90 días',p:[20000,0,0],conf:true},
+  {id:'amolad',   n:'Amoladora 9" (si no tienen)',            u:'día',   q:15, qn:'Corte estructura cubierta'},
+  {id:'taladro',  n:'Taladro percutor (si no tienen)',        u:'día',   q:12, qn:'Instalaciones y anclajes'},
+  {id:'cortcer',  n:'Cortadora de cerámica eléctrica',        u:'día',   q:12, qn:'Enchape pisos y baños'},
+  {id:'mezc_pin', n:'Mezcladora pequeña eléctrica (repello)', u:'día',   q:10, qn:'Alternativa al trompo para repello'},
+ ]},
+ {id:'c16',t:'Cap 16 — Transporte y Logística',tipo:'equip',items:[
+  {id:'camion',   n:'Viaje camioneta materiales menores',     u:'viaje', q:70, qn:'Cemento, varillas, ferretería, acabados',p:[100000,0,0],conf:true},
+  {id:'volqueta', n:'Volqueta 5 m³ (arena/gravilla/recebo)', u:'viaje', q:22, qn:'~6 m³ de agregados por viaje'},
+  {id:'flt_blq',  n:'Flete bloque / ladrillo al lote',       u:'viaje', q:12, qn:'~800 bloques por camión estimado'},
+  {id:'flt_teja', n:'Flete teja + correas (camión plataforma)',u:'viaje',q:3,  qn:'350 m² teja Colmetal'},
+  {id:'flt_form', n:'Transp. formaleta/puntales/andamios',   u:'viaje', q:6,  qn:'Ida y regreso equipos alquiler'},
+ ]},
+ {id:'c17',t:'Cap 17 — Varios Menores y Consumibles',tipo:'mat',items:[
+  {id:'plastico', n:'Plástico polietileno cal.6 (protección obra)',u:'rollo 50 m²',q:6,qn:'Cubrir materiales y proteger estructura'},
+  {id:'cinta_e',  n:'Cinta de enmascarar',                   u:'rollo', q:12, qn:'Pintura y terminados'},
+  {id:'espatula', n:'Espátula metálica (pintura/estuco)',     u:'und',   q:5,  qn:''},
+  {id:'llana_ac', n:'Llana de acero (repello)',              u:'und',   q:4,  qn:'Si los maestros no la traen'},
+  {id:'fratas',   n:'Fratás de madera o goma',               u:'und',   q:4,  qn:''},
+  {id:'regla_al', n:'Regla de aluminio 2 m (nivelación piso)',u:'und',  q:2,  qn:''},
+  {id:'sierra',   n:'Serrucho / sierra manual',              u:'und',   q:2,  qn:'Corte tablones y madera'},
+  {id:'mang_cur', n:'Manguera jardín 1/2" 20 m (curado)',   u:'ml',    q:20, qn:'Curado concreto y placa'},
+  {id:'masilla',  n:'Masilla para paredes (tarro 1 kg)',     u:'tarro', q:6,  qn:'Reparación fisuras menores'},
+  {id:'yeso',     n:'Yeso blanco (bolsa 1 kg)',              u:'bolsa', q:8,  qn:'Trazado y señalización en obra'},
+  {id:'mang_prot',n:'Malla cerramiento provisional',         u:'ml',    q:50, qn:'Seguridad perimetral mientras se construye'},
+ ]},
+];
+
+// ══════════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════════
+let ST = {};
+
+function loadState(){
+  try{
+    const s=localStorage.getItem('obra_st_v2');
+    if(s) ST=JSON.parse(s);
+    const sn=localStorage.getItem('obra_sup');
+    if(sn){const n=JSON.parse(sn);document.getElementById('sn1').value=n[0]||'Ferretería 1';document.getElementById('sn2').value=n[1]||'Ferretería 2';document.getElementById('sn3').value=n[2]||'Ferretería 3';}
+  }catch(e){}
+}
+function save(){try{localStorage.setItem('obra_st_v2',JSON.stringify(ST));}catch(e){}}
+function saveSup(){try{localStorage.setItem('obra_sup',JSON.stringify([document.getElementById('sn1').value,document.getElementById('sn2').value,document.getElementById('sn3').value]));}catch(e){}}
+
+// ══════════════════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════════════════
+function fmt(n){if(!n||n===0)return'—';return'$'+Math.round(n).toLocaleString('es-CO');}
+
+function getItemState(item){
+  const s=ST[item.id]||{};
+  const p=s.p||item.p||[0,0,0];
+  return{
+    q: s.q!==undefined?s.q:item.q,
+    p: [p[0]||0,p[1]||0,p[2]||0],
+    tr: s.tr||false,
+    trc: s.trc||0
+  };
+}
+
+function bestPrice(p){
+  const vals=p.filter(v=>v>0);
+  if(!vals.length) return 0;
+  return Math.min(...vals);
+}
+
+function bestIdx(p){
+  const b=bestPrice(p);
+  if(!b) return -1;
+  return p.indexOf(b);
+}
+
+function buildRow(item){
+  const st=getItemState(item);
+  const b=bestPrice(st.p);
+  const sub=b?(b*st.q+(st.tr?st.trc:0)):0;
+  const bi=bestIdx(st.p);
+  const isConf=(item.conf&&st.p[0]>0);
+
+  let pInputs='';
+  for(let i=0;i<3;i++){
+    const cls=`p-in s${i+1}${bi===i?' best':''}${(i===0&&isConf)?' confirmed':''}`;
+    const val=st.p[i]>0?st.p[i]:'';
+    pInputs+=`<td><input type="number" class="${cls}" id="p${i}_${item.id}" value="${val}" placeholder="—" min="0" onchange="onPrice('${item.id}',${i})" onkeydown="if(event.key==='Enter')focusNext('${item.id}',${i})"></td>`;
+  }
+
+  return `<tr>
+    <td class="nm">${item.n}${isConf?'<span class="badge-conf">✓</span>':''}</td>
+    <td style="font-size:11px;color:var(--muted);white-space:nowrap">${item.u}</td>
+    <td><input type="number" class="qty-in" id="q_${item.id}" value="${st.q}" min="0" onchange="onQty('${item.id}')"></td>
+    ${pInputs}
+    <td class="mejor${!b?' pending':''}" id="mj_${item.id}">${b?fmt(b):'pendiente'}</td>
+    <td>
+      <div class="tr-cell">
+        <input type="checkbox" class="tr-chk" id="tc_${item.id}" ${st.tr?'checked':''} onchange="onTr('${item.id}')">
+        <span style="font-size:10px;color:var(--muted)">+Transp</span>
+        <input type="number" class="tr-in${st.tr?' show':''}" id="trc_${item.id}" value="${st.trc||''}" placeholder="$" min="0" onchange="onTrc('${item.id}')">
+      </div>
+    </td>
+    <td class="sub${!sub?' z':''}" id="sb_${item.id}">${sub?fmt(sub):'—'}</td>
+  </tr>`;
+}
+
+function renderAll(){
+  const main=document.getElementById('main');
+  let html='';
+  CAP.forEach(ch=>{
+    html+=`<div class="ch" id="${ch.id}">
+      <div class="ch-hdr" onclick="toggle('${ch.id}')">
+        <span class="ch-ttl">${ch.t}</span>
+        <div class="ch-meta">
+          <span id="${ch.id}_m"></span>
+          <span id="${ch.id}_st"></span>
+          <span style="color:var(--muted)">▼</span>
+        </div>
+      </div>
+      <div class="ch-body" id="${ch.id}_b">
+        <table>
+          <thead><tr>
+            <th style="width:26%">Ítem</th>
+            <th style="width:10%">Unidad</th>
+            <th class="r" style="width:6%">Cant.</th>
+            <th class="r" style="width:9%">① ${getSN(0)}</th>
+            <th class="r" style="width:9%">② ${getSN(1)}</th>
+            <th class="r" style="width:9%">③ ${getSN(2)}</th>
+            <th class="r" style="width:9%">✓ Mejor</th>
+            <th style="width:12%">Transporte</th>
+            <th class="r" style="width:10%">Subtotal</th>
+          </tr></thead>
+          <tbody id="${ch.id}_tb">
+            ${ch.items.map(buildRow).join('')}
+          </tbody>
+        </table>
+        <div class="nota-row">💡 Cantidades calculadas sobre planos (512.67 m² · 6 baños · 14 puertas · 4 closets). Ajusta si tienes medidas exactas verificadas.</div>
+      </div>
+    </div>`;
+  });
+  main.innerHTML=html;
+  CAP.forEach(ch=>updateChMeta(ch.id));
+  updateTotals();
+}
+
+function getSN(i){return['sn1','sn2','sn3'].map(id=>document.getElementById(id))[i]?.value||`Prov.${i+1}`;}
+
+function toggle(id){
+  const b=document.getElementById(id+'_b');
+  const hdr=document.querySelector(`#${id} .ch-hdr`);
+  b.classList.toggle('hidden');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// EVENT HANDLERS
+// ══════════════════════════════════════════════════════════════════
+function onPrice(id,idx){
+  const item=findItem(id);
+  const st=getItemState(item);
+  const val=parseFloat(document.getElementById(`p${idx}_${id}`).value)||0;
+  st.p[idx]=val;
+  ST[id]=ST[id]||{};
+  ST[id].p=st.p; ST[id].q=st.q; ST[id].tr=st.tr; ST[id].trc=st.trc;
+  save();
+  refreshRow(id,item,st);
+  updateChMeta(findChId(id));
+  updateTotals();
+}
+
+function onQty(id){
+  const item=findItem(id);
+  const st=getItemState(item);
+  st.q=parseFloat(document.getElementById('q_'+id).value)||0;
+  ST[id]=ST[id]||{};ST[id].q=st.q;
+  save();
+  refreshRow(id,item,st);
+  updateChMeta(findChId(id));
+  updateTotals();
+}
+
+function onTr(id){
+  const item=findItem(id);
+  const st=getItemState(item);
+  st.tr=document.getElementById('tc_'+id).checked;
+  ST[id]=ST[id]||{};ST[id].tr=st.tr;
+  document.getElementById('trc_'+id).classList.toggle('show',st.tr);
+  save();
+  refreshRow(id,item,st);
+  updateTotals();
+}
+
+function onTrc(id){
+  const item=findItem(id);
+  const st=getItemState(item);
+  st.trc=parseFloat(document.getElementById('trc_'+id).value)||0;
+  ST[id]=ST[id]||{};ST[id].trc=st.trc;
+  save();
+  refreshRow(id,item,st);
+  updateTotals();
+}
+
+function refreshRow(id,item,st){
+  const b=bestPrice(st.p);
+  const bi=bestIdx(st.p);
+  const sub=b?(b*st.q+(st.tr?st.trc:0)):0;
+  // update best highlights
+  for(let i=0;i<3;i++){
+    const el=document.getElementById(`p${i}_${id}`);
+    if(el){
+      el.classList.remove('best');
+      if(bi===i&&b>0) el.classList.add('best');
+    }
+  }
+  const mj=document.getElementById('mj_'+id);
+  if(mj){mj.textContent=b?fmt(b):'pendiente';mj.className='mejor'+(b?'':' pending');}
+  const sb=document.getElementById('sb_'+id);
+  if(sb){sb.textContent=sub?fmt(sub):'—';sb.className='sub'+(sub?'':' z');}
+}
+
+function updateChMeta(chId){
+  const ch=CAP.find(c=>c.id===chId);
+  if(!ch)return;
+  let filled=0,total=0;
+  ch.items.forEach(item=>{
+    const st=getItemState(item);
+    const b=bestPrice(st.p);
+    if(b>0){filled++;total+=b*st.q+(st.tr?st.trc:0);}
+  });
+  const mel=document.getElementById(chId+'_m');
+  const sel=document.getElementById(chId+'_st');
+  if(mel) mel.textContent=`${filled}/${ch.items.length} ítems`;
+  if(sel) sel.textContent=total>0?fmt(total):'';
+}
+
+function updateTotals(){
+  let mat=0,equip=0,transp=0,filled=0,all=0;
+  CAP.forEach(ch=>{
+    ch.items.forEach(item=>{
+      all++;
+      const st=getItemState(item);
+      const b=bestPrice(st.p);
+      if(b>0){
+        filled++;
+        if(ch.tipo==='equip') equip+=b*st.q;
+        else mat+=b*st.q;
+        if(st.tr) transp+=st.trc;
+      }
+    });
+  });
+  document.getElementById('tFilled').textContent=`${filled} / ${all}`;
+  document.getElementById('tMat').textContent=fmt(mat);
+  document.getElementById('tEquip').textContent=fmt(equip);
+  document.getElementById('tTransp').textContent=fmt(transp);
+  document.getElementById('tTotal').textContent=fmt(mat+equip+transp);
+  const pct=Math.round(filled/all*100);
+  document.getElementById('pBar').style.width=pct+'%';
+  document.getElementById('pLbl').textContent=`${pct}% completado · ${filled} de ${all} ítems con precio`;
+}
+
+function focusNext(id,pIdx){
+  if(pIdx<2){document.getElementById(`p${pIdx+1}_${id}`)?.focus();return;}
+  const ch=CAP.find(c=>c.items.some(i=>i.id===id));
+  if(!ch)return;
+  const idx=ch.items.findIndex(i=>i.id===id);
+  if(idx<ch.items.length-1) document.getElementById(`p0_${ch.items[idx+1].id}`)?.focus();
+}
+
+function findItem(id){for(const ch of CAP)for(const it of ch.items)if(it.id===id)return it;return null;}
+function findChId(id){for(const ch of CAP)if(ch.items.some(i=>i.id===id))return ch.id;return null;}
+
+// ══════════════════════════════════════════════════════════════════
+// EXPORT / IMPORT
+// ══════════════════════════════════════════════════════════════════
+function buildExport(){
+  const data={
+    meta:{proyecto:'Obra Castañeda Peña - Suesca 2025',fecha:new Date().toISOString().slice(0,10),
+      proveedores:[document.getElementById('sn1').value,document.getElementById('sn2').value,document.getElementById('sn3').value]},
+    items:{}
+  };
+  CAP.forEach(ch=>ch.items.forEach(item=>{
+    const st=getItemState(item);
+    const b=bestPrice(st.p);
+    data.items[item.id]={
+      nombre:item.n,unidad:item.u,
+      qty:st.q,precios:st.p,mejor:b,
+      transporte:st.tr?st.trc:0,
+      subtotal:b?b*st.q+(st.tr?st.trc:0):0
+    };
+  }));
+  return data;
+}
+
+function guardarJSON(){
+  const d=buildExport();
+  const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='precios_obra_suesca.json';a.click();
+  toast('✓ JSON guardado');
+}
+
+function exportarTXT(){
+  const d=buildExport();
+  let t=`PRESUPUESTO COMPARATIVO — OBRA CASTAÑEDA PEÑA · SUESCA 2025\n${d.meta.fecha}\n`;
+  t+=`Proveedores: ${d.meta.proveedores.join(' | ')}\n${'═'.repeat(80)}\n`;
+  let gt=0;
+  CAP.forEach(ch=>{
+    t+=`\n${ch.t.toUpperCase()}\n${'─'.repeat(70)}\n`;
+    let ct=0;
+    ch.items.forEach(item=>{
+      const di=d.items[item.id];
+      const b=di.mejor;
+      ct+=di.subtotal; gt+=di.subtotal;
+      const nm=item.n.substring(0,38).padEnd(38);
+      const u=item.u.substring(0,14).padEnd(14);
+      const q=String(di.qty).padStart(6);
+      const p=b?('$'+b.toLocaleString('es-CO')).padStart(12):'SIN PRECIO'.padStart(12);
+      const sub=di.subtotal?('$'+di.subtotal.toLocaleString('es-CO')).padStart(14):'pendiente'.padStart(14);
+      t+=`  ${nm} ${u} ×${q} ${p} =${sub}\n`;
+    });
+    t+=`  ${'SUBTOTAL'.padEnd(38)} ${('$'+ct.toLocaleString('es-CO')).padStart(30)}\n`;
+  });
+  t+=`\n${'═'.repeat(80)}\nGRAN TOTAL (materiales + equipos, sin mano de obra)  $${gt.toLocaleString('es-CO')}\n`;
+  const blob=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='resumen_precios_obra.txt';a.click();
+  toast('✓ Resumen exportado');
+}
+
+function importar(){document.getElementById('modal').classList.add('on');}
+function cerrarModal(){document.getElementById('modal').classList.remove('on');}
+function doImport(){
+  try{
+    const raw=document.getElementById('impTA').value.trim();
+    const data=JSON.parse(raw);
+    if(data.items){
+      Object.entries(data.items).forEach(([id,v])=>{
+        ST[id]={q:v.qty||1,p:v.precios||[0,0,0],tr:v.transporte>0,trc:v.transporte||0};
+      });
+      if(data.meta?.proveedores){
+        ['sn1','sn2','sn3'].forEach((el,i)=>{if(data.meta.proveedores[i])document.getElementById(el).value=data.meta.proveedores[i];});
+        saveSup();
+      }
+      save();
+      renderAll();
+      toast('✓ Datos importados');
+      cerrarModal();
+    }
+  }catch(e){alert('Error JSON: '+e.message);}
+}
+
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500);}
+
+// ══════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════
+loadState();
+renderAll();
+</script>
+</body>
+</html>
